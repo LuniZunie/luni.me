@@ -1,0 +1,9 @@
+.vscode/
+
+node_modules
+dist
+
+# DO NOT DELETE ANYTHING BELOW THIS LINE
+**/private.*
+server/db
+server/logs
