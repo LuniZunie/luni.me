@@ -63,6 +63,10 @@
             "file": "seqr/index.ejs"
         },
         {
+            "route": [ "/seqr-presentation" ],
+            "file": "seqr/presentation.ejs"
+        },
+        {
             "route": [ "/404" ],
             "redirect": "/"
         }

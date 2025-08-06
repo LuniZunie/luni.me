@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SeqR Interactive Presentation</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            overflow: hidden;
+        }
+
+        .presentation-container {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .slide {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+            min-height: 450px;
+            max-width: 800px;
+            width: 85%;
+            position: relative;
+            display: none;
+            animation: slideIn 0.3s ease-in-out;
+        }
+
+        .slide.active {
+            display: block;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* Title slide styling */
+        .slide.title {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-align: center;
+        }
+        .slide.title h1 {
+            color: white;
+            font-size: 3em;
+            margin-bottom: 25px;
+            border-bottom: none;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        .slide.title .subtitle {
+            color: rgba(255,255,255,0.95);
+            font-size: 1.3em;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+        }
+        .slide.title .author-info {
+            background-color: rgba(255,255,255,0.15);
+            border: 1px solid rgba(255,255,255,0.25);
+            color: white;
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+        }
+
+        /* Problem slide styling */
+        .slide.problem {
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #fecfef 100%);
+            color: #2c3e50;
+        }
+        .slide.problem h1, .slide.problem h3 {
+            color: #2c3e50;
+            text-shadow: 1px 1px 2px rgba(255,255,255,0.3);
+        }
+        .slide.problem .highlight {
+            background-color: rgba(255,255,255,0.3);
+            border-left: 4px solid #e74c3c;
+            color: #2c3e50;
+            -webkit-backdrop-filter: blur(5px);
+            backdrop-filter: blur(5px);
+        }
+
+        /* Solution slide styling */
+        .slide.solution {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            color: #2c3e50;
+        }
+        .slide.solution h1, .slide.solution h3 {
+            color: #2c3e50;
+            text-shadow: 1px 1px 2px rgba(255,255,255,0.4);
+        }
+        .slide.solution .highlight {
+            background-color: rgba(255,255,255,0.4);
+            border-left: 4px solid #3498db;
+            color: #2c3e50;
+            -webkit-backdrop-filter: blur(5px);
+            backdrop-filter: blur(5px);
+        }
+
+        /* Technical slide styling */
+        .slide.technical {
+            background: linear-gradient(135deg, #d4fc79 0%, #96e6a1 100%);
+            color: #2c3e50;
+        }
+        .slide.technical h1 {
+            color: #2c3e50;
+            text-shadow: 1px 1px 2px rgba(255,255,255,0.5);
+        }
+        .slide.technical h3 {
+            color: #2c3e50;
+        }
+        .slide.technical .highlight {
+            background-color: rgba(255,255,255,0.4);
+            border-left: 4px solid #27ae60;
+            color: #2c3e50;
+        }
+
+        /* Features slide styling */
+        .slide.features {
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            color: #2c3e50;
+        }
+        .slide.features h1, .slide.features h3 {
+            color: #2c3e50;
+            text-shadow: 1px 1px 2px rgba(255,255,255,0.4);
+        }
+        .slide.features .highlight {
+            background-color: rgba(255,255,255,0.5);
+            border-left: 4px solid #f39c12;
+            color: #2c3e50;
+        }
+
+        /* Applications slide styling */
+        .slide.applications {
+            background: linear-gradient(135deg, #c2e9fb 0%, #a1c4fd 100%);
+            color: #2c3e50;
+        }
+        .slide.applications h1, .slide.applications h3 {
+            color: #2c3e50;
+            text-shadow: 1px 1px 2px rgba(255,255,255,0.4);
+        }
+        .slide.applications .highlight {
+            background-color: rgba(255,255,255,0.4);
+            border-left: 4px solid #8e44ad;
+            color: #2c3e50;
+        }
+
+        /* Philosophy slide styling */
+        .slide.philosophy {
+            background: linear-gradient(135deg, #fbc2eb 0%, #a6c1ee 100%);
+            color: #2c3e50;
+        }
+        .slide.philosophy h1, .slide.philosophy h3 {
+            color: #2c3e50;
+            text-shadow: 1px 1px 2px rgba(255,255,255,0.4);
+        }
+        .slide.philosophy .highlight {
+            background-color: rgba(255,255,255,0.4);
+            border-left: 4px solid #16a085;
+            color: #2c3e50;
+        }
+
+        /* Conclusion slide styling */
+        .slide.conclusion {
+            background: linear-gradient(135deg, #89f7fe 0%, #66a6ff 100%);
+            color: #2c3e50;
+        }
+        .slide.conclusion h1, .slide.conclusion h3 {
+            color: #2c3e50;
+            text-shadow: 1px 1px 2px rgba(255,255,255,0.4);
+        }
+        .slide.conclusion .highlight {
+            background-color: rgba(255,255,255,0.4);
+            border-left: 4px solid #3498db;
+            color: #2c3e50;
+        }
+
+        /* Questions slide styling */
+        .slide.questions {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-align: center;
+        }
+        .slide.questions h1 {
+            color: white;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        .slide.questions .author-info {
+            background-color: rgba(255,255,255,0.15);
+            border: 1px solid rgba(255,255,255,0.25);
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+        }
+        .slide.questions .highlight {
+            background-color: rgba(255,255,255,0.15);
+            border-left: 4px solid rgba(255,255,255,0.7);
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+        }
+
+        .slide h1 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            border-bottom: 3px solid currentColor;
+            padding-bottom: 10px;
+            font-weight: 600;
+        }
+        .slide h2 {
+            font-size: 2em;
+            margin-top: 25px;
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+        .slide h3 {
+            font-size: 1.3em;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+        .slide p {
+            font-size: 1.1em;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+        .slide ul {
+            font-size: 1.1em;
+            line-height: 1.8;
+            margin-left: 20px;
+        }
+        .slide li {
+            margin-bottom: 8px;
+        }
+        .subtitle {
+            font-style: italic;
+            font-size: 1.2em;
+            margin-top: 10px;
+            opacity: 0.9;
+        }
+        .author-info {
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 30px;
+        }
+        .highlight {
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 4px solid currentColor;
+        }
+        .slide-number {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 0.9em;
+            font-weight: 500;
+            opacity: 0.7;
+        }
+
+        .seqr-link {
+            position: absolute;
+            bottom: 15px;
+            left: 20px;
+            font-size: 0.85em;
+            font-weight: 500;
+            opacity: 0.7;
+            text-decoration: none;
+            color: inherit;
+            transition: opacity 0.2s ease;
+        }
+
+        .seqr-link:hover {
+            opacity: 1;
+            text-decoration: underline;
+        }
+
+        /* Special styling for white text slides */
+        .slide.title .seqr-link,
+        .slide.questions .seqr-link {
+            color: rgba(255,255,255,0.8);
+        }
+
+        .slide.title .seqr-link:hover,
+        .slide.questions .seqr-link:hover {
+            color: white;
+        }
+
+        /* Navigation Controls */
+        .nav-controls {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 15px;
+            background: rgba(255,255,255,0.2);
+            padding: 15px 25px;
+            border-radius: 25px;
+            -webkit-backdrop-filter: blur(20px);
+            backdrop-filter: blur(20px);
+            transition: opacity 0.3s ease;
+            border: 1px solid rgba(255,255,255,0.3);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .nav-controls.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .nav-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .nav-btn:hover {
+            background: linear-gradient(135deg, #5a67d8 0%, #667eea 100%);
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .nav-btn:disabled {
+            background: linear-gradient(135deg, #a0aec0 0%, #718096 100%);
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .progress-indicator {
+            color: #2c3e50;
+            font-size: 14px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            padding: 0 15px;
+        }
+
+        .fullscreen-btn {
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            border: none;
+            border-radius: 50%;
+            color: #2c3e50;
+            cursor: pointer;
+            font-size: 18px;
+            transition: all 0.2s ease;
+            z-index: 1000;
+            box-shadow: 0 4px 15px rgba(255, 154, 158, 0.3);
+        }
+
+        .fullscreen-btn:hover {
+            background: linear-gradient(135deg, #fecfef 0%, #ff9a9e 100%);
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(255, 154, 158, 0.4);
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .slide {
+                padding: 20px;
+                font-size: 0.9em;
+                width: 95%;
+                max-width: none;
+            }
+
+            .slide h1 {
+                font-size: 2em;
+            }
+
+            .nav-controls {
+                bottom: 10px;
+                padding: 10px 15px;
+            }
+
+            .nav-btn {
+                padding: 8px 12px;
+                font-size: 12px;
+            }
+        }
+
+        /* Instructions overlay */
+        .instructions {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: rgba(0,0,0,0.8);
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            font-size: 12px;
+            opacity: 0.7;
+            transition: opacity 0.3s ease;
+            z-index: 999;
+        }
+
+        .instructions:hover {
+            opacity: 1;
+        }
+
+        .instructions.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .fullscreen-btn.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+
+<div class="presentation-container">
+
+    <!-- Instructions -->
+    <div class="instructions">
+        <div><strong>Navigation:</strong></div>
+        <div>← → Arrow keys</div>
+        <div>Space / Enter: Next</div>
+        <div>F11: Fullscreen</div>
+        <div>ESC: Exit fullscreen</div>
+    </div>
+
+    <!-- Fullscreen button -->
+    <button class="fullscreen-btn" onclick="toggleFullscreen()" title="Toggle Fullscreen">⛶</button>
+
+    <!-- Slide 1: Title Slide -->
+    <div class="slide title active" data-slide="1">
+        <div class="slide-number">1 / 10</div>
+        <a href="https://luni.me/seqr" class="seqr-link" target="_blank">luni.me/seqr</a>
+        <h1>SeqR</h1>
+        <h2 class="subtitle">Genomic Sequence Visualization Platform</h2>
+        <p class="subtitle">A web-based tool for visualizing and analyzing genomic data</p>
+
+        <div class="author-info">
+            <p><strong>Cedric Hotopp</strong></p>
+            <p>Software Developer & Bioinformatics Intern </p>
+        </div>
+    </div>
+
+    <!-- Slide 2: The Problem -->
+    <div class="slide problem" data-slide="2">
+        <div class="slide-number">2 / 10</div>
+        <a href="https://luni.me/seqr" class="seqr-link" target="_blank">luni.me/seqr</a>
+        <h1>The Challenge with Genomic Data Visualization</h1>
+
+        <p>Working with genomic data presents several significant challenges:</p>
+
+        <ul>
+            <li>Multiple file formats (GFF, BED, FASTA) with different specifications</li>
+            <li>Existing tools often crash with large datasets or require expensive licenses</li>
+            <li>Comparing datasets across different sources is complex</li>
+            <li>Creating publication-ready visualizations is time-consuming</li>
+            <li>Collaboration requires identical software environments</li>
+        </ul>
+
+        <div class="highlight">
+            <p>These limitations inspired the development of SeqR as a comprehensive solution.</p>
+        </div>
+    </div>
+
+    <!-- Slide 3: What SeqR Actually Does -->
+    <div class="slide solution" data-slide="3">
+        <div class="slide-number">3 / 10</div>
+        <a href="https://luni.me/seqr" class="seqr-link" target="_blank">luni.me/seqr</a>
+        <h1>SeqR Overview</h1>
+
+        <p>SeqR provides an intuitive, browser-based interface for genomic data visualization.</p>
+
+        <ul>
+            <li>Direct import of genomic files with automatic format detection</li>
+            <li>Browser-based visualization requiring no software installation</li>
+            <li>Handles stupidly large files without breaking</li>
+            <li>Automated and manual feature grouping capabilities</li>
+            <li>One-click export of publication-quality images</li>
+        </ul>
+
+        <div class="highlight">
+            <p>SeqR transforms complex genomic data into clear, interactive visualizations.</p>
+        </div>
+    </div>
+
+    <!-- Slide 4: File Format Support -->
+    <div class="slide technical" data-slide="4">
+        <div class="slide-number">4 / 10</div>
+        <a href="https://luni.me/seqr" class="seqr-link" target="_blank">luni.me/seqr</a>
+        <h1>Comprehensive File Format Support</h1>
+
+        <p>SeqR supports the full range of standard genomic file formats:</p>
+
+        <h3>Primary annotation formats:</h3>
+        <ul>
+            <li><strong>BED files</strong> - Browser Extensible Data for genomic intervals</li>
+            <li><strong>GFF3/GFF2/GFF</strong> - Gene Feature Format for detailed annotations</li>
+            <li><strong>GTF</strong> - Gene Transfer Format for gene and transcript models</li>
+            <li><strong>FASTA</strong> - Reference sequence data</li>
+        </ul>
+
+        <h3>Specialized formats:</h3>
+        <ul>
+            <li><strong>VCF</strong> - Variant Call Format for genetic variations</li>
+            <li><strong>BEDGRAPH</strong> - Coverage and signal tracks</li>
+            <li><strong>WIG</strong> - Wiggle format for continuous data</li>
+        </ul>
+
+        <p>Automatic format detection streamlines the data import process.</p>
+    </div>
+
+    <!-- Slide 5: Technical Architecture -->
+    <div class="slide technical" data-slide="5">
+        <div class="slide-number">5 / 10</div>
+        <a href="https://luni.me/seqr" class="seqr-link" target="_blank">luni.me/seqr</a>
+        <h1>Technical Implementation</h1>
+
+        <h3>Scalable file processing:</h3>
+        <ul>
+            <li>Chunked processing prevents memory overflow on large datasets</li>
+            <li>IndexedDB for local data storage and caching</li>
+            <li>Optimized rendering displays only visible regions</li>
+        </ul>
+
+        <h3>Cross-platform compatibility:</h3>
+        <ul>
+            <li>Modern browser support with no installation requirements</li>
+            <li>Vanilla JavaScript architecture for stability</li>
+            <li>Canvas-based rendering for smooth performance</li>
+        </ul>
+
+        <h3>Performance optimization:</h3>
+        <ul>
+            <li>Lazy loading of data segments</li>
+            <li>Intelligent caching system</li>
+            <li>Genomic data-specific optimization patterns</li>
+        </ul>
+    </div>
+
+    <!-- Slide 6: Feature Grouping System -->
+    <div class="slide features" data-slide="6">
+        <div class="slide-number">6 / 10</div>
+        <a href="https://luni.me/seqr" class="seqr-link" target="_blank">luni.me/seqr</a>
+        <h1>Advanced Feature Organization</h1>
+
+        <p>SeqR's grouping system provides sophisticated data organization capabilities.</p>
+
+        <h3>Automated organization:</h3>
+        <ul>
+            <li>Feature type classification (genes, exons, regulatory elements)</li>
+            <li>Strand-based separation (forward/reverse orientation)</li>
+            <li>File-based grouping for comparative analysis</li>
+            <li>Intelligent color assignment for visual clarity</li>
+        </ul>
+
+        <h3>Manual control options:</h3>
+        <ul>
+            <li>Custom group creation for specific analyses</li>
+            <li>Color customization for publication requirements</li>
+            <li>Dynamic visibility controls for focused viewing</li>
+        </ul>
+
+        <p>This system enables both automated workflows and detailed manual curation.</p>
+    </div>
+
+    <!-- Slide 7: Real-World Applications -->
+    <div class="slide applications" data-slide="7">
+        <div class="slide-number">7 / 10</div>
+        <a href="https://luni.me/seqr" class="seqr-link" target="_blank">luni.me/seqr</a>
+        <h1>Real-World Applications</h1>
+
+        <p>SeqR is used for practical genomic data visualization tasks:</p>
+
+        <ul>
+            <li><strong>Gene annotation visualization</strong> - View and validate gene models</li>
+            <li><strong>Comparative analysis</strong> - Compare features across different datasets</li>
+            <li><strong>Quality control</strong> - Visual inspection of genomic data</li>
+            <li><strong>Publication figures</strong> - Generate clean visualizations for papers</li>
+            <li><strong>Data exploration</strong> - Interactive browsing of large genomic regions</li>
+        </ul>
+
+        <div class="highlight">
+            <p>Simple yet effective visualization for real research needs.</p>
+        </div>
+    </div>
+
+    <!-- Slide 8: Design Philosophy -->
+    <div class="slide philosophy" data-slide="8">
+        <div class="slide-number">8 / 10</div>
+        <a href="https://luni.me/seqr" class="seqr-link" target="_blank">luni.me/seqr</a>
+        <h1>Design Principles</h1>
+
+        <h3>Web-based architecture:</h3>
+        <ul>
+            <li>Eliminates software installation and maintenance</li>
+            <li>Ensures universal accessibility across platforms</li>
+            <li>Facilitates collaborative research workflows</li>
+            <li>Provides automatic updates and version consistency</li>
+        </ul>
+
+        <h3>Large dataset handling:</h3>
+        <ul>
+            <li>Real-world genomic datasets require robust processing</li>
+            <li>Many existing tools fail with production-scale data</li>
+            <li>Performance at scale is essential for practical utility</li>
+        </ul>
+
+        <h3>User experience focus:</h3>
+        <ul>
+            <li>Intuitive interface design for users</li>
+            <li>Clear visualization principles</li>
+        </ul>
+
+        <p>SeqR addresses the practical needs of those working with genomic data.</p>
+    </div>
+
+    <!-- Slide 9: Impact and Value -->
+    <div class="slide conclusion" data-slide="9">
+        <div class="slide-number">9 / 10</div>
+        <a href="https://luni.me/seqr" class="seqr-link" target="_blank">luni.me/seqr</a>
+        <h1>Research Impact</h1>
+
+        <div class="highlight">
+            <h3>SeqR addresses key research challenges:</h3>
+            <ul>
+                <li>Enables analysis of large-scale genomic datasets</li>
+                <li>Transforms coordinate data into interpretable visualizations</li>
+                <li>Supports existing research data formats</li>
+                <li>Eliminates software deployment complexity</li>
+                <li>Generates publication-ready output</li>
+            </ul>
+        </div>
+
+        <h3>Practical advantages:</h3>
+        <ul>
+            <li>Focused functionality for reliable performance</li>
+            <li>Developed as a practical solution for real-world needs</li>
+            <li>Continuous improvement based on user feedback</li>
+        </ul>
+
+        <p>SeqR provides a practical solution for genomic data visualization challenges.</p>
+    </div>
+
+    <!-- Slide 10: Acknowledgements -->
+    <div class="slide questions" data-slide="10">
+        <div class="slide-number">10 / 11</div>
+        <a href="https://luni.me/seqr" class="seqr-link" target="_blank">luni.me/seqr</a>
+        <h1>Acknowledgements</h1>
+
+        <p>I would like to thank the following people for their support and guidance:</p>
+
+        <div class="highlight">
+            <ul style="list-style: none; padding-left: 0; font-size: 1.2em; line-height: 2;">
+                <li>Dr. Giglio</li>
+                <li>Dr. Receveur</li>
+                <li>Shaun Adkins</li>
+                <li>Dr. Dunning-Hotopp</li>
+                <li>Dr. Rasko</li>
+                <li>Dr. Bromley</li>
+                <li>Kaylee Watson</li>
+                <li>Chris Holt</li>
+            </ul>
+        </div>
+
+        <div class="author-info">
+            <p>Thank you all for your help and attention</p>
+            <p><em>Cedric Hotopp</em></p>
+        </div>
+    </div>
+
+    <!-- Slide 11: Works Cited -->
+    <div class="slide philosophy" data-slide="11">
+        <div class="slide-number">11 / 11</div>
+        <a href="https://luni.me/seqr" class="seqr-link" target="_blank">luni.me/seqr</a>
+        <h1>Works Cited</h1>
+
+        <div class="highlight">
+            <p style="font-size: 1.1em; line-height: 1.8; text-align: left;">
+                Eilbeck, K., Lewis, S. E., Mungall, C. J., Yandell, M., Stein, L., Durbin, R., & Ashburner, M. (2005). The Sequence Ontology: a tool for the unification of genome annotations. <em>Genome Biology</em>, 6(5), R44. https://doi.org/10.1186/gb-2005-6-5-r44
+            </p>
+        </div>
+
+        <p>The Sequence Ontology provides standardized terminology for genomic features, enabling consistent annotation and data exchange across bioinformatics tools.</p>
+    </div>
+
+</div>
+
+<!-- Navigation Controls -->
+<div class="nav-controls" id="navControls">
+    <button class="nav-btn" onclick="previousSlide()" id="prevBtn">
+        ← Previous
+    </button>
+    <div class="progress-indicator" id="progressIndicator">
+        1 / 11
+    </div>
+    <button class="nav-btn" onclick="nextSlide()" id="nextBtn">
+        Next →
+    </button>
+</div>
+
+<script>
+let currentSlide = 1;
+const totalSlides = 11;
+let autoHideTimer;
+
+// Initialize presentation
+function initPresentation() {
+    updateSlide();
+    setupEventListeners();
+    startAutoHideTimer();
+}
+
+// Event listeners
+function setupEventListeners() {
+    document.addEventListener('keydown', handleKeyPress);
+    document.addEventListener('mousemove', showControls);
+    document.addEventListener('click', showControls);
+}
+
+// Keyboard navigation
+function handleKeyPress(event) {
+    switch(event.key) {
+        case 'ArrowRight':
+        case ' ':
+        case 'Enter':
+            event.preventDefault();
+            nextSlide();
+            break;
+        case 'ArrowLeft':
+            event.preventDefault();
+            previousSlide();
+            break;
+        case 'Home':
+            event.preventDefault();
+            goToSlide(1);
+            break;
+        case 'End':
+            event.preventDefault();
+            goToSlide(totalSlides);
+            break;
+        case 'F11':
+            event.preventDefault();
+            toggleFullscreen();
+            break;
+        case 'Escape':
+            if (document.fullscreenElement) {
+                exitFullscreen();
+            }
+            break;
+    }
+}
+
+// Navigation functions
+function nextSlide() {
+    if (currentSlide < totalSlides) {
+        currentSlide++;
+        updateSlide();
+    }
+}
+
+function previousSlide() {
+    if (currentSlide > 1) {
+        currentSlide--;
+        updateSlide();
+    }
+}
+
+function goToSlide(slideNumber) {
+    if (slideNumber >= 1 && slideNumber <= totalSlides) {
+        currentSlide = slideNumber;
+        updateSlide();
+    }
+}
+
+function updateSlide() {
+    // Hide all slides
+    const slides = document.querySelectorAll('.slide');
+    slides.forEach(slide => slide.classList.remove('active'));
+
+    // Show current slide
+    const currentSlideElement = document.querySelector(`[data-slide="${currentSlide}"]`);
+    if (currentSlideElement) {
+        currentSlideElement.classList.add('active');
+    }
+
+    // Update progress indicator
+    document.getElementById('progressIndicator').textContent = `${currentSlide} / ${totalSlides}`;
+
+    // Update button states
+    document.getElementById('prevBtn').disabled = currentSlide === 1;
+    document.getElementById('nextBtn').disabled = currentSlide === totalSlides;
+}
+
+// Fullscreen functionality
+function toggleFullscreen() {
+    if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().catch(err => {
+            console.log('Error attempting to enable fullscreen:', err);
+        });
+    } else {
+        exitFullscreen();
+    }
+}
+
+function exitFullscreen() {
+    if (document.fullscreenElement) {
+        document.exitFullscreen();
+    }
+}
+
+// Auto-hide controls
+function startAutoHideTimer() {
+    clearTimeout(autoHideTimer);
+    autoHideTimer = setTimeout(() => {
+        hideControls();
+    }, 3000);
+}
+
+function showControls() {
+    const controls = document.getElementById('navControls');
+    const instructions = document.querySelector('.instructions');
+    const fullscreenBtn = document.querySelector('.fullscreen-btn');
+
+    controls.classList.remove('hidden');
+    instructions.classList.remove('hidden');
+    fullscreenBtn.classList.remove('hidden');
+
+    startAutoHideTimer();
+}
+
+function hideControls() {
+    const controls = document.getElementById('navControls');
+    const instructions = document.querySelector('.instructions');
+    const fullscreenBtn = document.querySelector('.fullscreen-btn');
+
+    controls.classList.add('hidden');
+    instructions.classList.add('hidden');
+    fullscreenBtn.classList.add('hidden');
+}
+
+// Initialize when page loads
+document.addEventListener('DOMContentLoaded', initPresentation);
+
+// Handle fullscreen changes
+document.addEventListener('fullscreenchange', () => {
+    const fullscreenBtn = document.querySelector('.fullscreen-btn');
+    if (document.fullscreenElement) {
+        fullscreenBtn.textContent = '⛶';
+        fullscreenBtn.title = 'Exit Fullscreen';
+    } else {
+        fullscreenBtn.textContent = '⛶';
+        fullscreenBtn.title = 'Enter Fullscreen';
+    }
+});
+</script>
+
+</body>
+</html>

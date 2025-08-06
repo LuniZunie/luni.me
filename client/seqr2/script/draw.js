@@ -537,7 +537,7 @@ export default async function Draw(settings, wr = 1, hr = 1) {
 
         // Add separator line between groups (except after the last group)
         if (groupIndex < groupsMax) {
-            const separatorY = (drawingStartY + (currentY + groupSeparatorHeight / 2) / totalHeight * availableHeight) / fullHeight * heightRatio;
+            const separatorY = drawingStartY + (currentY + groupSeparatorHeight / 2) / totalHeight * availableHeight;
             const $separator = document.createElementNS("http://www.w3.org/2000/svg", "line");
             $separator.setAttribute("x1", 0);
             $separator.setAttribute("y1", separatorY);
