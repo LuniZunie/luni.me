@@ -1,0 +1,175 @@
+body > #data-selector {
+    height: fit-content;
+
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+
+    & > .files {
+        display: div;
+
+        position: absolute;
+        left: 1vmin; top: calc(-1em - 2vmin - .5vmin);
+        width: calc(100% - 2vmin);
+        height: calc(1em + 2vmin + .4vmin + 1vmin);
+
+        border-top-left-radius: 1vmin;
+        border-top-right-radius: 1vmin;
+
+        text-align: center;
+        white-space: nowrap;
+        overflow-x: auto; overflow-y: hidden;
+
+        & > .file {
+            display: inline-block;
+            cursor: pointer;
+
+            position: relative;
+            width: fit-content;
+            height: 1em;
+
+            padding: 1vmin;
+            border: .3vmin solid var(--shade-0-2);
+            border-radius: 0;
+
+            color: var(--text-1);
+            line-height: 1em;
+
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+
+            background: var(--shade-0-2);
+
+            &.selected {
+                background: var(--blue-hover);
+                border-color: var(--blue-hover);
+            }
+            &.has-selected { border-color: var(--blue-hover); }
+
+            &:first-child { border-top-left-radius: 1vmin; }
+            &:last-child { border-top-right-radius: 1vmin; }
+        }
+
+        &::-webkit-scrollbar {
+            width: .5vh; height: .5vh;
+            background: transparent;
+        }
+        &::-webkit-scrollbar-thumb {
+            background: var(--shade-2-1);
+            border-radius: 1vmin;
+        }
+    }
+
+    & > .content {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: space-evenly;
+        align-items: flex-start;
+        gap: 1vmin;
+
+        position: relative;
+        left: 0vmin; top: 0vmin;
+        width: calc(100% - 2vmin);
+        height: fit-content;
+        max-height: calc(80vh - 2vmin);
+
+        padding: 1vmin;
+        border-radius: 1vmin;
+
+        color: var(--text-1);
+        overflow: auto;
+
+        & > .section {
+            width: calc(25% - 3vmin);
+
+            margin-top: calc(1em + 1vmin);
+            border-radius: 1vmin;
+
+            text-align: center;
+
+            background: var(--shade-1-0);
+
+            & > h3 {
+                display: inline-block;
+
+                position: relative;
+                top: calc(-1em - 1vmin);
+
+                margin: 0;
+            }
+            & > .types {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                justify-content: center;
+                flex-wrap: wrap;
+                gap: 1vmin;
+
+                position: relative;
+                top: calc(calc(-1em - 1vmin) / 2);
+
+                & > .type {
+                    cursor: pointer;
+
+                    aspect-ratio: 1/1;
+                    height: 1em;
+
+                    padding: 1vmin;
+                    border-radius: 1vmin;
+
+                    line-height: 1em;
+
+                    background: var(--shade-2-0);
+
+                    transition: background .25s;
+
+                    &.selected { background: var(--blue-hover); }
+                }
+            }
+        }
+
+        &::-webkit-scrollbar {
+            width: .5vh; height: .5vh;
+            background: transparent;
+        }
+        &::-webkit-scrollbar-thumb {
+            background: var(--shade-2-1);
+            border-radius: 1vmin;
+        }
+    }
+
+    & > .button-plus {
+        position: absolute;
+        bottom: -3em;
+        height: 3em;
+
+        padding: 0; margin: 0;
+
+        &.save {
+            right: -.1vmin;
+            & > .icon {
+                --hover-color: var(--green-hover);
+                --active-color: var(--green-active);
+            }
+        }
+        &.discard {
+            left: -.1vmin;
+            & > .icon {
+                --hover-color: var(--red-hover);
+                --active-color: var(--red-active);
+            }
+        }
+
+        & > .icon {
+            --background: var(--shade-0-2);
+            --hover-color: var(--red-hover);
+            --active-color: var(--red-active);
+
+            border: .1vmin solid var(--shade-3-0);
+            border-top: none;
+            border-top-left-radius: 0;
+            border-top-right-radius: 0;
+        }
+    }
+}

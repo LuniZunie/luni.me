@@ -1,0 +1,461 @@
+:root {
+    /* Background Gradients */
+    --background: linear-gradient(#00000080, #00000080),
+                  linear-gradient(60deg, #0a0a0a 5%, #050005 50%) fixed 0 0 / cover;
+    --logo-background: url("../asset/image/dark-logo.png") no-repeat center center / contain;
+
+    /* Color Palette - Red */
+    --red-hover: #332222;
+    --red-active: #552222;
+    --red-border: #772222;
+    --red-background: #662222;
+
+    /* Color Palette - Orange */
+    --orange-hover: #332822;
+    --orange-active: #553322;
+    --orange-border: #773322;
+    --orange-background: #663322;
+
+    /* Color Palette - Yellow */
+    --yellow-hover: #2b2b22;
+    --yellow-active: #4c4422;
+    --yellow-border: #6c6422;
+    --yellow-background: #5c5422;
+
+    /* Color Palette - Light Green */
+    --light-green-hover: #223e22;
+    --light-green-active: #225522;
+    --light-green-border: #227722;
+    --light-green-background: #226622;
+
+    /* Color Palette - Green */
+    --green-hover: #222e22;
+    --green-active: #224422;
+    --green-border: #226622;
+    --green-background: #225522;
+
+    /* Color Palette - Light Blue */
+    --light-blue-hover: #33334f;
+    --light-blue-active: #333377;
+    --light-blue-border: #333399;
+    --light-blue-background: #333344;
+
+    /* Color Palette - Blue */
+    --blue-hover: #22223f;
+    --blue-active: #222266;
+    --blue-border: #222299;
+    --blue-background: #222244;
+
+    /* Color Palette - Dark Blue */
+    --dark-blue-hover: #11112f;
+    --dark-blue-active: #111133;
+    --dark-blue-border: #111155;
+    --dark-blue-background: #111122;
+
+    /* Color Palette - Navy Blue */
+    --navy-blue-hover: #000011;
+    --navy-blue-active: #000022;
+    --navy-blue-border: #000033;
+    --navy-blue-background: #000011;
+
+    /* Color Palette - Purple */
+    --purple-hover: #2b223c;
+    --purple-active: #3c225e;
+    --purple-border: #5c327e;
+    --purple-background: #4c2266;
+
+    /* Grayscale Shades - Level 0 (Darkest) */
+    --shade-0-0: #000000;
+    --shade-0-1: #040404;
+    --shade-0-2: #080808;
+    --shade-0-3: #0b0b0b;
+
+    /* Grayscale Shades - Level 1 */
+    --shade-1-0: #101010;
+    --shade-1-1: #141414;
+    --shade-1-2: #181818;
+    --shade-1-3: #1b1b1b;
+
+    /* Grayscale Shades - Level 2 */
+    --shade-2-0: #202020;
+    --shade-2-1: #242424;
+    --shade-2-2: #282828;
+    --shade-2-3: #2b2b2b;
+
+    /* Grayscale Shades - Level 3 */
+    --shade-3-0: #303030;
+    --shade-3-1: #343434;
+    --shade-3-2: #383838;
+    --shade-3-3: #3b3b3b;
+
+    /* Grayscale Shades - Level 4 */
+    --shade-4-0: #404040;
+    --shade-4-1: #444444;
+    --shade-4-2: #484848;
+    --shade-4-3: #4b4b4b;
+
+    /* Grayscale Shades - Level 5 */
+    --shade-5-0: #505050;
+    --shade-5-1: #545454;
+    --shade-5-2: #585858;
+    --shade-5-3: #5b5b5b;
+
+    /* Grayscale Shades - Level 6 */
+    --shade-6-0: #606060;
+    --shade-6-1: #646464;
+    --shade-6-2: #686868;
+    --shade-6-3: #6b6b6b;
+
+    /* Grayscale Shades - Level 7 */
+    --shade-7-0: #707070;
+    --shade-7-1: #747474;
+    --shade-7-2: #787878;
+    --shade-7-3: #7b7b7b;
+
+    /* Grayscale Shades - Level 8 */
+    --shade-8-0: #808080;
+    --shade-8-1: #848484;
+    --shade-8-2: #888888;
+    --shade-8-3: #8b8b8b;
+
+    /* Grayscale Shades - Level 9 */
+    --shade-9-0: #909090;
+    --shade-9-1: #949494;
+    --shade-9-2: #989898;
+    --shade-9-3: #9b9b9b;
+
+    /* Grayscale Shades - Level A */
+    --shade-a-0: #a0a0a0;
+    --shade-a-1: #a4a4a4;
+    --shade-a-2: #a8a8a8;
+    --shade-a-3: #ababab;
+
+    /* Grayscale Shades - Level B */
+    --shade-b-0: #b0b0b0;
+    --shade-b-1: #b4b4b4;
+    --shade-b-2: #b8b8b8;
+    --shade-b-3: #bbbbbb;
+
+    /* Grayscale Shades - Level C */
+    --shade-c-0: #c0c0c0;
+    --shade-c-1: #c4c4c4;
+    --shade-c-2: #c8c8c8;
+    --shade-c-3: #cbcbcb;
+
+    /* Grayscale Shades - Level D */
+    --shade-d-0: #d0d0d0;
+    --shade-d-1: #d4d4d4;
+    --shade-d-2: #d8d8d8;
+    --shade-d-3: #dbdbdb;
+
+    /* Grayscale Shades - Level E */
+    --shade-e-0: #e0e0e0;
+    --shade-e-1: #e4e4e4;
+    --shade-e-2: #e8e8e8;
+    --shade-e-3: #ebebeb;
+
+    /* Grayscale Shades - Level F (Lightest) */
+    --shade-f-0: #f0f0f0;
+    --shade-f-1: #f4f4f4;
+    --shade-f-2: #f8f8f8;
+    --shade-f-3: #fbfbfb;
+    --shade-f-4: #ffffff;
+
+    /* Text Colors */
+    --text-1: #cccccc;
+    --text-2: #dddddd;
+    --text-3: #eeeeee;
+    --text-4: #ffffff;
+
+    /* Semantic Colors - Info */
+    --info-1: #0000cc;
+    --info-2: #0000dd;
+    --info-3: #0000ee;
+    --info-4: #0000ff;
+
+    /* Semantic Colors - Warning */
+    --warning-1: #cc8800;
+    --warning-2: #dd9900;
+    --warning-3: #eeaa00;
+    --warning-4: #ffbb00;
+
+    /* Semantic Colors - Error */
+    --error-1: #cc0000;
+    --error-2: #dd0000;
+    --error-3: #ee0000;
+    --error-4: #ff0000;
+
+    /* Subtitle Colors */
+    --subtitle-1: #bbbbbb;
+    --subtitle-2: #aaaaaa;
+    --subtitle-3: #888888;
+    --subtitle-4: #666666;
+
+    /* Link Colors - Normal */
+    --link-1: #0055aa;
+    --link-2: #0000aa;
+    --link-3: #00aaaa;
+
+    /* Link Colors - Visited */
+    --visited-link-1: #8800bb;
+    --visited-link-2: #5500bb;
+    --visited-link-3: #bb00bb;
+
+    /* Link Colors - Hover */
+    --link-hover-1: #0066cc;
+    --link-hover-2: #0000cc;
+    --link-hover-3: #00cccc;
+
+    /* Link Colors - Visited Hover */
+    --visited-link-hover-1: #7700aa;
+    --visited-link-hover-2: #4400aa;
+    --visited-link-hover-3: #aa00aa;
+
+    /* Link Colors - Active */
+    --link-active-1: #0077ee;
+    --link-active-2: #0000ee;
+    --link-active-3: #00eeee;
+
+    /* Link Colors - Visited Active */
+    --visited-link-active-1: #660099;
+    --visited-link-active-2: #330099;
+    --visited-link-active-3: #990099;
+
+    /* Notification Colors */
+    --notification-text: #ffffff;
+    --notification-blue: #4488ff;
+    --notification-green: #44aa44;
+    --notification-red: #aa4444;
+    --notification-gray: #888888;
+}
+
+.light:root {
+    /* Background Gradients */
+    --background: linear-gradient(#ffffffcc, #ffffffcc),
+                  linear-gradient(60deg, #fdfdfd 5%, #f5f5f5 50%) fixed 0 0 / cover;
+    --logo-background: url("../asset/image/light-logo.png") no-repeat center center / contain;
+
+    /* Color Palette - Red */
+    --red-hover: #e57373;
+    --red-active: #ef5350;
+    --red-border: #f44336;
+    --red-background: #ffcdd2;
+
+    /* Color Palette - Orange */
+    --orange-hover: #ffb74d;
+    --orange-active: #ffa726;
+    --orange-border: #ff9800;
+    --orange-background: #ffe0b2;
+
+    /* Color Palette - Yellow */
+    --yellow-hover: #fff176;
+    --yellow-active: #ffee58;
+    --yellow-border: #ffeb3b;
+    --yellow-background: #fff9c4;
+
+    /* Color Palette - Light Green */
+    --light-green-hover: #81d784;
+    --light-green-active: #66cb6a;
+    --light-green-border: #4caf50;
+    --light-green-background: #c8e6c9;
+
+    /* Color Palette - Green */
+    --green-hover: #81c784;
+    --green-active: #66bb6a;
+    --green-border: #4caf50;
+    --green-background: #c8e6c9;
+
+    /* Color Palette - Light Blue */
+    --light-blue-hover: #64b5f6;
+    --light-blue-active: #42a5f5;
+    --light-blue-border: #2196f3;
+    --light-blue-background: #bbdefb;
+
+    /* Color Palette - Blue */
+    --blue-hover: #5c6bc0;
+    --blue-active: #3f51b5;
+    --blue-border: #3949ab;
+    --blue-background: #c5cae9;
+
+    /* Color Palette - Dark Blue */
+    --dark-blue-hover: #3949ab;
+    --dark-blue-active: #303f9f;
+    --dark-blue-border: #283593;
+    --dark-blue-background: #c5cae9;
+
+    /* Color Palette - Navy Blue */
+    --navy-blue-hover: #1a237e;
+    --navy-blue-active: #0d47a1;
+    --navy-blue-border: #1565c0;
+    --navy-blue-background: #e3f2fd;
+
+    /* Color Palette - Purple */
+    --purple-hover: #ba68c8;
+    --purple-active: #ab47bc;
+    --purple-border: #9c27b0;
+    --purple-background: #e1bee7;
+
+    /* Grayscale Shades - Level 0 (Lightest in light mode) */
+    --shade-0-0: #ffffff;
+    --shade-0-1: #fbfbfb;
+    --shade-0-2: #f8f8f8;
+    --shade-0-3: #f4f4f4;
+
+    /* Grayscale Shades - Level 1 */
+    --shade-1-0: #f0f0f0;
+    --shade-1-1: #ebebeb;
+    --shade-1-2: #e8e8e8;
+    --shade-1-3: #e4e4e4;
+
+    /* Grayscale Shades - Level 2 */
+    --shade-2-0: #e0e0e0;
+    --shade-2-1: #dbdbdb;
+    --shade-2-2: #d8d8d8;
+    --shade-2-3: #d4d4d4;
+
+    /* Grayscale Shades - Level 3 */
+    --shade-3-0: #d0d0d0;
+    --shade-3-1: #cbcbcb;
+    --shade-3-2: #c8c8c8;
+    --shade-3-3: #c4c4c4;
+
+    /* Grayscale Shades - Level 4 */
+    --shade-4-0: #c0c0c0;
+    --shade-4-1: #bbbbbb;
+    --shade-4-2: #b8b8b8;
+    --shade-4-3: #b4b4b4;
+
+    /* Grayscale Shades - Level 5 */
+    --shade-5-0: #b0b0b0;
+    --shade-5-1: #ababab;
+    --shade-5-2: #a8a8a8;
+    --shade-5-3: #a4a4a4;
+
+    /* Grayscale Shades - Level 6 */
+    --shade-6-0: #a0a0a0;
+    --shade-6-1: #9b9b9b;
+    --shade-6-2: #989898;
+    --shade-6-3: #949494;
+
+    /* Grayscale Shades - Level 7 */
+    --shade-7-0: #909090;
+    --shade-7-1: #8b8b8b;
+    --shade-7-2: #888888;
+    --shade-7-3: #848484;
+
+    /* Grayscale Shades - Level 8 */
+    --shade-8-0: #808080;
+    --shade-8-1: #7b7b7b;
+    --shade-8-2: #787878;
+    --shade-8-3: #747474;
+
+    /* Grayscale Shades - Level 9 */
+    --shade-9-0: #707070;
+    --shade-9-1: #6b6b6b;
+    --shade-9-2: #686868;
+    --shade-9-3: #646464;
+
+    /* Grayscale Shades - Level A */
+    --shade-a-0: #606060;
+    --shade-a-1: #5b5b5b;
+    --shade-a-2: #585858;
+    --shade-a-3: #545454;
+
+    /* Grayscale Shades - Level B */
+    --shade-b-0: #505050;
+    --shade-b-1: #4b4b4b;
+    --shade-b-2: #484848;
+    --shade-b-3: #444444;
+
+    /* Grayscale Shades - Level C */
+    --shade-c-0: #404040;
+    --shade-c-1: #3b3b3b;
+    --shade-c-2: #383838;
+    --shade-c-3: #343434;
+
+    /* Grayscale Shades - Level D */
+    --shade-d-0: #303030;
+    --shade-d-1: #2b2b2b;
+    --shade-d-2: #282828;
+    --shade-d-3: #242424;
+
+    /* Grayscale Shades - Level E */
+    --shade-e-0: #202020;
+    --shade-e-1: #1b1b1b;
+    --shade-e-2: #181818;
+    --shade-e-3: #141414;
+
+    /* Grayscale Shades - Level F (Darkest in light mode) */
+    --shade-f-0: #101010;
+    --shade-f-1: #0b0b0b;
+    --shade-f-2: #080808;
+    --shade-f-3: #040404;
+    --shade-f-4: #000000;
+
+    /* Text Colors */
+    --text-1: #212121;
+    --text-2: #333333;
+    --text-3: #4f4f4f;
+    --text-4: #616161;
+
+    /* Semantic Colors - Info */
+    --info-1: #1565c0;
+    --info-2: #1976d2;
+    --info-3: #1e88e5;
+    --info-4: #2196f3;
+
+    /* Semantic Colors - Warning */
+    --warning-1: #f9a825;
+    --warning-2: #fbc02d;
+    --warning-3: #fdd835;
+    --warning-4: #ffee58;
+
+    /* Semantic Colors - Error */
+    --error-1: #e53935;
+    --error-2: #d32f2f;
+    --error-3: #c62828;
+    --error-4: #b71c1c;
+
+    /* Subtitle Colors */
+    --subtitle-1: #757575;
+    --subtitle-2: #9e9e9e;
+    --subtitle-3: #bdbdbd;
+    --subtitle-4: #e0e0e0;
+
+    /* Link Colors - Normal */
+    --link-1: #1565c0;
+    --link-2: #1e88e5;
+    --link-3: #2196f3;
+
+    /* Link Colors - Visited */
+    --visited-link-1: #6a1b9a;
+    --visited-link-2: #8e24aa;
+    --visited-link-3: #9c27b0;
+
+    /* Link Colors - Hover */
+    --link-hover-1: #1976d2;
+    --link-hover-2: #1e88e5;
+    --link-hover-3: #42a5f5;
+
+    /* Link Colors - Visited Hover */
+    --visited-link-hover-1: #7b1fa2;
+    --visited-link-hover-2: #8e24aa;
+    --visited-link-hover-3: #ab47bc;
+
+    /* Link Colors - Active */
+    --link-active-1: #0d47a1;
+    --link-active-2: #1565c0;
+    --link-active-3: #1e88e5;
+
+    /* Link Colors - Visited Active */
+    --visited-link-active-1: #6a1b9a;
+    --visited-link-active-2: #7b1fa2;
+    --visited-link-active-3: #8e24aa;
+
+    /* Notification Colors */
+    --notification-text: #ffffff;
+    --notification-blue: #4488ff;
+    --notification-green: #44aa44;
+    --notification-red: #aa4444;
+    --notification-gray: #888888;
+}

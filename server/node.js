@@ -1,3 +1,13 @@
+import os from "os";
+function GetIPv4() {
+    const interfaces = os.networkInterfaces();
+    for (const name of Object.keys(interfaces))
+        for (const iface of interfaces[name])
+            if (iface.family === "IPv4" && !iface.internal)
+                return iface.address;
+    return "127.0.0.1";
+}
+
 import express from "express";
 
 import fs from "fs";
@@ -17,8 +27,8 @@ import { Strategy as GitHubStrategy } from "passport-github2";
 import Logger from "./module/logger.js";
 import recursive_write from "./module/recursive_write.js";
 
-const PUBLIC = JSON.parse(fs.readFileSync("./config/public.json", "utf8"));
-const PRIVATE = JSON.parse(fs.readFileSync("./config/private.json", "utf8"));
+const PUBLIC = JSON.parse(fs.readFileSync("server/config/public.json", "utf8"));
+const PRIVATE = JSON.parse(fs.readFileSync("server/config/private.json", "utf8"));
 
 const $ = (function(o, k) {
     if (this.release)
@@ -134,21 +144,25 @@ app.set("views", "client/view");
     }
 
     wss.on("connection", (ws, req) => {
-        const token = parse_cookies(req.headers.cookie || "").token;
+        /* const token = parse_cookies(req.headers.cookie || "").token;
         if (!token) return ws.close(1008, "Unauthorized");
 
         let user;
         try {
             user = jwt.verify(token, $(PRIVATE.jwt, "secret"));
-        } catch (err) { return ws.close(1008, "Unauthorized"); }
+        } catch (err) { return ws.close(1008, "Unauthorized"); } */
 
         ws.on("message", async message => {
             try {
                 message = JSON.parse(message);
-                switch (msg.for) {
+                switch (message.for) {
+                    case "server-logger": {
+                        Logger.log(message.type, message.message, message.stack);
+                        console.log("Server Logger Message:", message);
+                    } break;
                     default:
                     case "global": {
-                        switch (msg.type) {
+                        switch (message.type) {
                             case "ping": {
                                 ws.send(JSON.stringify({ type: "pong" }));
                             } break;
@@ -161,7 +175,7 @@ app.set("views", "client/view");
                         }
                     } break;
                     case "terrarian": {
-                        switch (msg.type) {
+                        switch (message.type) {
                             case "hash": {
                                 read_or(`${GET_USER_FOLDER(user)}/save_hash.txt`, "utf8", "", [ "type=hash", "onmessage", "websocket" ])
                                     .then(data => {
@@ -203,7 +217,7 @@ app.get($(PUBLIC.auth.delete, "route"), (req, res) => {
         });
 });
 
-for (const page of config.router) {
+for (const page of PUBLIC.router) {
     let fn;
     if ("file" in page)
         fn = res => res.render(page.file);
@@ -221,11 +235,13 @@ for (const page of config.router) {
 
 app.use((req, res) => {
     if (req.path.endsWith(".svg"))
-        res.status(404).redirect("/assets/null.svg");
+        res.status(404).redirect("/null.svg");
     else res.status(404).send("404 Not Found");
 });
 
-server.listen($(PUBLIC.server, "port"), $(PUBLIC.server, "host"), () => {
-    console.log(`Server running at ${URL}`);
-    console.log(`WebSocket server running at ${URL.replace(/^http/, "ws")}`);
+const host = $(PUBLIC.server, "host");
+server.listen($(PUBLIC.server, "port"), host, () => {
+    const realURL = URL.replace(/^(https?:\/\/)0\.0\.0\.0\b/, `$1${GetIPv4()}`);
+    console.log(`Server running at ${realURL}`);
+    console.log(`WebSocket server running at ${realURL.replace(/^http/, "ws")}`);
 });

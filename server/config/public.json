@@ -55,6 +55,14 @@
             "file": "profile.ejs"
         },
         {
+            "route": [ "/seqr" ],
+            "file": "seqr/index2.ejs"
+        },
+        {
+            "route": [ "/seqr-dev" ],
+            "file": "seqr/index.ejs"
+        },
+        {
             "route": [ "/404" ],
             "redirect": "/"
         }

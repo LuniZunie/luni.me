@@ -1,4 +1,6 @@
+.github/
 .vscode/
+.hintrc
 
 node_modules
 dist

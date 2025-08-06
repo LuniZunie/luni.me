@@ -1,0 +1,130 @@
+#render-settings > .content > .section.scale {
+    transition: all .25s;
+
+    & > .subtitle {
+        margin: 1vmin 0 2vmin;
+
+        font-size: 2em;
+        text-align: center;
+
+        & > .checkbox-plus {
+            position: relative;
+
+            & > .checkmark {
+                display: inline-block;
+
+                position: absolute;
+                right: calc(50% + 1.5em);
+                top: 55%;
+
+                height: 1em; width: 1em;
+
+                transform: translateY(-50%);
+
+                &::after {
+                    scale: .8;
+                }
+            }
+        }
+    }
+
+    & > .content {
+        display: flex;
+        flex-direction: column;
+        gap: 1vmin;
+
+        & > div {
+            border-radius: 1vmin;
+            padding: 2vmin;
+
+            background: var(--shade-f0);
+
+            & > .subtitle {
+                margin: 1vmin 0;
+
+                font-size: 1.75em;
+                text-align: center;
+            }
+
+            &.position {
+                & > .content {
+                    display: grid;
+                    grid-template-columns: repeat(3, 1fr);
+                    gap: 1vmin;
+
+                    & > .button {
+                        cursor: pointer;
+
+                        height: 2.5em; width: 100%;
+
+                        margin: 0;
+                        border-radius: 1vmin;
+                        padding: 0;
+
+                        background: var(--shade-f8);
+
+                        font-size: 1.2em;
+                        text-align: center;
+                        line-height: 2.5em;
+
+                        transition: all .25s;
+
+                        &.selected {
+                            background: var(--blue-background);
+                        }
+
+                        &:hover {
+                            background: var(--blue-hover);
+                            box-shadow: 0 0 1vmin .1vmin var(--blue-hover);
+
+                            &:active {
+                                background: var(--blue-active);
+                                box-shadow: 0 0 1vmin .2vmin var(--blue-active);
+                            }
+                        }
+
+                        &.disabled {
+                            pointer-events: none;
+                            cursor: not-allowed;
+
+                            opacity: .4;
+
+                            filter: grayscale(50%);
+                        }
+                    }
+                }
+            }
+
+            &.ticks {
+                & > .content {
+                    display: grid;
+                    grid-template-columns: 1fr 1fr;
+                    gap: 2vmin;
+
+                    & > .major, & > .minor {
+                        display: flex;
+                        flex-direction: column;
+                        gap: .5vmin;
+
+                        overflow: auto;
+
+                        & > .label {
+                            font-size: 1em;
+                            text-align: center;
+                        }
+
+                        & > .input {
+                            width: 100%; height: 2.5em;
+
+                            background: var(--shade-fd);
+
+                            font-size: 1.2em;
+                            line-height: 2.5em;
+                            white-space: nowrap;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

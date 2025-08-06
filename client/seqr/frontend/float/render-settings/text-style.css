@@ -1,0 +1,135 @@
+#render-settings > .content > .section.text-style {
+    & > .content {
+        column-count: 2;
+        column-gap: 1vmin;
+
+        & > div {
+            margin-bottom: 1vmin;
+            border-radius: 1vmin;
+            padding: 1vmin;
+
+            background: var(--shade-f0);
+
+            & > .subtitle {
+                margin: 1vmin 0;
+
+                font-size: 1.75em;
+                text-align: center;
+            }
+
+            &:is(.align, .style) > .content {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                justify-content: space-evenly;
+                align-items: center;
+                justify-items: center;
+                gap: 2vmin;
+
+                padding: 1vmin;
+
+                & > .button {
+                    cursor: pointer;
+
+                    height: 3em; width: 100%;
+
+                    margin: 0;
+                    border-radius: 1vmin;
+                    padding: 0;
+
+                    background: var(--shade-f8);
+
+                    font-size: 1.2em;
+                    text-align: center;
+                    line-height: 3em;
+
+                    transition: all .25s;
+
+                    &.selected {
+                        background: var(--blue-background);
+                    }
+
+                    &:hover {
+                        background: var(--blue-hover);
+                        box-shadow: 0 0 1vmin .1vmin var(--blue-hover);
+
+                        &:active {
+                            background: var(--blue-active);
+                            box-shadow: 0 0 1vmin .2vmin var(--blue-active);
+                        }
+                    }
+                }
+            }
+
+            &.font {
+                & > .content {
+                    display: grid;
+                    grid-template-columns: repeat(2, 1fr);
+                    justify-content: space-evenly;
+                    align-items: center;
+                    justify-items: center;
+                    gap: 2vmin;
+
+                    padding: 1vmin;
+
+                    & > div {
+                        height: 4em;
+                        width: calc(100% - 2vmin);
+
+                        margin: 0;
+                        border-radius: 1vmin;
+                        padding: 1vmin;
+
+                        font-size: 1.2em;
+                        text-align: center;
+
+                        background: var(--shade-f8);
+
+                        &.family {
+                            grid-column: 1 / span 2;
+                        }
+
+                        & > .label {
+                            display: block;
+                            margin-bottom: 1vmin;
+                        }
+                        & > :is(.input, input, select) {
+                            display: inline-block;
+
+                            width: calc(100% - 1em);
+                            height: 2em;
+
+                            outline: none; border: none;
+                            border-radius: 1vmin;
+
+                            color: var(--shade-20);
+                            font-size: 1em;
+                            text-align: center;
+                            line-height: 2em;
+
+                            background: var(--shade-ff);
+
+                            &[type="color"] {
+                                padding: .5vmin;
+                            }
+                        }
+                    }
+                }
+            }
+
+            &.preview {
+                position: relative;
+
+                width: calc(100% - 2vmin);
+                height: calc(3em - .2vmin);
+
+                margin: 0;
+                border-radius: 1vmin;
+                padding: 1vmin;
+
+                font-size: 1.2em;
+                text-align: center;
+                line-height: calc(3em - .2vmin);
+            }
+        }
+    }
+}

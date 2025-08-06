@@ -1,0 +1,77 @@
+#render-settings > .content > .section.aspect-ratio {
+    & > .content {
+        padding: 1vmin;
+
+        & > .aspect-input {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1vmin;
+
+            margin-bottom: 2vmin;
+
+            & > .number-plus {
+                width: 10%;
+                height: 100%;
+
+                outline: none;
+                border: none;
+                border-radius: 1vmin;
+
+                text-align: center;
+
+                & > .input {
+                    width: 100%; height: 100%;
+
+                    background: var(--shade-fd);
+
+                    line-height: 2.5em;
+                    white-space: nowrap;
+                }
+            }
+
+            & > .separator {
+                font-size: 1.5em;
+                font-weight: bold;
+            }
+        }
+
+        & > .presets {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1vmin;
+
+            & > .button {
+                cursor: pointer;
+
+                height: 3em; width: 100%;
+
+                margin: 0;
+                border-radius: 1vmin;
+                padding: 0;
+
+                background: var(--shade-f8);
+
+                font-size: 1.2em;
+                text-align: center;
+                line-height: 3em;
+
+                transition: all .25s;
+
+                &.selected {
+                    background: var(--blue-background);
+                }
+
+                &:hover {
+                    background: var(--blue-hover);
+                    box-shadow: 0 0 1vmin .1vmin var(--blue-hover);
+
+                    &:active {
+                        background: var(--blue-active);
+                        box-shadow: 0 0 1vmin .2vmin var(--blue-active);
+                    }
+                }
+            }
+        }
+    }
+}
