@@ -3099,50 +3099,8 @@ function update() {
         }
     });
 
-    if (first) {
-        first = false;
-
-        for (let i = 0; i < 3; i++) {
-            document.qs("#text-editor > .textarea").textContent =
-`##gff-version 3
-ctg123	.	mRNA	1300	9000	.	+	.	ID=mrna0001;Name=sonichedgehog
-ctg123	.	exon	1300	1500	.	+	.	ID=exon00001;Parent=mrna0001
-ctg123	.	exon	1050	1500	.	+	.	ID=exon00002;Parent=mrna0001
-ctg123	.	exon	3000	3902	.	+	.	ID=exon00003;Parent=mrna0001
-ctg123	.	exon	5000	5500	.	+	.	ID=exon00004;Parent=mrna0001
-ctg123	.	exon	7000	9000	.	+	.	ID=exon00005;Parent=mrna0001`;
-
-            document.qs("#text-editor > .file-name").value = "example.gff3";
-            document.qs("#text-editor > .file-name").classList.remove("invalid");
-
-            document.qs("#text-editor > .button").click(); // trigger the save button to read the example file
-
-            document.qs("#text-editor > .textarea").textContent =
-`##gff-version 2
-ctg123	.	mRNA	1300	9000	.	-	.	ID=mrna0001;Name=sonichedgehog
-ctg123	.	exon	1300	1500	.	+	.	ID=exon00001;Parent=mrna0001
-ctg123	.	exon	1050	1500	.	-	.	ID=exon00002;Parent=mrna0001
-ctg123	.	exon	3000	3902	.	+	.	ID=exon00003;Parent=mrna0001
-ctg123	.	exon	5000	5500	.	-	.	ID=exon00004;Parent=mrna0001
-ctg123	.	exon	7000	9000	.	+	.	ID=exon00005;Parent=mrna0001`;
-
-            document.qs("#text-editor > .file-name").value = "example2.gff3";
-            document.qs("#text-editor > .file-name").classList.remove("invalid");
-
-            document.qs("#text-editor > .button").click(); // trigger the save button to read the example file
-        }
-
-        document.qs("#side-bar > .bottom > .button-plus.new-group").click(); // create a new group
-        setTimeout(() => {
-            const $group = document.qs("#side-bar > .content > .group");
-            if ($group)
-                $group.qs(".button.edit").click(); // open the group editor
-        }, 200); // wait for the file to be read
-    }
-
     requestAnimationFrame(update);
 }
-let first = true;
 update();
 
 // Add click-outside-to-close functionality for button-plus elements
