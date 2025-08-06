@@ -5,6 +5,8 @@
 node_modules
 dist
 
+*.code-workspace
+
 # DO NOT DELETE ANYTHING BELOW THIS LINE
 **/private.*
 server/db
