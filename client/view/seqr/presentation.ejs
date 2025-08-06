@@ -216,6 +216,72 @@
             backdrop-filter: blur(10px);
         }
 
+        /* Acknowledgments slide styling */
+        .slide.acknowledgments {
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #fad0c4 100%);
+            color: #2c3e50;
+            text-align: center;
+        }
+        .slide.acknowledgments h1 {
+            color: #2c3e50;
+            font-size: 2.8em;
+            text-shadow: 1px 1px 3px rgba(255,255,255,0.5);
+            margin-bottom: 30px;
+        }
+        .slide.acknowledgments .acknowledgments-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .slide.acknowledgments .person-card {
+            background-color: rgba(255,255,255,0.4);
+            border: 2px solid rgba(255,255,255,0.6);
+            border-radius: 15px;
+            padding: 20px;
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255,154,158,0.2);
+        }
+        .slide.acknowledgments .person-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(255,154,158,0.3);
+            background-color: rgba(255,255,255,0.5);
+        }
+        .slide.acknowledgments .person-name {
+            font-size: 1.3em;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 8px;
+        }
+        .slide.acknowledgments .person-title {
+            font-size: 1em;
+            color: #34495e;
+            font-style: italic;
+            opacity: 0.9;
+        }
+        .slide.acknowledgments .highlight {
+            background-color: rgba(255,255,255,0.4);
+            border-left: 4px solid #e74c3c;
+            color: #2c3e50;
+            -webkit-backdrop-filter: blur(5px);
+            backdrop-filter: blur(5px);
+            margin: 25px 0;
+        }
+        .slide.acknowledgments .author-info {
+            background-color: rgba(255,255,255,0.3);
+            border: 2px solid rgba(255,255,255,0.5);
+            color: #2c3e50;
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            margin-top: 30px;
+        }
+
         .slide h1 {
             font-size: 2.5em;
             margin-bottom: 20px;
@@ -399,6 +465,20 @@
                 font-size: 2em;
             }
 
+            .slide.acknowledgments .acknowledgments-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+                margin: 20px 0;
+            }
+
+            .slide.acknowledgments .person-card {
+                padding: 15px;
+            }
+
+            .slide.acknowledgments .person-name {
+                font-size: 1.2em;
+            }
+
             .nav-controls {
                 bottom: 10px;
                 padding: 10px 15px;
@@ -458,7 +538,7 @@
 
     <!-- Slide 1: Title Slide -->
     <div class="slide title active" data-slide="1">
-        <div class="slide-number">1 / 10</div>
+        <div class="slide-number">1 / 11</div>
         <a href="https://luni.me/seqr" class="seqr-link" target="_blank">luni.me/seqr</a>
         <h1>SeqR</h1>
         <h2 class="subtitle">Genomic Sequence Visualization Platform</h2>
@@ -472,7 +552,7 @@
 
     <!-- Slide 2: The Problem -->
     <div class="slide problem" data-slide="2">
-        <div class="slide-number">2 / 10</div>
+        <div class="slide-number">2 / 11</div>
         <a href="https://luni.me/seqr" class="seqr-link" target="_blank">luni.me/seqr</a>
         <h1>The Challenge with Genomic Data Visualization</h1>
 
@@ -493,7 +573,7 @@
 
     <!-- Slide 3: What SeqR Actually Does -->
     <div class="slide solution" data-slide="3">
-        <div class="slide-number">3 / 10</div>
+        <div class="slide-number">3 / 11</div>
         <a href="https://luni.me/seqr" class="seqr-link" target="_blank">luni.me/seqr</a>
         <h1>SeqR Overview</h1>
 
@@ -514,7 +594,7 @@
 
     <!-- Slide 4: File Format Support -->
     <div class="slide technical" data-slide="4">
-        <div class="slide-number">4 / 10</div>
+        <div class="slide-number">4 / 11</div>
         <a href="https://luni.me/seqr" class="seqr-link" target="_blank">luni.me/seqr</a>
         <h1>Comprehensive File Format Support</h1>
 
@@ -528,7 +608,7 @@
             <li><strong>FASTA</strong> - Reference sequence data</li>
         </ul>
 
-        <h3>Specialized formats:</h3>
+        <h3>Exotic formats:</h3>
         <ul>
             <li><strong>VCF</strong> - Variant Call Format for genetic variations</li>
             <li><strong>BEDGRAPH</strong> - Coverage and signal tracks</li>
@@ -540,7 +620,7 @@
 
     <!-- Slide 5: Technical Architecture -->
     <div class="slide technical" data-slide="5">
-        <div class="slide-number">5 / 10</div>
+        <div class="slide-number">5 / 11</div>
         <a href="https://luni.me/seqr" class="seqr-link" target="_blank">luni.me/seqr</a>
         <h1>Technical Implementation</h1>
 
@@ -568,7 +648,7 @@
 
     <!-- Slide 6: Feature Grouping System -->
     <div class="slide features" data-slide="6">
-        <div class="slide-number">6 / 10</div>
+        <div class="slide-number">6 / 11</div>
         <a href="https://luni.me/seqr" class="seqr-link" target="_blank">luni.me/seqr</a>
         <h1>Advanced Feature Organization</h1>
 
@@ -594,7 +674,7 @@
 
     <!-- Slide 7: Real-World Applications -->
     <div class="slide applications" data-slide="7">
-        <div class="slide-number">7 / 10</div>
+        <div class="slide-number">7 / 11</div>
         <a href="https://luni.me/seqr" class="seqr-link" target="_blank">luni.me/seqr</a>
         <h1>Real-World Applications</h1>
 
@@ -615,7 +695,7 @@
 
     <!-- Slide 8: Design Philosophy -->
     <div class="slide philosophy" data-slide="8">
-        <div class="slide-number">8 / 10</div>
+        <div class="slide-number">8 / 11</div>
         <a href="https://luni.me/seqr" class="seqr-link" target="_blank">luni.me/seqr</a>
         <h1>Design Principles</h1>
 
@@ -645,7 +725,7 @@
 
     <!-- Slide 9: Impact and Value -->
     <div class="slide conclusion" data-slide="9">
-        <div class="slide-number">9 / 10</div>
+        <div class="slide-number">9 / 11</div>
         <a href="https://luni.me/seqr" class="seqr-link" target="_blank">luni.me/seqr</a>
         <h1>Research Impact</h1>
 
@@ -671,29 +751,51 @@
     </div>
 
     <!-- Slide 10: Acknowledgements -->
-    <div class="slide questions" data-slide="10">
+    <div class="slide acknowledgments" data-slide="10">
         <div class="slide-number">10 / 11</div>
         <a href="https://luni.me/seqr" class="seqr-link" target="_blank">luni.me/seqr</a>
         <h1>Acknowledgements</h1>
 
-        <p>I would like to thank the following people for their support and guidance:</p>
+        <p style="font-size: 1.2em; margin-bottom: 25px;">I would like to thank the following people for their support and guidance:</p>
 
-        <div class="highlight">
-            <ul style="list-style: none; padding-left: 0; font-size: 1.2em; line-height: 2;">
-                <li>Dr. Giglio</li>
-                <li>Dr. Receveur</li>
-                <li>Shaun Adkins</li>
-                <li>Dr. Dunning-Hotopp</li>
-                <li>Dr. Rasko</li>
-                <li>Dr. Bromley</li>
-                <li>Kaylee Watson</li>
-                <li>Chris Holt</li>
-            </ul>
+        <div class="acknowledgments-grid">
+            <div class="person-card">
+                <div class="person-name">Dr. Giglio</div>
+                <div class="person-title">Professor</div>
+            </div>
+            <div class="person-card">
+                <div class="person-name">Dr. Receveur</div>
+                <div class="person-title">Bioinformatics Analyst</div>
+            </div>
+            <div class="person-card">
+                <div class="person-name">Shaun Adkins</div>
+                <div class="person-title">Senior Bioinformatics Software Engineer</div>
+            </div>
+            <div class="person-card">
+                <div class="person-name">Dr. Rasko</div>
+                <div class="person-title">Professor</div>
+            </div>
+            <div class="person-card">
+                <div class="person-name">Dr. Dunning-Hotopp</div>
+                <div class="person-title">Professor (& mother)</div>
+            </div>
+            <div class="person-card">
+                <div class="person-name">Robin Bromley</div>
+                <div class="person-title">Laboratory Research Manager</div>
+            </div>
+            <div class="person-card">
+                <div class="person-name">Kaylee Watson</div>
+                <div class="person-title">Graduate Student</div>
+            </div>
+            <div class="person-card">
+                <div class="person-name">Chris Holt</div>
+                <div class="person-title">Graduate Student</div>
+            </div>
         </div>
 
         <div class="author-info">
-            <p>Thank you all for your help and attention</p>
-            <p><em>Cedric Hotopp</em></p>
+            <p style="font-size: 1.3em; margin-bottom: 10px;"><strong>Thank you all for your help and attention</strong></p>
+            <p style="font-size: 1.1em;"><em>Cedric Hotopp</em></p>
         </div>
     </div>
 
