@@ -102,7 +102,7 @@ export class UndoRedoManager {
                 switch (type) {
                     case "auto":
                     case "clean": {
-                        $target = $groups.querySelector(".content > .group");
+                        $target = $groups.querySelector(":scope > .content > .group");
                     } break;
                     default: {
                         $target = global.groups[data.name]?.element;
@@ -112,7 +112,7 @@ export class UndoRedoManager {
                 if ($target) {
                     $target.scrollIntoView({ block: "center", inline: "nearest", "behavior": "smooth" });
                 } else {
-                    $groups.querySelector(".content").scrollIntoView({ block: "start", inline: "nearest", "behavior": "smooth" });
+                    $groups.querySelector(":scope > .content").scrollIntoView({ block: "start", inline: "nearest", "behavior": "smooth" });
                 }
             } break;
         }

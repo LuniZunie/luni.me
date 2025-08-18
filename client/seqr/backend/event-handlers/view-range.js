@@ -2,13 +2,13 @@ import cMath from "../../../module/cMath.js";
 
 export function ViewRangeEventHandler($range) {
     const $view = $range.closest(".section.view-range"),
-          $shading = $range.querySelector(".shading"),
-          $min = $range.querySelector(".min"),
-          $max = $range.querySelector(".max"),
-          $minInput = $view.querySelector(".inputs > .min"),
-          $maxInput = $view.querySelector(".inputs > .max"),
-          $minInputValue = $minInput.querySelector(".input"),
-          $maxInputValue = $maxInput.querySelector(".input");
+          $shading = $range.querySelector(":scope > .shading"),
+          $min = $range.querySelector(":scope > .min"),
+          $max = $range.querySelector(":scope > .max"),
+          $minInput = $view.querySelector(":scope > .inputs > .min"),
+          $maxInput = $view.querySelector(":scope > .inputs > .max"),
+          $minInputValue = $minInput.querySelector(":scope > .input"),
+          $maxInputValue = $maxInput.querySelector(":scope > .input");
 
     const cache = {
         dragging: false,
@@ -122,11 +122,11 @@ export function ViewRangeEventHandler($range) {
 
 export function ViewRangeInputsEventHandler($input, type) {
     const $view = $input.closest(".section.view-range"),
-          $range = $view.querySelector(".range"),
-          $min = $range.querySelector(".min"),
-          $max = $range.querySelector(".max"),
-          $minInputValue = $view.querySelector(".inputs > .min > .input"),
-          $maxInputValue = $view.querySelector(".inputs > .max > .input");
+          $range = $view.querySelector(":scope > .range"),
+          $min = $range.querySelector(":scope > .min"),
+          $max = $range.querySelector(":scope > .max"),
+          $minInputValue = $view.querySelector(":scope > .inputs > .min > .input"),
+          $maxInputValue = $view.querySelector(":scope > .inputs > .max > .input");
 
     $input.addEventListener("click", e => {
         const value = type === "min" ?

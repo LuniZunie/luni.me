@@ -56,8 +56,7 @@ body > #groups > .bottom {
         &.disabled {
             pointer-events: none;
 
-            background: transparent;
-            filter: opacity(.1);
+            opacity: 0;
         }
 
         &.new {

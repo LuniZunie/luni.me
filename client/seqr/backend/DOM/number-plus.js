@@ -3,8 +3,8 @@ import { ReplaceAndPreserveCursor } from "../function/replace-and-preserve-curso
 
 export function SetupNumberPlus() {
     document.querySelectorAll(".number-plus:not([data-initiated='true'])").forEach($number => {
-        const $input = $number.querySelector(".input"),
-              $terminus = $number.querySelector(".terminus");
+        const $input = $number.querySelector(":scope > .input"),
+              $terminus = $number.querySelector(":scope > .terminus");
 
         function Update(e, fix) {
             let v = parseFloat($input.textContent.replace(/[^\d.\-]/g, "") || "0");

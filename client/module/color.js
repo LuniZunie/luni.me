@@ -15,6 +15,15 @@ export default class Color {
         return c.rgba;
     }
 
+    static RGBtoHEX(r, g, b) {
+        const toHex = (c) => {
+            const hex = c.toString(16);
+            return hex.length === 1 ? "0" + hex : hex;
+        };
+
+        return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
+    }
+
     static RGBToHSL(r, g, b) {
         r /= 255, g /= 255, b /= 255;
 
@@ -60,6 +69,10 @@ export default class Color {
         };
 
         return [ fn(0), fn(8), fn(4) ];
+    }
+    static HSLtoHEX(h, s, l) {
+        const [ r, g, b ] = this.HSLToRGB(h, s, l);
+        return this.RGBtoHEX(r, g, b);
     }
 
     #rgba = [ 0, 0, 0, 1 ];

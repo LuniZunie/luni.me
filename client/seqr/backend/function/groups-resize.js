@@ -21,7 +21,7 @@ export function GroupsResize() {
     const $groups = document.body.querySelector("#groups"),
           $resizeHandle = document.body.querySelector("#groups-resize-handle");
 
-    const rect = $groups.querySelector(".content").getBoundingClientRect(),
+    const rect = $groups.querySelector(":scope > .content").getBoundingClientRect(),
           style = $resizeHandle.style;
 
     style.top = `${rect.top}px`;

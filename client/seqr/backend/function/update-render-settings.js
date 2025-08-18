@@ -5,15 +5,15 @@ export function UpdateRenderSettings(min, max, preserve = false) {
     const $settings = document.querySelector("#render-settings");
 
     if (min !== undefined && max !== undefined) {
-        const $view = $settings.querySelector(".content > .section.view-range");
+        const $view = $settings.querySelector(":scope > .content > .section.view-range");
 
         $view.dataset.min = min;
         $view.dataset.max = max;
 
-        const $min = $range.querySelector(".min"),
-              $max = $view.querySelector(".max"),
-              $minInput = $view.querySelector(".inputs > .min"),
-              $maxInput = $view.querySelector(".inputs > .max");
+        const $min = $range.querySelector(":scope > .min"),
+              $max = $view.querySelector(":scope > .max"),
+              $minInput = $view.querySelector(":scope > .inputs > .min"),
+              $maxInput = $view.querySelector(":scope > .inputs > .max");
 
         $minInput.dataset.min = min;
         $minInput.dataset.max = max;
@@ -21,7 +21,7 @@ export function UpdateRenderSettings(min, max, preserve = false) {
         $maxInput.dataset.min = min;
         $maxInput.dataset.max = max;
 
-        const $range = $view.querySelector(".range");
+        const $range = $view.querySelector(":scope > .range");
 
         let left = 0,
             right = 1;
@@ -58,60 +58,60 @@ export function UpdateRenderSettings(min, max, preserve = false) {
         $max.textContent = viewMax;
 
         $minInput.dataset.value = viewMin;
-        $minInput.querySelector(".input").textContent = viewMin;
+        $minInput.querySelector(":scope > .input").textContent = viewMin;
 
         $maxInput.dataset.value = viewMax;
-        $maxInput.querySelector(".input").textContent = viewMax;
+        $maxInput.querySelector(":scope > .input").textContent = viewMax;
     }
 
     {
         const $content = document.querySelector("#render-settings > .content > .section.text-style > .content"),
-              $preview = $content.querySelector(".preview");
+              $preview = $content.querySelector(":scope > .preview");
 
-        $preview.style.textAlign = $content.querySelector(".align > .content > .button.selected")?.dataset.value || "center";
+        $preview.style.textAlign = $content.querySelector(":scope > .align > .content > .button.selected")?.dataset.value || "center";
 
-        const $style = $content.querySelector(".style > .content"),
+        const $style = $content.querySelector(":scope > .style > .content"),
               style = $preview.querySelector("span").style;
 
         {
-            if ($style.querySelector(".button.selected[data-value='bold']")) {
+            if ($style.querySelector(":scope > .button.selected[data-value='bold']")) {
                 style.fontWeight = "bold";
             } else {
                 style.fontWeight = "normal";
             }
 
-            if ($style.querySelector(".button.selected[data-value='italic']")) {
+            if ($style.querySelector(":scope > .button.selected[data-value='italic']")) {
                 style.fontStyle = "italic";
             } else {
                 style.fontStyle = "normal";
             }
 
-            if ($style.querySelector(".button.selected[data-value='outline']")) {
+            if ($style.querySelector(":scope > .button.selected[data-value='outline']")) {
                 style.outline = ".1vmin solid currentcolor";
             } else {
                 style.outline = "none";
             }
 
             const decoration = [];
-            if ($style.querySelector(".button.selected[data-value='underline']")) {
+            if ($style.querySelector(":scope > .button.selected[data-value='underline']")) {
                 decoration.push("underline");
             }
-            if ($style.querySelector(".button.selected[data-value='strikethrough']")) {
+            if ($style.querySelector(":scope > .button.selected[data-value='strikethrough']")) {
                 decoration.push("line-through");
             }
-            if ($style.querySelector(".button.selected[data-value='overline']")) {
+            if ($style.querySelector(":scope > .button.selected[data-value='overline']")) {
                 decoration.push("overline");
             }
 
             style.textDecoration = decoration.join(" ") || "none";
         }
 
-        const color = $content.querySelector(".font > .content > .color > input")?.value;
+        const color = $content.querySelector(":scope > .font > .content > .color > input")?.value;
         style.color = color;
 
-        $settings.querySelector(".content > .section.background > .content > .preview").style.color = color;
+        $settings.querySelector(":scope > .content > .section.background > .content > .preview").style.color = color;
         $preview.style.background = Color.Shade(new Color(color), "#101010", "#F0F0F0");
 
-        style.fontFamily = $content.querySelector(".font > .content > .family > select")?.value;
+        style.fontFamily = $content.querySelector(":scope > .font > .content > .family > select")?.value;
     }
 };

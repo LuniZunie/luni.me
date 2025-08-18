@@ -1,5 +1,7 @@
 function Follow($cycle) {
-    if ($cycle.classList.contains("hidden")) return;
+    if ($cycle.classList.contains("hidden")) {
+        return;
+    }
 
     let [
         anchorX = "center:center",
@@ -11,7 +13,7 @@ function Follow($cycle) {
     const [ iconAnchorX = "center", cycleAnchorX = "center" ] = anchorX.split(":");
     const [ iconAnchorY = "center", cycleAnchorY = "center" ] = anchorY.split(":");
 
-    const $icon = $cycle.closest(".button-plus").querySelector(".icon");
+    const $icon = $cycle.closest(".button-plus").querySelector(":scope > .icon");
 
     const iconRect = $icon.getBoundingClientRect();
     let iconX, iconY;
@@ -102,9 +104,9 @@ function Follow($cycle) {
 }
 
 function Close($button) {
-    const $icon = $button.querySelector(".icon");
+    const $icon = $button.querySelector(":scope > .icon");
     const $normal = $icon?.querySelector("svg:not(.cancel)"),
-          $cancel = $icon?.querySelector(".cancel");
+          $cancel = $icon?.querySelector(":scope > .cancel");
 
     $button.querySelectorAll(".cycles > .cycle:not(.hidden").forEach($cycle => $cycle.classList.add("hidden"));
     if ($cancel) {
@@ -117,30 +119,33 @@ export function CloseAllButtonPlus() {
     document.querySelectorAll(".button-plus").forEach($button => Close($button));
 }
 
+const $cache = new Map();
+export { $cache as ButtonPlusFunctions };
+
 export function SetupButtonPlus() {
     document.querySelectorAll(".button-plus:not([data-initiated='true'])").forEach($button => {
-        const $terminus = $button.querySelector(".terminus");
+        const $terminus = $button.querySelector(":scope > .terminus");
 
-        const $icon = $button.querySelector(".icon");
+        const $icon = $button.querySelector(":scope > .icon");
         if (!$icon) return;
 
         const $normal = $icon.querySelector("svg:not(.cancel)"),
               $cancel = $icon.querySelector("svg.cancel");
 
-        function Cycle() {
-            const $cycles = $button.querySelector(".cycles");
+        function Cycle(i = null) {
+            const $cycles = $button.querySelector(":scope > .cycles");
             if (!$cycles) {
                 $terminus.click();
                 return;
             }
 
-            const $cycle = $cycles.querySelector(".cycle:not(.hidden)");
+            const $cycle = $cycles.querySelector(":scope > .cycle:not(.hidden)");
 
             let $next;
-            if ($cycle) {
+            if ($cycle && i === null) {
                 $next = $cycle.nextElementSibling;
             } else {
-                $next = $cycles.querySelector(".cycle");
+                $next = $cycles.querySelector(`:scope > .cycle:nth-child(${i ?? 1})`);
             }
 
             if ($next) {
@@ -154,23 +159,36 @@ export function SetupButtonPlus() {
             }
         }
 
-        $button.querySelector(".icon").addEventListener("click", () => {
+        function Open(i = 1) {
+            document.querySelectorAll(".button-plus").forEach($other => {
+                if ($button !== $other) {
+                    Close($other);
+                }
+            });
+
+            if ($cancel) {
+                $normal.classList.add("hidden");
+                $cancel.classList.remove("hidden");
+            }
+
+            Cycle(i);
+        }
+
+        function Toggle(e) {
             if ($normal.classList.contains("hidden")) {
                 Close($button);
             } else {
-                document.querySelectorAll(".button-plus").forEach($other => {
-                    if ($button !== $other) {
-                        Close($other);
-                    }
-                });
-
-                if ($cancel) {
-                    $normal.classList.add("hidden");
-                    $cancel.classList.remove("hidden");
-                }
-
-                Cycle();
+                Open(null);
             }
+        }
+
+        $button.querySelector(":scope > .icon").addEventListener("click", Toggle);
+        $cache.set($button, {
+            open: Open,
+            close: () => Close($button),
+
+            toggle: Toggle,
+            cycle: Cycle
         });
 
         $button.querySelectorAll("[data-button-plus-event]").forEach($el => {
@@ -178,7 +196,7 @@ export function SetupButtonPlus() {
             for (const event of events) {
                 switch (event) {
                     case "click": {
-                        $el.addEventListener("click", Cycle);
+                        $el.addEventListener("click", () => Cycle());
                     } break;
                     case "enter": {
                         $el.addEventListener("keydown", e => {

@@ -3,6 +3,8 @@
     --background: linear-gradient(#ffffffcc, #ffffffcc),
                   linear-gradient(60deg, #fdfdfd 5%, #f5f5f5 50%) fixed 0 0 / cover;
 
+    --highlighted: #ffff00;
+
     /* White */
     --white-border: #9ca3af;
     --white-background: #f9fafb;

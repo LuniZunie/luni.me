@@ -33,6 +33,55 @@ async function SmoothScroll($el, d, t, callback = () => true) {
 
 export function AutoScroll() {
     document.querySelectorAll(".auto-scroll").forEach($auto => {
+        if (!$auto.dataset.initiated) {
+            $auto.parentElement.addEventListener("wheel", e => {
+                $auto.dataset.freeze = 250;
+                $auto.dataset.offsetDelta = Date.now();
+
+                let offset = parseFloat($auto.dataset.offset) || 0;
+
+                const x = Math.abs(e.deltaX),
+                      y = Math.abs(e.deltaY),
+                      z = Math.abs(e.deltaZ),
+                      delta = x + y + z;
+
+                let dir;
+                switch (Math.max(x, y, z)) {
+                    case x: {
+                        dir = Math.sign(e.deltaX);
+                    } break;
+                    case y: {
+                        dir = Math.sign(e.deltaY);
+                    } break;
+                    case z: {
+                        dir = Math.sign(e.deltaZ);
+                    } break;
+                }
+
+                offset += dir * delta;
+                $auto.dataset.offset = offset;
+            }, { passive: false });
+            $auto.dataset.initiated = true;
+        }
+
+        let offset = parseFloat($auto.dataset.offset) || 0;
+        if ("freeze" in $auto.dataset) {
+            const start = parseFloat($auto.dataset.offsetDelta) || Date.now(),
+                  end = Date.now();
+
+            offset += end - start;
+            $auto.dataset.offset = offset;
+            $auto.dataset.offsetDelta = end;
+
+            const freeze = parseInt($auto.dataset.freeze);
+            if (freeze > 0) {
+                $auto.dataset.freeze = freeze - 1;
+            } else if (freeze === 0) {
+                delete $auto.dataset.freeze;
+                delete $auto.dataset.offsetDelta;
+            }
+        }
+
         const scrollSpeed = parseFloat($auto.dataset.scrollSpeed) || 2.5;
         let carry = parseFloat($auto.dataset.scrollCarry) || 0;
 
@@ -55,7 +104,7 @@ export function AutoScroll() {
             scrolls = 1;
         }
 
-        const $scroll = $auto.querySelector(".scroll"),
+        const $scroll = $auto.querySelector(":scope > .scroll"),
               cs = getComputedStyle($scroll);
 
         const textWidth = $scroll.clientWidth + ((parseFloat(cs.marginLeft) || 0) + (parseFloat(cs.marginRight) || 0)),
@@ -83,7 +132,7 @@ export function AutoScroll() {
             }
         }
 
-        const pos = Date.now() / 1000 * TPS * scrollSpeed % textWidth;
+        const pos = ((Date.now() - offset) / 1000 * TPS) * scrollSpeed % textWidth;
         $auto.scrollLeft = pos;
 
         const scroll = ($el, d, t) => {
@@ -101,6 +150,8 @@ export function AutoScroll() {
             });
         };
 
-        if (speed > 0) scroll($auto, speed, SPT * 1000);
+        if (speed > 0) {
+            scroll($auto, speed, SPT * 1000);
+        }
     });
 };

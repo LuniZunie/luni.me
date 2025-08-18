@@ -2,8 +2,8 @@ import cMath from "../../../module/cMath.js";
 
 export function SliderTrackEventHandler($track) {
     const $slider = $track.closest(".slider"),
-          $input = $slider.querySelector(".value > .input"),
-          $terminus = $slider.querySelector(".terminus");
+          $input = $slider.querySelector(":scope > .value > .input"),
+          $terminus = $slider.querySelector(":scope > .terminus");
 
     const cache = {
         dragging: false,
@@ -75,7 +75,7 @@ export function SliderTrackEventHandler($track) {
         const v = cMath.clamp(value - step * Math.sign(e.deltaY), min, max);
 
         $slider.style.setProperty("--value", `${(v - min) / (max - min) * 100}%`);
-        $slider.querySelector(".value > .input").textContent = v;
+        $slider.querySelector(":scope > .value > .input").textContent = v;
         $slider.dataset.value = v;
 
         $terminus.click();
@@ -86,7 +86,7 @@ export function SliderTrackEventHandler($track) {
 
 export function SliderValueEventHandler($input) {
     const $slider = $input.closest(".slider"),
-          $terminus = $slider.querySelector(".terminus");
+          $terminus = $slider.querySelector(":scope > .terminus");
 
     function Update(e, fix) {
         let v = parseFloat($input.textContent.replace(/[^\d.\-]/g, "") || "0");

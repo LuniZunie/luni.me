@@ -3,15 +3,15 @@ import { CreateNotification } from "../../../module/notification.js";
 import { ReadFile, VALID_EXTENSIONS } from "../function/file/read.js";
 
 export function ImportEventHandler($import) {
-    $import.addEventListener("click", () => {
+    $import.addEventListener("click", e => {
         switch (document.querySelector(".selected[data-radio='import:type']")?.dataset.value) {
             case "file": {
                 document.querySelector("#file-input").click();
             } break;
             case "code": {
                 const $editor = document.querySelector("#file-editor"),
-                      $text = $editor.querySelector(".textarea"),
-                      $name = $editor.querySelector(".name");
+                      $text = $editor.querySelector(":scope > .textarea"),
+                      $name = $editor.querySelector(":scope > .name");
 
                 $text.textContent = "";
                 $text.focus();
@@ -27,8 +27,10 @@ export function ImportEventHandler($import) {
 
 export function ImportFileEventHandler($input) {
     $input.addEventListener("change", async e => {
-        const files = e.target.files;
-        if (files.length === 0) {
+        const files = e.target.files,
+              len = files.length;
+
+        if (len === 0) {
             return;
         }
 
@@ -44,7 +46,7 @@ export function ImportFileEventHandler($input) {
                 });
         }
 
-        const success = files.length - fail;
+        const success = len - fail;
 
         let background;
         if (fail === 0) {
@@ -52,16 +54,56 @@ export function ImportFileEventHandler($input) {
         } else if (success === 0) {
             background = "var(--notification-red)";
         } else {
-            background = "var(--notification-green)";
+            background = "var(--notification-gray)";
         }
 
-        const successText = new Text("file").case().get(success),
-              failText = new Text("file").case().get(fail);
-
-        /* TODO redo notification */
-        CreateNotification(`Imported ${success} ${successText} successfully, ${fail} ${failText} failed`, background, 5000);
+        CreateNotification(`Imported ${success} / ${len} ${new Text("file").case().get(success)} successfully`, background, 5000);
 
         $input.value = "";
+    });
+};
+
+export function ImportDragAndDropEventHandler($zone) {
+    const $dragDrop = document.querySelector("#drag-and-drop");
+
+    $zone.addEventListener("dragover", e => {
+        e.preventDefault();
+    });
+
+    $zone.addEventListener("drop", e => {
+        e.preventDefault();
+
+        const files = e.dataTransfer.files,
+              len = files.length;
+
+        if (len === 0) {
+            return;
+        }
+
+        let fail = 0;
+        for (const file of files) {
+            const name = file.name;
+            ReadFile(file)
+                .catch(error => {
+                    fail++;
+
+                    CreateNotification(`Failed to import drag-and-drop file: ${name}`, "var(--notification-red)");
+                    console.error(`Failed to import drag-and-drop file: ${name}`, error);
+                });
+        }
+
+        const success = len - fail;
+
+        let background;
+        if (fail === 0) {
+            background = "var(--notification-green)";
+        } else if (success === 0) {
+            background = "var(--notification-red)";
+        } else {
+            background = "var(--notification-gray)";
+        }
+
+        CreateNotification(`Imported ${success} / ${len} ${new Text("file").case().get(success)} successfully`, background, 5000);
     });
 };
 
@@ -69,7 +111,7 @@ const VALID_NAMES = /^[\w.\-]+?/;
 
 const VALID = new RegExp(VALID_NAMES.source + VALID_EXTENSIONS.source, "i");
 export function FileEditorNameEventHandler($input) {
-    const $button = $input.closest("#file-editor").querySelector(".button.save");
+    const $button = $input.closest("#file-editor").querySelector(":scope > .button.save");
 
     $input.addEventListener("input", e => {
         $input.classList.toggle("invalid", !VALID.test($input.value));
@@ -86,8 +128,8 @@ export function FileEditorNameEventHandler($input) {
 
 export function FileEditorSaveEventHandler($button) {
     const $editor = document.querySelector("#file-editor"),
-          $text = $editor.querySelector(".textarea"),
-          $name = $editor.querySelector(".name");
+          $text = $editor.querySelector(":scope > .textarea"),
+          $name = $editor.querySelector(":scope > .name");
 
     $button.addEventListener("click", e => {
         const name = $name.value;

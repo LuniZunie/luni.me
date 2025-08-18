@@ -23,7 +23,7 @@ export function DeleteFilesEventHandler($button) {
             }
 
             for (const [ key, group ] of Object.entries(global.group ?? { })) {
-                group.member = group.members.filter(member => !names.some(name => name === member.member[0]));
+                group.member = group.members.filter(member => !names.some(name => name === member.selectors[0].value));
                 if (group.member.length === 0) {
                     group.element.remove();
                     delete global.group[key];

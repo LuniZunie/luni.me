@@ -1,4 +1,4 @@
-body > #groups > .content {
+#groups > .content {
     display: flex;
     flex-direction: column;
     flex-wrap: nowrap;

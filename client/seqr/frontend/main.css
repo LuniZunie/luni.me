@@ -80,6 +80,7 @@ body {
         height: 6vmin;
 
         border-radius: 50%;
+        border: .1vmin solid var(--shade-e0);
 
         background: var(--shade-f8);
 
@@ -196,4 +197,33 @@ body {
     font-size: 1.1em;
 
     transform: translateX(-50%);
+}
+
+.highlight {
+    pointer-events: none;
+    z-index: calc(var(--max-z-index));
+
+    position: fixed;
+
+    aspect-ratio: 1 / 1;
+    width: 10vmin;
+
+    border-radius: 50%;
+
+    background: var(--highlighted);
+    box-shadow: 0 0 1vmin .2vmin var(--highlighted);
+
+    animation: Highlight 1.5s infinite;
+}
+
+::-webkit-scrollbar {
+    width: 1vmin; height: 1vmin;
+    background: #0003;
+}
+::-webkit-scrollbar-thumb {
+    background: #0006;
+    border-radius: 1vmin;
+}
+::-webkit-scrollbar-corner {
+    background: #0003;
 }

@@ -6,7 +6,7 @@ import { Text } from "../../../module/text.js";
 export function ViewFilesEventHandler($button) {
     const $files = document.querySelector("#top > .files"),
           $viewer = document.querySelector("#file-viewer"),
-          $tabs = $viewer.querySelector(".tabs");
+          $tabs = $viewer.querySelector(":scope > .tabs");
 
     $button.addEventListener("click", e => {
         const $selected = $files.querySelectorAll(".file.selected");
@@ -43,7 +43,7 @@ export function ViewFilesEventHandler($button) {
 
 export function ViewFilesTabEventHandler($tab) {
     const $viewer = document.querySelector("#file-viewer"),
-          $tabs = $viewer.querySelector(".tabs");
+          $tabs = $viewer.querySelector(":scope > .tabs");
 
     $tab.addEventListener("click", e => {
         $tabs.querySelectorAll(".tab.selected").forEach($el => $el.classList.remove("selected"));
@@ -57,7 +57,7 @@ export function ViewFilesTabEventHandler($tab) {
 let open;
 async function LoadFileSelection($tab) {
     const $viewer = document.querySelector("#file-viewer"),
-          $content = $viewer.querySelector(".content");
+          $content = $viewer.querySelector(":scope > .content");
 
     $content.innerHTML = "";
 
@@ -81,7 +81,7 @@ async function LoadFileSelection($tab) {
         ]
     });
 
-    const $data = $viewer.querySelector(".data");
+    const $data = $viewer.querySelector(":scope > .data");
     $data.innerHTML = "";
 
     const $format = document.createElement("span");
@@ -115,7 +115,7 @@ async function LoadFileSelection($tab) {
 
 export function ViewFilesDeleteEventHandler($button) {
     const $viewer = document.querySelector("#file-viewer"),
-          $tabs = $viewer.querySelector(".tabs");
+          $tabs = $viewer.querySelector(":scope > .tabs");
 
     $button.addEventListener("click", e => {
         const unique = open.data.unique;
@@ -123,14 +123,14 @@ export function ViewFilesDeleteEventHandler($button) {
         open.data.element.remove();
 
         for (const [ key, group ] of Object.entries(global.group ?? { })) {
-            group.member = group.members.filter(member => name !== member.member[0]);
+            group.member = group.members.filter(member => unique !== member.selectors[0].value);
             if (group.member.length === 0) {
                 group.element.remove();
                 delete global.group[key];
             }
         }
 
-        const $tab = $tabs.querySelector(".tab.selected"),
+        const $tab = $tabs.querySelector(":scope > .tab.selected"),
               $new = $tab.nextElementSibling ?? $tab.previousElementSibling;
 
         if ($new) {

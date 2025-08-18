@@ -41,7 +41,7 @@ body > #groups {
         right: calc(var(--groups-width) - 3vmin);
 
         aspect-ratio: 1/1;
-        height: calc(var(--top-height) - 2vmin);
+        height: calc(var(--top-height) - 3vmin);
 
         border-radius: 50%;
 
@@ -73,5 +73,9 @@ body > #groups {
 
             transform: translateY(-50%);
         }
+    }
+
+    &.no-files > .content > .group > .buttons > .button.edit {
+        opacity: 1;
     }
 }

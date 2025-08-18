@@ -38,7 +38,7 @@ export function CreateColorSpectrum($paper) {
 }
 export function LoadEasySelect() {
     const $colorSelector = document.querySelector("#color-selector"),
-          $easySelect = $colorSelector.querySelector(".content > .easy-select");
+          $easySelect = $colorSelector.querySelector(":scope > .content > .easy-select");
 
     const rows = 15;
 
@@ -75,7 +75,7 @@ export function LoadEasySelect() {
 
 export function UpdateRecentColors() {
     const $colorSelector = document.querySelector("#color-selector"),
-          $easySelect = $colorSelector.querySelector(".content > .easy-select");
+          $easySelect = $colorSelector.querySelector(":scope > .content > .easy-select");
 
     let recentColors = localStorage.getItem("SeqR:recent-colors") || "";
 
@@ -102,7 +102,7 @@ export function UpdateRecentColors() {
         }
     }
 
-    const $recent = $easySelect.querySelector(".recent");
+    const $recent = $easySelect.querySelector(":scope > .recent");
     $recent.innerHTML = "";
 
     for (const color of recentColors) {
@@ -133,7 +133,7 @@ export function UpdateRecentColors() {
 
 export function UpdateColorSelector(r, g, b, a) {
     const $colorSelector = document.querySelector("#color-selector"),
-          $colors = $colorSelector.querySelector(".content > .colors");
+          $colors = $colorSelector.querySelector(":scope > .content > .colors");
 
     r ??= $colorSelector.dataset.red || 0;
     g ??= $colorSelector.dataset.green || 0;
@@ -144,27 +144,27 @@ export function UpdateColorSelector(r, g, b, a) {
         $colorSelector.dataset.red = r;
         $colorSelector.style.setProperty("--red", r);
 
-        const $red = $colors.querySelector(".color.red > .number-plus");
+        const $red = $colors.querySelector(":scope > .color.red > .number-plus");
         $red.dataset.value = r;
-        $red.querySelector(".input").textContent = r;
+        $red.querySelector(":scope > .input").textContent = r;
     }
 
     { /* green */
         $colorSelector.dataset.green = g;
         $colorSelector.style.setProperty("--green", g);
 
-        const $green = $colors.querySelector(".color.green > .number-plus");
+        const $green = $colors.querySelector(":scope > .color.green > .number-plus");
         $green.dataset.value = g;
-        $green.querySelector(".input").textContent = g;
+        $green.querySelector(":scope > .input").textContent = g;
     }
 
     { /* blue */
         $colorSelector.dataset.blue = b;
         $colorSelector.style.setProperty("--blue", g);
 
-        const $blue = $colors.querySelector(".color.blue > .number-plus");
+        const $blue = $colors.querySelector(":scope > .color.blue > .number-plus");
         $blue.dataset.value = b;
-        $blue.querySelector(".input").textContent = b;
+        $blue.querySelector(":scope > .input").textContent = b;
     }
 
     { /* alpha */
@@ -173,10 +173,10 @@ export function UpdateColorSelector(r, g, b, a) {
         $colorSelector.dataset.alpha = a;
         $colorSelector.style.setProperty("--alpha", a);
 
-        const $alpha = $colorSelector.querySelector(".content > .transparency");
+        const $alpha = $colorSelector.querySelector(":scope > .content > .transparency");
         $alpha.dataset.value = v;
         $alpha.style.setProperty("--value", `${v}%`);
 
-        $alpha.querySelector(".value > .input").textContent = v;
+        $alpha.querySelector(":scope > .value > .input").textContent = v;
     }
 }

@@ -12,12 +12,13 @@
 
         <link rel="stylesheet" href="../../assets/fonts/JetBrainsMono/font-face.css"/>
 
-        <link rel="stylesheet" href="../../seqr/frontend/animation.css"/>
         <link rel="stylesheet" href="../../seqr/frontend/main.css"/>
         <link rel="stylesheet" href="../../seqr/frontend/mobile_main.css"/>
+        <link rel="stylesheet" href="../../seqr/frontend/animation.css"/>
         <link rel="stylesheet" href="../../seqr/frontend/button-plus.css"/>
         <link rel="stylesheet" href="../../seqr/frontend/checkbox-plus.css"/>
         <link rel="stylesheet" href="../../seqr/frontend/number-plus.css"/>
+        <link rel="stylesheet" href="../../seqr/frontend/osx.css"/>
 
         <link rel="stylesheet" href="../../seqr/frontend/themes/light-mode.css"/>
         <link rel="stylesheet" href="../../seqr/frontend/themes/dark-mode.css"/>
@@ -30,8 +31,11 @@
         <link rel="stylesheet" href="../../seqr/frontend/groups/mobile_main.css"/>
         <link rel="stylesheet" href="../../seqr/frontend/groups/content.css"/>
         <link rel="stylesheet" href="../../seqr/frontend/groups/bottom.css"/>
+        <link rel="stylesheet" href="../../seqr/frontend/groups/group/main.css"/>
+        <link rel="stylesheet" href="../../seqr/frontend/groups/group/member.css"/>
 
         <link rel="stylesheet" href="../../seqr/frontend/content/main.css"/>
+        <link rel="stylesheet" href="../../seqr/frontend/content/tutorial.css"/>
 
         <link rel="stylesheet" href="../../seqr/frontend/float/main.css"/>
         <link rel="stylesheet" href="../../seqr/frontend/float/tabs.css"/>
@@ -58,7 +62,7 @@
 
         <script type="module" src="../../seqr/backend/update.js"></script>
     </head>
-    <body class="fullscreen">
+    <body class="fullscreen" data-event="import:drag-and-drop">
         <div id="store" class="hidden" aria-hidden="true">
             <svg id="symbols">
                 <!-- loading -->
@@ -69,7 +73,7 @@
                         stroke-width="2"
                         stroke-linecap="round"
                         stroke-linejoin="round"
-                        clip-rile="evenodd"
+                        clip-rule="evenodd"
                         fill-rule="evenodd"
                     >
                         <path d="
@@ -88,7 +92,7 @@
                         stroke-width="2"
                         stroke-linecap="round"
                         stroke-linejoin="round"
-                        clip-rile="evenodd"
+                        clip-rule="evenodd"
                         fill-rule="evenodd"
                     >
                         <path d="
@@ -114,7 +118,7 @@
                         stroke-width="2"
                         stroke-linecap="round"
                         stroke-linejoin="round"
-                        clip-rile="evenodd"
+                        clip-rule="evenodd"
                         fill-rule="evenodd"
                     >
                         <path d="
@@ -132,7 +136,7 @@
                         stroke-width="2"
                         stroke-linecap="round"
                         stroke-linejoin="round"
-                        clip-rile="evenodd"
+                        clip-rule="evenodd"
                         fill-rule="evenodd"
                     >
                         <path d="
@@ -148,7 +152,7 @@
                         stroke-width="2"
                         stroke-linecap="round"
                         stroke-linejoin="round"
-                        clip-rile="evenodd"
+                        clip-rule="evenodd"
                         fill-rule="evenodd"
                     >
                         <path d="M4,12 h16"/>
@@ -161,7 +165,7 @@
                         stroke-width="2"
                         stroke-linecap="round"
                         stroke-linejoin="round"
-                        clip-rile="evenodd"
+                        clip-rule="evenodd"
                         fill-rule="evenodd"
                     >
                         <path d="M18,6,10,18,6,12"/>
@@ -174,13 +178,26 @@
                         stroke-width="2"
                         stroke-linecap="round"
                         stroke-linejoin="round"
-                        clip-rile="evenodd"
+                        clip-rule="evenodd"
                         fill-rule="evenodd"
                     >
                         <path d="
                             M18,6,6,18
                             M6,6,18,18"
                         />
+                    </g>
+                </symbol>
+                <symbol id="symbol_question-mark" viewBox="0 0 24 24">
+                    <g
+                        fill="none"
+                        stroke="currentcolor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        clip-rule="evenodd"
+                        fill-rule="evenodd"
+                    >
+                        <path d="M9,10 a3,3 0 1,1 6,0 c0,2-3,3-3,3 v2 m0,2 a0.5,0.5 0 1,0 0,1 a0.5,0.5 0 1,0 0,-1"/>
                     </g>
                 </symbol>
 
@@ -192,7 +209,7 @@
                         stroke-width="2"
                         stroke-linecap="round"
                         stroke-linejoin="round"
-                        clip-rile="evenodd"
+                        clip-rule="evenodd"
                         fill-rule="evenodd"
                     >
                         <path d="
@@ -210,7 +227,7 @@
                         stroke-width="2"
                         stroke-linecap="round"
                         stroke-linejoin="round"
-                        clip-rile="evenodd"
+                        clip-rule="evenodd"
                         fill-rule="evenodd"
                     >
                         <path d="
@@ -229,7 +246,7 @@
                         stroke-width="2"
                         stroke-linecap="round"
                         stroke-linejoin="round"
-                        clip-rile="evenodd"
+                        clip-rule="evenodd"
                         fill-rule="evenodd"
                     >
                         <path d="
@@ -253,7 +270,7 @@
                         stroke-width="2"
                         stroke-linecap="round"
                         stroke-linejoin="round"
-                        clip-rile="evenodd"
+                        clip-rule="evenodd"
                         fill-rule="evenodd"
                     >
                         <path d="
@@ -278,7 +295,7 @@
                         stroke-width="2"
                         stroke-linecap="round"
                         stroke-linejoin="round"
-                        clip-rile="evenodd"
+                        clip-rule="evenodd"
                         fill-rule="evenodd"
                     >
                         <path d="
@@ -296,14 +313,14 @@
                         stroke-width="2"
                         stroke-linecap="round"
                         stroke-linejoin="round"
-                        clip-rile="evenodd"
+                        clip-rule="evenodd"
                         fill-rule="evenodd"
                     >
                         <path d="
                             M12,15 v-12
                             M21,15 v4 a2,2,0,0,1,-2,2
                             H5 a2,2,0,0,1,-2,-2 v-4
-                            M7,10,12,15,17,10
+                            M17,8,12,3,7,8
                         "/>
                     </g>
                 </symbol>
@@ -314,14 +331,14 @@
                         stroke-width="2"
                         stroke-linecap="round"
                         stroke-linejoin="round"
-                        clip-rile="evenodd"
+                        clip-rule="evenodd"
                         fill-rule="evenodd"
                     >
                         <path d="
                             M12,15 v-12
                             M21,15 v4 a2,2,0,0,1,-2,2
                             H5 a2,2,0,0,1,-2,-2 v-4
-                            M17,8,12,3,7,8
+                            M7,10,12,15,17,10
                         "/>
                     </g>
                 </symbol>
@@ -334,7 +351,7 @@
                         stroke-width="2"
                         stroke-linecap="round"
                         stroke-linejoin="round"
-                        clip-rile="evenodd"
+                        clip-rule="evenodd"
                         fill-rule="evenodd"
                     >
                         <path d="
@@ -352,7 +369,7 @@
                         stroke-width="2"
                         stroke-linecap="round"
                         stroke-linejoin="round"
-                        clip-rile="evenodd"
+                        clip-rule="evenodd"
                         fill-rule="evenodd"
                     >
                         <path d="
@@ -372,7 +389,7 @@
                         stroke-width="2"
                         stroke-linecap="round"
                         stroke-linejoin="round"
-                        clip-rile="evenodd"
+                        clip-rule="evenodd"
                         fill-rule="evenodd"
                     >
                         <path d="
@@ -390,7 +407,7 @@
                         stroke-width="2"
                         stroke-linecap="round"
                         stroke-linejoin="round"
-                        clip-rile="evenodd"
+                        clip-rule="evenodd"
                         fill-rule="evenodd"
                     >
                         <path d="
@@ -410,7 +427,7 @@
                         stroke-width="2"
                         stroke-linecap="round"
                         stroke-linejoin="round"
-                        clip-rile="evenodd"
+                        clip-rule="evenodd"
                         fill-rule="evenodd"
                     >
                         <path d="M15,18,9,12,15,6"/>
@@ -423,7 +440,7 @@
                         stroke-width="2"
                         stroke-linecap="round"
                         stroke-linejoin="round"
-                        clip-rile="evenodd"
+                        clip-rule="evenodd"
                         fill-rule="evenodd"
                     >
                         <path d="M9,18,15,12,9,6"/>
@@ -446,7 +463,7 @@
                         stroke-width="2"
                         stroke-linecap="round"
                         stroke-linejoin="round"
-                        clip-rile="evenodd"
+                        clip-rule="evenodd"
                         fill-rule="evenodd"
                     >
                         <path d="M7,14 l5,-5,5,5"/>
@@ -459,7 +476,7 @@
                         stroke-width="2"
                         stroke-linecap="round"
                         stroke-linejoin="round"
-                        clip-rile="evenodd"
+                        clip-rule="evenodd"
                         fill-rule="evenodd"
                     >
                         <path d="M7,10 l5,5,5,-5"/>
@@ -482,7 +499,7 @@
                         stroke-width="2"
                         stroke-linecap="round"
                         stroke-linejoin="round"
-                        clip-rile="evenodd"
+                        clip-rule="evenodd"
                         fill-rule="evenodd"
                     >
                         <path d="
@@ -507,7 +524,7 @@
                         stroke-width="2"
                         stroke-linecap="round"
                         stroke-linejoin="round"
-                        clip-rile="evenodd"
+                        clip-rule="evenodd"
                         fill-rule="evenodd"
                     >
                         <path d="
@@ -717,6 +734,9 @@
             <svg class="light-mode" data-value="light-mode"><use href="#symbol_theme_light-mode"/></svg>
             <svg class="dark-mode" data-value="dark-mode"><use href="#symbol_theme_dark-mode"/></svg>
         </div>
+        <div class="help" data-event="help" data-pseudo-multiselect="*" title="Help">
+            <svg><use href="#symbol_question-mark"/></svg>
+        </div>
 
         <div id="top">
             <div class="import button-plus" title="Import files">
@@ -814,7 +834,7 @@
                         <svg><use href="#symbol_plus"/></svg>
                     </div>
                 </div>
-                <div class="auto button-plus" title="Automatically group files">
+                <div class="auto button-plus" data-pseudo-multiselect="file" title="Automatically group files">
                     <div class="terminus" data-event="groups:auto"></div>
 
                     <div class="icon">
@@ -831,14 +851,14 @@
                         </div>
                     </div>
                 </div>
-                <div class="clean button-plus" title="Clean empty & duplicate groups">
+                <div class="clean button-plus" data-pseudo-multiselect="group" title="Clean empty & duplicate groups">
                     <div class="terminus" data-event="groups:clean"></div>
 
                     <div class="icon">
                         <svg><use href="#symbol_broom"/></svg>
                     </div>
                 </div>
-                <div class="delete button-plus" data-pseudo-multiselect="file" title="Delete groups">
+                <div class="delete button-plus" data-pseudo-multiselect="group" title="Delete groups">
                     <div class="terminus" data-event="groups:delete"></div>
 
                     <div class="icon">
@@ -858,6 +878,45 @@
 
         <div id="content">
             <svg class="scene"></svg>
+            <div id="tutorial" class="osx-window">
+                <div class="titlebar">
+                    <div class="buttons">
+                        <div class="button close" data-event="osx:close">
+                            <svg><use href="#symbol_x"/></svg>
+                        </div>
+                        <div class="button minimize" data-event="osx:minimize">
+                            <svg><use href="#symbol_minus"/></svg>
+                        </div>
+                        <div class="button zoom" data-event="osx:zoom">
+                            <svg><use href="#symbol_plus"/></svg>
+                        </div>
+                    </div>
+                    <div class="title">
+                        SeqR &mdash; How to use
+                    </div>
+                </div>
+                <div class="content">
+                    <ol>
+                        <li>
+                            <h3>Loading Your Genomic Data (4 methods)</h3>
+                            <ul>
+                                <li>
+                                    <p>Drag & drop</p>
+                                </li>
+                                <li>
+                                    <p>File upload <span class="locator" data-event="locator" data-value="file-upload">locate</span></p>
+                                </li>
+                                <li>
+                                    <p>Text input <span class="locator" data-event="locator" data-value="file-editor">locate</span></p>
+                                </li>
+                                <li>
+                                    <p>URL input <span class="locator" data-event="locator" data-value="file-fetch">locate</span></p>
+                                </li>
+                            </ul>
+                        </li>
+                    </ol>
+                </div>
+            </div>
         </div>
 
         <div id="file-editor" class="float hidden">
@@ -1002,7 +1061,7 @@
                                 stroke-width="2"
                                 stroke-linecap="round"
                                 stroke-linejoin="round"
-                                clip-rile="evenodd"
+                                clip-rule="evenodd"
                                 fill-rule="evenodd"
                             >
                                 <path d="

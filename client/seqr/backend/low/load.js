@@ -1,12 +1,12 @@
 import { LoadColorSelector } from "../function/color-selector.js";
+import { IsViewNarrow } from "../function/is-view-narrow.js";
 import { Resize } from "./resize.js";
 
 window.addEventListener("load", () => {
     window.requestAnimationFrame(() => document.documentElement.querySelector("#load").classList.add("hidden"));
 
     {
-        const narrow = window.matchMedia("(max-width: 768px), (max-aspect-ratio: 1/1)").matches;
-        if (narrow) {
+        if (IsViewNarrow()) {
             const $groups = document.body.querySelector("#groups");
 
             $groups.classList.add("collapsed");
