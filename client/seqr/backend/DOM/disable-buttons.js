@@ -5,8 +5,7 @@ import { global } from "../global.js";
 export function DisableButtons() {
     const files = global.files ?? {},
           hasFiles = Object.values(files).length > 0;
-    const groups = global.groups ?? {},
-          hasGroups = Object.values(groups).length > 0;
+    const hasGroups = !global.groups.empty;
 
     const $top = document.querySelector("#top"),
           $groups = document.querySelector("#groups"),

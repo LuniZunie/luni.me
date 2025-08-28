@@ -110,11 +110,11 @@ export class Follower {
 
     constructor(element, targetElement, anchor = { }, target = { }, offset = { }) {
         if (!(element instanceof HTMLElement)) {
-            throw new TypeError("module/this.js:Follower(): <arguments[0]> must be <instanceof HTMLElement>");
+            throw new TypeError("module/follower.js:Follower(): <arguments[0]> must be <instanceof HTMLElement>");
         }
 
         if (!(targetElement instanceof HTMLElement)) {
-            throw new TypeError("module/this.js:Follower(): <arguments[1]> must be <instanceof HTMLElement>");
+            throw new TypeError("module/follower.js:Follower(): <arguments[1]> must be <instanceof HTMLElement>");
         }
 
         anchor ??= { };
@@ -122,11 +122,11 @@ export class Follower {
         anchor.y ??= "center";
 
         if (anchor === null || typeof anchor !== "object") {
-            throw new TypeError("module/this.js:Follower(): <arguments[2]> must be <typeof \"object\"> but not <null>");
+            throw new TypeError("module/follower.js:Follower(): <arguments[2]> must be <typeof \"object\"> but not <null>");
         } else if (!(anchor.x === "left" || anchor.x === "center" || anchor.x === "right")) {
-            throw new TypeError("module/this.js:Follower(): <arguments[2].x> must be (<\"left\"> or <\"center\"> or <\"right\">)");
+            throw new TypeError("module/follower.js:Follower(): <arguments[2].x> must be (<\"left\"> or <\"center\"> or <\"right\">)");
         } else if (!(anchor.y === "top" || anchor.y === "center" || anchor.y === "bottom")) {
-            throw new TypeError("module/this.js:Follower(): <arguments[2].y> must be (<\"top\"> or <\"center\"> or <\"bottom\">)");
+            throw new TypeError("module/follower.js:Follower(): <arguments[2].y> must be (<\"top\"> or <\"center\"> or <\"bottom\">)");
         }
 
         target ??= { };
@@ -134,11 +134,11 @@ export class Follower {
         target.y ??= "center";
 
         if (target === null || typeof target !== "object") {
-            throw new TypeError("module/this.js:Follower(): <arguments[3]> must be <typeof \"object\"> but not <null>");
+            throw new TypeError("module/follower.js:Follower(): <arguments[3]> must be <typeof \"object\"> but not <null>");
         } else if (!(target.x === "left" || target.x === "center" || target.x === "right")) {
-            throw new TypeError("module/this.js:Follower(): <arguments[3].x> must be (<\"left\"> or <\"center\"> or <\"right\">)");
+            throw new TypeError("module/follower.js:Follower(): <arguments[3].x> must be (<\"left\"> or <\"center\"> or <\"right\">)");
         } else if (!(anchor.y === "top" || target.y === "center" || target.y === "bottom")) {
-            throw new TypeError("module/this.js:Follower(): <arguments[3].y> must be (<\"top\"> or <\"center\"> or <\"bottom\">)");
+            throw new TypeError("module/follower.js:Follower(): <arguments[3].y> must be (<\"top\"> or <\"center\"> or <\"bottom\">)");
         }
 
         offset ??= { };
@@ -146,7 +146,7 @@ export class Follower {
         offset.y ??= 0;
 
         if (offset === null || typeof offset !== "object") {
-            throw new TypeError("module/this.js:Follower(): <arguments[4]> must be <typeof \"object\"> but not <null>");
+            throw new TypeError("module/follower.js:Follower(): <arguments[4]> must be <typeof \"object\"> but not <null>");
         }
 
         this.#element = element;

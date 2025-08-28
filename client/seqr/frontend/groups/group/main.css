@@ -61,8 +61,6 @@
 
         width: 100%;
 
-        overflow: hidden;
-
         & > .button {
             cursor: pointer;
 
@@ -79,6 +77,25 @@
             background: var(--shade-f0);
 
             transition: all .25s;
+
+            &.edit:hover {
+                background: var(--blue-hover);
+                box-shadow: 0 0 1vmin .1vmin var(--blue-hover);
+
+                &:active {
+                    background: var(--blue-active);
+                    box-shadow: 0 0 1vmin .2vmin var(--blue-active);
+                }
+            }
+            &.delete:hover {
+                background: var(--red-hover);
+                box-shadow: 0 0 1vmin .1vmin var(--red-hover);
+
+                &:active {
+                    background: var(--red-active);
+                    box-shadow: 0 0 1vmin .2vmin var(--red-active);
+                }
+            }
 
             &.disabled {
                 pointer-events: none;

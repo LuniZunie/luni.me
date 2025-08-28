@@ -281,7 +281,7 @@
         cursor: pointer;
 
         position: absolute;
-        bottom: 0;
+        bottom: .1vmin;
 
         width: 4em; height: 4em;
 
@@ -301,10 +301,14 @@
             left: -.1vmin;
 
             &:hover {
+                border-color: var(--red-hover);
+
                 background: var(--red-hover);
                 box-shadow: 0 0 1vmin .1vmin var(--red-hover);
 
                 &:active {
+                    border-color: var(--red-hover);
+
                     background: var(--red-active);
                     box-shadow: 0 0 1vmin .2vmin var(--red-active);
                 }
@@ -314,10 +318,14 @@
             right: -.1vmin;
 
             &:hover {
+                border-color: var(--green-hover);
+
                 background: var(--green-hover);
                 box-shadow: 0 0 1vmin .1vmin var(--green-hover);
 
                 &:active {
+                    border-color: var(--green-active);
+
                     background: var(--green-active);
                     box-shadow: 0 0 1vmin .2vmin var(--green-active);
                 }

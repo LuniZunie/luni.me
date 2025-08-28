@@ -230,7 +230,17 @@ for (const page of PUBLIC.router) {
     else
         throw new Error("Invalid router page configuration");
 
-    app.get(page.route,  (req, res) => fn(res.status(page.status || 200)));
+    app.get(page.route,  (req, res) => {
+        if ("subdomains" in page) {
+            const host = req.headers.host;
+            if (!page.subdomains.some(subdomain => host.startsWith(`${subdomain}.`))) {
+                res.status(404).send("404 Not Found");
+                return;
+            }
+        }
+
+        fn(res.status(page.status || 200))
+    });
 }
 
 app.use((req, res) => {

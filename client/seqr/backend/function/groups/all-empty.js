@@ -1,14 +1,16 @@
 import { global } from "../../global.js"
 
 export function AllGroupsEmpty() {
-    if (global.groups) {
-        for (const group of Object.values(global.groups)) {
-            if (group.members.length > 0) {
-                return false;
-            }
-            return true;
-        }
-    } else {
+    if (global.groups.empty) {
         return true;
+    } else {
+        let res = true;
+        global.groups.forward(group => {
+            if (group.members.length > 0) {
+                res = false;
+            }
+        });
+
+        return res;
     }
 }

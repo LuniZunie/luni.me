@@ -61,13 +61,12 @@ async function Logic(options, files) {
                     const parent = NestedStructure(temp, path.slice(0, -1)),
                           terminus = path[path.length - 1];
 
-                    let group = parent[terminus];
-                    if (!group) {
-                        group = { name: path.join(" "), members: [ ] };
-                        groups.push(group);
+                    if (!parent[terminus]) {
+                        parent[terminus] = { name: path.join(" "), members: [ ] };
+                        groups.push(parent[terminus]);
                     }
 
-                    group.members.push({
+                    parent[terminus].members.push({
                         selectors: [ name, type, strand ],
                         color: GroupColorSystem.generateColor(typeSeed + strand),
                         settings: {
@@ -84,7 +83,7 @@ async function Logic(options, files) {
 
 export async function AutoGroup(options, files) {
     document.querySelector("#groups > .content").innerHTML = "";
-    global.groups = { };
+    global.groups.clear();
 
     const groups = await Logic(options, files);
     for (const group of groups) {

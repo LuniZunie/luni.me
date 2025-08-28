@@ -81,9 +81,11 @@
         cursor: pointer;
 
         position: absolute;
-        bottom: 0; right: -.1vmin;
+        bottom: .1vmin;
+        right: -.1vmin;
 
-        width: 4em; height: 4em;
+        width: 4em;
+        height: 4em;
 
         margin: 0;
         border: .1vmin solid var(--shade-d0);
@@ -98,10 +100,14 @@
         transition: all .25s;
 
         &:hover {
+            border-color: var(--red-hover);
+
             background: var(--red-hover);
             box-shadow: 0 0 1vmin .1vmin var(--red-hover);
 
             &:active {
+                border-color: var(--red-active);
+
                 background: var(--red-active);
                 box-shadow: 0 0 1vmin .2vmin var(--red-active);
             }

@@ -43,6 +43,12 @@
     },
     "router": [
         {
+            "subdomains": [ "seqr" ],
+            "route": [ "/" ],
+            "file": "seqr/index.ejs"
+        },
+
+        {
             "route": [ "/" ],
             "file": "home.ejs"
         },
@@ -57,10 +63,6 @@
         {
             "route": [ "/seqr" ],
             "file": "seqr/index2.ejs"
-        },
-        {
-            "route": [ "/seqr-dev" ],
-            "file": "seqr/index.ejs"
         },
         {
             "route": [ "/seqr-presentation" ],

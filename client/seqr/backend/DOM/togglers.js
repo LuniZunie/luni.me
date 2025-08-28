@@ -7,5 +7,5 @@ export function RadioEventHandler($el) {
 };
 
 export function ToggleEventHandler($el) {
-    $el.addEventListener("click", e => e.currentTarget.classList.toggle("selected"));
+    $el.addEventListener("click", e => $el.classList.toggle("selected"));
 };

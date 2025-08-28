@@ -1,9 +1,29 @@
 export default class cMath {
     static bin(n) { return 2 ** n; };
 
-    static clamp(v, mn, mx) { return Math.min(mx, Math.max(mn, v)); }
-    static uclamp(v, mx) { return Math.min(mx, v); }
-    static lclamp(v, mn) { return Math.max(mn, v); }
+    static clamp(value, min, max) {
+        if (value < min) {
+            return min;
+        } else if (value > max) {
+            return max;
+        } else {
+            return value;
+        }
+    }
+    static uclamp(value, max) {
+        if (value > max) {
+            return max;
+        } else {
+            return value;
+        }
+    }
+    static lclamp(value, min) {
+        if (value < min) {
+            return min;
+        } else {
+            return value;
+        }
+    }
 
     static murmurhash3(seed) {
         const len = seed.length;

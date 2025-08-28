@@ -15,15 +15,17 @@ import { ViewRangeEventHandler, ViewRangeInputsEventHandler } from "./event-hand
 import { UpdateColorSelector } from "./function/color-selector.js";
 import { ReadFile } from "./function/file/read.js";
 import { GroupsResizeEventHandler } from "./function/groups-resize.js";
-import { NewGroup } from "./function/groups/main.js";
+import { MoveGroup, NewGroup } from "./function/groups/main.js";
 import { SwitchTheme } from "./function/theme.js";
 import { MainUndoRedo } from "./function/undo-redo/instance.js";
 import { UniqueName } from "./function/unique-name.js";
 import { UpdateRenderSettings } from "./function/update-render-settings.js";
-import { AutoGroupEventHandler, NewGroupEventHandler } from "./event-handlers/groups.js";
+import { AutoGroupEventHandler, DeleteGroupsEventHandler, NewGroupEventHandler, CleanGroupsEventHandler } from "./event-handlers/groups.js";
 import { LocatorEventHandler } from "./event-handlers/locator.js";
 import { OsxCloseEventHandler, OsxMinimizeEventHandler, OsxZoomEventHandler } from "./event-handlers/osx.js";
 import { Follower } from "../../module/follower.js";
+import { DeleteGroupEventHandler, EditGroupEventHandler } from "./event-handlers/group.js";
+import { DataSelectorTabEventHandler, DataSelectorToggleEventHandler } from "./event-handlers/data-selector.js";
 
 const $tutorial = document.querySelector("#tutorial");
 function update() {
@@ -120,10 +122,36 @@ function update() {
                     AutoGroupEventHandler($el);
                 } break;
                 case "groups:clean": {
-
+                    CleanGroupsEventHandler($el);
                 } break;
                 case "groups:delete": {
+                    DeleteGroupsEventHandler($el);
+                } break;
 
+                case "group:edit": {
+                    EditGroupEventHandler($el);
+                } break;
+                case "data-selector:tab": {
+                    DataSelectorTabEventHandler($el);
+                } break;
+                case "data-selector:toggle": {
+                    DataSelectorToggleEventHandler($el);
+                } break;
+
+                case "group:delete": {
+                    DeleteGroupEventHandler($el);
+                } break;
+                case "group:move:top": {
+                    $el.addEventListener("click", e => MoveGroup($el.closest(".group").dataset.unique, 0n));
+                } break;
+                case "group:move:up": {
+                    $el.addEventListener("click", e => MoveGroup($el.closest(".group").dataset.unique, -1));
+                } break;
+                case "group:move:down": {
+                    $el.addEventListener("click", e => MoveGroup($el.closest(".group").dataset.unique, 1));
+                } break;
+                case "group:move:bottom": {
+                    $el.addEventListener("click", e => MoveGroup($el.closest(".group").dataset.unique, -1n));
                 } break;
 
                 case "render-settings:view-range": {
@@ -203,6 +231,34 @@ function test() { /* EXPERIMENT */
             ReadFile(file)
                 .catch(res => console.error(`Failed to load text file: ${name} - ${res.error}`));
         }
+
+        build(
+            "showcase_gff.gff3",
+`##gff-version 3
+chr1	Ensembl	gene	1000	5000	.	+	.	ID=gene1;Name=ExampleGene
+chr1	Ensembl	mRNA	1000	5000	.	+	.	ID=transcript1;Parent=gene1;Name=TranscriptA
+chr1	Ensembl	exon	1000	1200	.	+	.	ID=exon1;Parent=transcript1
+chr1	Ensembl	CDS	1050	1200	.	+	0	ID=cds1;Parent=transcript1
+chr1	Ensembl	UTR	1000	1049	.	+	.	ID=utr1;Parent=transcript1
+
+chr1	Ensembl	exon	1300	1500	.	+	.	ID=exon2;Parent=transcript1
+chr1	Ensembl	CDS	1300	1500	.	+	0	ID=cds2;Parent=transcript1
+
+chr1	Ensembl	exon	2000	2500	.	+	.	ID=exon3;Parent=transcript1
+chr1	Ensembl	CDS	2000	2400	.	+	2	ID=cds3;Parent=transcript1
+chr1	Ensembl	UTR	2401	2500	.	+	.	ID=utr2;Parent=transcript1
+
+chr1	Ensembl	mRNA	1000	2600	.	+	.	ID=transcript2;Parent=gene1;Name=TranscriptB
+chr1	Ensembl	exon	1000	1200	.	+	.	ID=exon4;Parent=transcript2
+chr1	Ensembl	CDS	1100	1200	.	+	0	ID=cds4;Parent=transcript2
+
+chr1	Ensembl	exon	1400	1600	.	+	.	ID=exon5;Parent=transcript2
+chr1	Ensembl	CDS	1400	1600	.	+	0	ID=cds5;Parent=transcript2
+
+chr1	Ensembl	exon	2600	3000	.	+	.	ID=exon6;Parent=transcript2
+chr1	Ensembl	CDS	2600	2900	.	+	0	ID=cds6;Parent=transcript2
+chr1	Ensembl	UTR	2901	3000	.	+	.	ID=utr3;Parent=transcript2`
+        );
 
         build(
             "showcase_gff.gff3",

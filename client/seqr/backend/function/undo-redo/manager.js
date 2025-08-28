@@ -42,6 +42,10 @@ export class UndoRedoManager {
 
         const action = this.#undo.pop();
         try {
+            if (typeof action.goto === "function") {
+                action.goto();
+            }
+
             action.undo();
             this.#redo.push(action);
 
@@ -70,6 +74,10 @@ export class UndoRedoManager {
 
         const action = this.#redo.pop();
         try {
+            if (typeof action.goto === "function") {
+                action.goto();
+            }
+
             action.execute();
             this.#undo.push(action);
 
@@ -101,6 +109,7 @@ export class UndoRedoManager {
                 let $target;
                 switch (type) {
                     case "auto":
+                    case "bulk-delete":
                     case "clean": {
                         $target = $groups.querySelector(":scope > .content > .group");
                     } break;

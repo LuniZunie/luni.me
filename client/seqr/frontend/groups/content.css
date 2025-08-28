@@ -13,4 +13,6 @@
 
     padding: .5vmin;
     border-left: .2vmin solid var(--shade-e4);
+
+    overflow: hidden auto;
 }

@@ -10,7 +10,7 @@ export function DeleteFilesEventHandler($button) {
             global.files = { };
             $files.innerHTML = "";
 
-            global.groups = { };
+            global.groups.clear();
             $groups.innerHTML = "";
         } else {
             const names = [ ];
@@ -22,13 +22,13 @@ export function DeleteFilesEventHandler($button) {
                 $el.remove();
             }
 
-            for (const [ key, group ] of Object.entries(global.group ?? { })) {
+            global.groups.forward((group, key) => {
                 group.member = group.members.filter(member => !names.some(name => name === member.selectors[0].value));
                 if (group.member.length === 0) {
                     group.element.remove();
-                    delete global.group[key];
+                    global.groups.delete(key);
                 }
-            }
+            });
         }
     });
 };

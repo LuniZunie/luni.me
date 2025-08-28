@@ -1,3 +1,4 @@
+import cMath from "../../../../module/cMath.js";
 import Color from "../../../../module/color.js";
 import { global } from "../../global.js";
 import { IsViewNarrow } from "../is-view-narrow.js";
@@ -6,9 +7,7 @@ import { GroupColorSystem } from "./auto-group/color.js";
 import { GenerateGroupUUID } from "./generate-uuid.js";
 
 export function NewGroup(name, members = [ ]) {
-    global.groups ??= { };
-
-    name = UniqueName(name, v => v in global.groups);
+    name = UniqueName(name, v => global.groups.has(v));
 
     const $group = document.createElement("div");
     $group.className = "group";
@@ -101,7 +100,7 @@ export function NewGroup(name, members = [ ]) {
 
         {
             const $delete = document.createElement("div");
-            $delete.className = "button edit";
+            $delete.className = "button delete";
             $delete.innerHTML = "<svg><use href='#symbol_trashcan'/></svg>";
             $delete.title = "Delete group";
 
@@ -110,8 +109,11 @@ export function NewGroup(name, members = [ ]) {
         }
     }
 
-    const len = Object.keys(global.groups).length,
-          group = global.groups[name] = { index: len, name, element: $group, members: [ ] };
+    const len = global.groups.length;
+
+    const group = { index: len, name, element: $group, members: [ ] };
+    global.groups.append(name, group);
+
     for (const member of members) {
         AddMemberToGroup(group, member.selectors, member.settings, false);
     }
@@ -246,13 +248,64 @@ export function ChangeGroupName(prev, next) {
         return;
     }
 
-    const group = { ...global.groups[prev] };
-    delete global.groups[prev];
+    const group = { ...global.groups.get(prev) };
+          after = global.groups.after(prev);
 
-    const name = UniqueName(next, v => v in global.groups);
-    global.groups[name] = { ...group, name };
+    global.groups.delete(prev);
+
+    const name = UniqueName(next, v => global.groups.has(v));
+    global.groups.insertBefore(name, { ...group, name }, after);
 
     const $el = group.element;
     $el.dataset.unique = name;
     $el.querySelector(":scope > .name").textContent = name;
+}
+
+export function DeleteGroup(name) {
+    global.groups.get(name).element.remove();
+    global.groups.delete(name);
+}
+
+export function MoveGroup(name, index) { // BigInt - absolute | Number - relative
+    if (!global.groups.has(name)) {
+        return false;
+    }
+
+    const group = global.groups.get(name),
+          currentIndex = global.groups.indexOf(name);
+
+    const len = global.groups.length;
+
+    let targetIndex;
+    if (typeof index === "bigint") {
+        if (index < 0n) {
+            index += BigInt(len);
+        }
+        targetIndex = Number(index);
+    } else if (typeof index === "number") {
+        targetIndex = currentIndex + index;
+    } else {
+        return false;
+    }
+
+    targetIndex = cMath.clamp(targetIndex, 0, len - 1);
+
+    if (targetIndex === currentIndex) {
+        return;
+    }
+
+    const $content = document.qs("#groups > .content"),
+          $groups = $content.qsa(":scope > .group");
+
+    let $ref, ref;
+    if (targetIndex > currentIndex) {
+        $ref = $groups[targetIndex]?.nextElementSibling ?? undefined;
+        ref = $ref?.dataset.unique ?? undefined;
+    } else {
+        $ref = $groups[targetIndex];
+        ref = $ref?.dataset.unique;
+    }
+
+    global.groups.moveBefore(name, ref);
+    $content.insertBefore(group.element, $ref);
 }
