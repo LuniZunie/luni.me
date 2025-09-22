@@ -1,6 +1,6 @@
 import { global } from "../global.js";
-import { DeleteGroup, NewGroup } from "../function/groups/main.js";
-import { DataSelectorUndoRedo, MainUndoRedo } from "../function/undo-redo/instance.js";
+import { DeleteGroup, MoveGroup, NewGroup } from "../function/groups/main.js";
+import { MainUndoRedo } from "../function/undo-redo/instance.js";
 import { LoadDataSelector, RememberGroupForDataSelector } from "../function/groups/data-selector/main.js";
 
 export function EditGroupEventHandler($button) {
@@ -48,24 +48,25 @@ export function EditGroupEventHandler($button) {
             LoadDataSelector(select);
         }
 
-        DataSelectorUndoRedo.activate();
         $selector.classList.remove("hidden");
     });
 }
 
 export function DeleteGroupEventHandler($button) {
     $button.addEventListener("click", e => {
-        const $group = $button.closest(".group");
+        const $group = $button.closest(".group"),
+              name = $group.dataset.unique;
 
         const old = global.groups.clone(group => ({ name: group.name, members: [ ...group.members ] }));
         MainUndoRedo.execute({
             description: "Deleted group",
 
             where: "groups",
-            type: "bulk-delete",
+            type: "delete",
+            data: { name },
 
             execute() {
-                DeleteGroup($group.dataset.unique);
+                DeleteGroup(name);
             },
             undo() {
                 document.querySelector("#groups > .content").innerHTML = "";
@@ -74,6 +75,32 @@ export function DeleteGroupEventHandler($button) {
                 old.forward(group => {
                     NewGroup(group.name, group.members);
                 });
+            }
+        });
+    });
+}
+
+export function MoveGroupEventHandler($button, move) {
+    $button.addEventListener("click", e => {
+        const $group = $button.closest(".group"),
+              name = $group.dataset.unique;
+
+        const index = global.groups.indexOf(name);
+        MainUndoRedo.execute({
+            description: "Moved group",
+
+            where: "groups",
+            type: "move",
+            data: { name },
+
+            execute() {
+                const movedTo = MoveGroup(name, move);
+                if (movedTo === false || movedTo === index) {
+                    return { cancel: true };
+                }
+            },
+            undo() {
+                MoveGroup(name, BigInt(index));
             }
         });
     });

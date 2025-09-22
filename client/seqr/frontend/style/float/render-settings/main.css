@@ -100,5 +100,16 @@
                 }
             }
         }
+
+        & > .icon {
+            cursor: pointer;
+
+            aspect-ratio: 1 / 1;
+            height: 100%;
+
+            border-radius: inherit;
+
+            transition: all .25s;
+        }
     }
 }

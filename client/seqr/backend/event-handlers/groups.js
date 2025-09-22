@@ -42,8 +42,11 @@ export function AutoGroupEventHandler($button) {
         const options = new Set();
         $options.querySelectorAll(":scope > .button.selected").forEach($el => options.add($el.dataset.value));
 
-        const files = [ ...$files.querySelectorAll(":scope > .file.selected") ].map($file => global.files?.[$file.dataset.unique]),
-              len = files.length;
+        const files = Object.fromEntries([ ...$files.querySelectorAll(":scope > .file.selected") ].map($file => {
+            const name = $file.dataset.unique;
+            return [ name, global.files?.[name] ];
+        })),
+              len = Object.values(files).length;
 
         const old = global.groups.clone(group => ({ name: group.name, members: [ ...group.members ] }));
         MainUndoRedo.execute({

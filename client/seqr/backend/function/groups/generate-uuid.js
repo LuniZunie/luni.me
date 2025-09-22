@@ -1,17 +1,8 @@
+import { cArray } from "../../../../module/cArray.js";
+
 export function GenerateGroupUUID(group) {
     const sorted = group.members
-        .slice(0)
-        .sort((a, b) => {
-            const aLen = a.length,
-                  bLen = b.length,
-                  len = Math.min(aLen, bLen);
-            for (let i = 0; i < len; i++) {
-                if (a[i] !== b[i]) {
-                    return a[i].toLocaleCompare(b[i]);
-                }
-            }
-
-            return aLen - bLen;
-        });
+        .slice()
+        .sort((a, b) => cArray.localeCompare(a.selectors, b.selectors));
     return JSON.stringify(sorted);
 };

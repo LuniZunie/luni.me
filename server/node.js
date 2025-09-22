@@ -65,8 +65,6 @@ app.use(passport.session());
 passport.serializeUser((user, done) => done(null, user));
 passport.deserializeUser((user, done) => done(null, user));
 
-app.set("views", "client/view");
-
 { // OAuth
     function handle(req, res) {
         const token = jwt.sign(req.user, $(PRIVATE.jwt, "secret"), {
@@ -217,30 +215,75 @@ app.get($(PUBLIC.auth.delete, "route"), (req, res) => {
         });
 });
 
-for (const page of PUBLIC.router) {
-    let fn;
-    if ("file" in page)
-        fn = res => res.render(page.file);
-    else if ("redirect" in page)
-        fn = res => res.redirect(page.redirect);
-    else if ("json" in page)
-        fn = res => res.json(page.json);
-    else if ("text" in page)
-        fn = res => res.send(page.text);
-    else
-        throw new Error("Invalid router page configuration");
+{
+    const callbacks = { };
+    function ReadDomain(domain, inherit = { }) {
+        const domainPath = inherit.name ?? [ ];
+        if ((domain.name ?? "") !== "") {
+            domainPath.unshift(domain.name);
+        }
 
-    app.get(page.route,  (req, res) => {
-        if ("subdomains" in page) {
-            const host = req.headers.host;
-            if (!page.subdomains.some(subdomain => host.startsWith(`${subdomain}.`))) {
-                res.status(404).send("404 Not Found");
+        const dev = domain.dev ?? inherit.dev ?? false;
+        if (Array.isArray(domain.routes)) {
+            if (dev && PRIVATE.release) {
                 return;
+            }
+
+            for (const route of domain.routes) {
+                if (!route.route) {
+                    return;
+                }
+
+                let handler;
+                switch (route.type) {
+                    case "file": {
+                        handler = (req, res) => {
+                            res.status(route.status ?? 200);
+                            res.render(route.data.path);
+                        };
+                    } break;
+                    case "redirect": {
+                        handler = (req, res) => {
+                            res.status(route.status ?? 301);
+                            res.render(route.data.path);
+                        };
+                    } break;
+                }
+
+                if (handler) {
+                    callbacks[route.route] ??= [ ];
+                    callbacks[route.route].push((req, res, next) => {
+                        let subdomains = req.subdomains;
+                        if (req.query.subdomain) {
+                            subdomains = req.query.subdomain
+                                .split(".")
+                                .reverse();
+                        }
+
+                        if (domainPath.length === subdomains.length && domainPath.every((label, i) => label === subdomains[i])) { /* correct subdomain */
+                            handler(req, res);
+                        } else {
+                            next();
+                        }
+                    });
+                }
             }
         }
 
-        fn(res.status(page.status || 200))
-    });
+        if (Array.isArray(domain.domains)) {
+            for (const sub of domain.domains) {
+                if (typeof sub === "object" && sub !== null) {
+                    ReadDomain(sub, { name: [ ...domainPath ], dev });
+                }
+            }
+        }
+    }
+
+    ReadDomain(PUBLIC.router);
+
+    for (const [ path, handlers ] of Object.entries(callbacks)) {
+        app.get(path, ...handlers);
+    }
 }
 
 app.use((req, res) => {

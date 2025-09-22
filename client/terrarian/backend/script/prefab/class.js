@@ -1,8 +1,11 @@
-import cObject from "../../../module/cObject.js";
-import { Text } from "../../../module/text.js";
-import UUID from "../../../module/uuid.js";
+import cObject from "../../../../module/cObject.js";
 
-export default class Prefab {
+import { Linker } from "../linker/class.js";
+
+import { Text } from "../../../../module/text.js";
+import { UUID } from "../../../../module/uuid.js";
+
+export class Prefab {
     static id = "prefab";
     static name = new Text("<none>").plural(false);
     static description = new Text("<none>").plural(false);
@@ -10,9 +13,12 @@ export default class Prefab {
     static sprite = "/game/assets/null.svg";
 
     id;
+    q = 1;
 
     import(BUILD, data) {
-        if (!Object.match(data, this.constructor.format)) throw new TypeError("Invalid import.");
+        if (!cObject.match(data, this.constructor.format)) {
+            throw new TypeError("Invalid import.");
+        }
         for (const [ k, v ] of Object.entries(data)) {
             if (v.prefab) {
                 const prefab = new (BUILD.get(v.id))();
@@ -39,11 +45,13 @@ export default class Prefab {
             if (!v.test(this[k])) throw new TypeError(`Invalid export: ${k}=${this[k]}`);
 
             const val = this[k];
-            if (val instanceof Prefab)
+            if (val instanceof Prefab) {
                 data[k] = { prefab: true, id: val.constructor.id, data: val.export() };
-            else if (Array.isArray(val))
+            } else if (Array.isArray(val)) {
                 data[k] = val.map(v => v instanceof Prefab ? { prefab: true, id: v.constructor.id, data: v.export() } : v);
-            else data[k] = this[k];
+            } else {
+                data[k] = this[k];
+            }
         }
         return data;
     }
@@ -59,3 +67,4 @@ export default class Prefab {
         this.id = `${this.constructor.id}@${UUID()}`;
     }
 };
+export const __prefabs__ = new Linker(Prefab);

@@ -21,8 +21,6 @@
     }
 
     & > .title {
-        pointer-events: none;
-
         position: absolute;
         left: 0; top: 0;
 
@@ -38,7 +36,7 @@
         transform: translateY(-100%);
 
         & > span {
-            pointer-events: auto;
+            pointer-events: inherit;
 
             position: absolute;
             bottom: 0;

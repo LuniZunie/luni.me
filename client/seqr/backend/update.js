@@ -22,10 +22,11 @@ import { UniqueName } from "./function/unique-name.js";
 import { UpdateRenderSettings } from "./function/update-render-settings.js";
 import { AutoGroupEventHandler, DeleteGroupsEventHandler, NewGroupEventHandler, CleanGroupsEventHandler } from "./event-handlers/groups.js";
 import { LocatorEventHandler } from "./event-handlers/locator.js";
-import { OsxCloseEventHandler, OsxMinimizeEventHandler, OsxZoomEventHandler } from "./event-handlers/osx.js";
 import { Follower } from "../../module/follower.js";
-import { DeleteGroupEventHandler, EditGroupEventHandler } from "./event-handlers/group.js";
-import { DataSelectorTabEventHandler, DataSelectorToggleEventHandler } from "./event-handlers/data-selector.js";
+import { DeleteGroupEventHandler, EditGroupEventHandler, MoveGroupEventHandler } from "./event-handlers/group.js";
+import { DataSelectorSaveEventHandler, DataSelectorTabEventHandler, DataSelectorToggleEventHandler } from "./event-handlers/data-selector.js";
+import { DeleteMemberEventHandler } from "./event-handlers/member.js";
+import { SetupOSX } from "./DOM/osx.js";
 
 const $tutorial = document.querySelector("#tutorial");
 function update() {
@@ -60,16 +61,6 @@ function update() {
 
                 case "locator": {
                     LocatorEventHandler($el);
-                } break;
-
-                case "osx:close": {
-                    OsxCloseEventHandler($el);
-                } break;
-                case "osx:minimize": {
-                    OsxMinimizeEventHandler($el);
-                } break;
-                case "osx:zoom": {
-                    OsxZoomEventHandler($el);
                 } break;
 
                 case "help": {
@@ -137,21 +128,28 @@ function update() {
                 case "data-selector:toggle": {
                     DataSelectorToggleEventHandler($el);
                 } break;
+                case "data-selector:save": {
+                    DataSelectorSaveEventHandler($el);
+                } break;
 
                 case "group:delete": {
                     DeleteGroupEventHandler($el);
                 } break;
                 case "group:move:top": {
-                    $el.addEventListener("click", e => MoveGroup($el.closest(".group").dataset.unique, 0n));
+                    MoveGroupEventHandler($el, 0n);
                 } break;
                 case "group:move:up": {
-                    $el.addEventListener("click", e => MoveGroup($el.closest(".group").dataset.unique, -1));
+                    MoveGroupEventHandler($el, -1);
                 } break;
                 case "group:move:down": {
-                    $el.addEventListener("click", e => MoveGroup($el.closest(".group").dataset.unique, 1));
+                    MoveGroupEventHandler($el, 1);
                 } break;
                 case "group:move:bottom": {
-                    $el.addEventListener("click", e => MoveGroup($el.closest(".group").dataset.unique, -1n));
+                    MoveGroupEventHandler($el, -1n);
+                } break;
+
+                case "member:delete": {
+                    DeleteMemberEventHandler($el);
                 } break;
 
                 case "render-settings:view-range": {
@@ -202,6 +200,7 @@ function update() {
         delete $el.dataset.event;
     });
 
+    SetupOSX();
     SetupButtonPlus();
     SetupNumberPlus();
 

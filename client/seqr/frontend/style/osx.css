@@ -1,6 +1,8 @@
 .osx-window {
     display: block;
 
+    position: absolute;
+
     border-radius: 1.2vmin;
     border: .1vmin solid var(--shade-d0);
 
@@ -17,7 +19,10 @@
 
     scale: 1;
 
-    transition: all .25s;
+    transition:
+        all .25s,
+        left 0s,
+        top 0s;
 
     &.minimize {
         opacity: 0;
@@ -26,6 +31,8 @@
     }
 
     & > .titlebar {
+        cursor: move;
+
         position: relative;
 
         width: 100%;

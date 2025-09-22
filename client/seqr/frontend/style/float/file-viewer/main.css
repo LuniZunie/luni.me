@@ -112,5 +112,16 @@
                 box-shadow: 0 0 1vmin .2vmin var(--red-active);
             }
         }
+
+        & > .icon {
+            cursor: pointer;
+
+            aspect-ratio: 1 / 1;
+            height: 100%;
+
+            border-radius: inherit;
+
+            transition: all .25s;
+        }
     }
 }

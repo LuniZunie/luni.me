@@ -1,5 +1,6 @@
 import { global } from "../../../global.js";
 import { ChunkedProxy } from "../../file/file-storage/proxy.js";
+import { UndoRedo } from "../../undo-redo/manager.js";
 
 let memory = { };
 export function RememberGroupForDataSelector(name) {
@@ -7,13 +8,21 @@ export function RememberGroupForDataSelector(name) {
 
     const members = global.groups.get(name).members,
           filesWithSelection = new Set();
-    for (const { selectors: [ a, b, c ] } of members) { /* TODO: make infinitely deep */
-        filesWithSelection.add(a);
+    for (const { selectors } of members) { /* TODO: make infinitely deep */
+        filesWithSelection.add(selectors[0]);
 
-        let temp = memory[a] ??= { };
-        temp = temp[b] ??= new Set();
-        temp.add(c);
+        let temp = memory,
+            len = selectors.length;
+        for (let i = 0; i < len; i++) {
+            if (i === len - 1) {
+                temp[selectors[i]] = true;
+            } else {
+                temp = temp[selectors[i]] ??= { };
+            }
+        }
     }
+
+    document.querySelector("#data-selector").dataset.group = name;
 
     return filesWithSelection;
 }
@@ -22,17 +31,34 @@ export function HasSelectionsDataSelector(name) {
     return Object.keys(memory[name] ?? { }).length > 0;
 }
 
-export function UpdateMemoryForDataSelector([ a, b, c ], state) {
-    let set = memory[a] ??= { };
-    set = set[b] ??= new Set();
-    if (state) {
-        set.add(c);
-    } else {
-        set.delete(c);
-        if (set.size === 0) {
-            delete memory[a][b];
+export function UpdateMemoryForDataSelector(selectors, state) {
+    let temp = memory;
+
+    const stack = [ ],
+          len = selectors.length;
+    for (let i = 0; i < len; i++) {
+        if (i === len - 1) {
+            if (state === false) {
+                delete temp[selectors[i]];
+                for (const [ s, key ] of stack) {
+                    if (Object.keys(s[key]).length === 0) {
+                        delete s[key];
+                    } else {
+                        break;
+                    }
+                }
+            } else {
+                temp[selectors[i]] = true;
+            }
+        } else {
+            stack.unshift([ temp, selectors[i] ]);
+            temp = temp[selectors[i]] ??= { };
         }
     }
+}
+
+export function GetMemoryForDataSelector() {
+    return memory;
 }
 
 export async function LoadDataSelector(fileName) {
@@ -41,7 +67,13 @@ export async function LoadDataSelector(fileName) {
           $content = $selector.querySelector(":scope > .content");
 
     $tabs.querySelectorAll(":scope > .tab.selected").forEach($el => $el.classList.remove("selected"));
-    $tabs.querySelector(`:scope > .tab[data-value="${fileName}"]`)?.classList.add("selected");
+
+    const $tab = $tabs.querySelector(`:scope > .tab[data-value="${fileName}"]`);
+    if (!$tab) {
+        return;
+    }
+
+    $tab.classList.add("selected");
 
     $content.innerHTML = "";
 
@@ -70,7 +102,7 @@ export async function LoadDataSelector(fileName) {
             $section.appendChild($title);
         }
 
-        const selectorCache = typeCache[type] || new Set(),
+        const selectorCache = typeCache[type] || { },
               $selectors = document.createElement("div");
         {
             $selectors.className = "selectors";
@@ -91,10 +123,27 @@ export async function LoadDataSelector(fileName) {
                 $selectors.appendChild($selector);
             }
 
-            if (selectorCache.has(selector)) {
+            if (selectorCache[selector]) {
                 $selector.classList.add("selected");
             }
         }
+    }
+
+    let cache;
+    global.undoRedoCache ??= new Map();
+    if (global.undoRedoCache.has($selector)) {
+        cache = global.undoRedoCache.get($selector);
+    } else {
+        cache = new Map();
+        global.undoRedoCache.set($selector, cache);
+    }
+
+    if (cache.has($tab)) {
+        cache.get($tab).focus();
+    } else {
+        const manager = new UndoRedo();
+        manager.focus();
+        cache.set($tab, manager);
     }
 }
 
@@ -105,9 +154,9 @@ export async function SaveDataSelector(fileName) {
     for (const $section of $sections) {
         const $selectors = $section.querySelectorAll(":scope > .selectors > .selector.selected");
 
-        const set = save[$section.dataset.value] = new Set();
+        const temp = save[$section.dataset.value] = { };
         for (const $selector of $selectors) {
-            set.add($selector.dataset.value);
+            temp[$selector.dataset.value] = true;
         }
     }
 

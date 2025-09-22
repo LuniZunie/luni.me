@@ -1,3 +1,4 @@
+import { cArray } from "../../../../module/cArray.js";
 import cMath from "../../../../module/cMath.js";
 import Color from "../../../../module/color.js";
 import { global } from "../../global.js";
@@ -5,6 +6,7 @@ import { IsViewNarrow } from "../is-view-narrow.js";
 import { UniqueName } from "../unique-name.js";
 import { GroupColorSystem } from "./auto-group/color.js";
 import { GenerateGroupUUID } from "./generate-uuid.js";
+import { EncodeMemberSelectors } from "./member-encoding.js";
 
 export function NewGroup(name, members = [ ]) {
     name = UniqueName(name, v => global.groups.has(v));
@@ -122,7 +124,7 @@ export function NewGroup(name, members = [ ]) {
     $group.scrollIntoView({ block: "start", inline: "nearest", behavior: "smooth" });
 };
 
-export function AddMemberToGroup(group, selectors, settings, doGenUUID) {
+export function AddMemberToGroup(group, selectors, settings = { }, doGenUUID = false) {
     if (!settings.color) { /* TODO: generate color */
         settings.color = GroupColorSystem.generateColor(selectors.join(" "));
     }
@@ -131,6 +133,8 @@ export function AddMemberToGroup(group, selectors, settings, doGenUUID) {
 
     const $member = document.createElement("div");
     $member.className = "member";
+    $member.dataset.selectors = EncodeMemberSelectors(selectors);
+
     $members.appendChild($member);
 
     {
@@ -232,7 +236,7 @@ export function AddMemberToGroup(group, selectors, settings, doGenUUID) {
             $delete.innerHTML = "<svg><use href='#symbol_trashcan'/></svg>";
             $delete.title = "Remove member from group";
 
-            $delete.dataset.event = "group:member:delete";
+            $delete.dataset.event = "member:delete,data-selector:save";
             $buttons.appendChild($delete);
         }
     }
@@ -241,6 +245,10 @@ export function AddMemberToGroup(group, selectors, settings, doGenUUID) {
     if (doGenUUID) {
         group.UUID = GenerateGroupUUID(group);
     }
+}
+
+export function UpdateGroupUUID(group) {
+    group.UUID = GenerateGroupUUID(group);
 }
 
 export function ChangeGroupName(prev, next) {
@@ -274,7 +282,7 @@ export function MoveGroup(name, index) { // BigInt - absolute | Number - relativ
     const group = global.groups.get(name),
           currentIndex = global.groups.indexOf(name);
 
-    const len = global.groups.length;
+    const len = global.groups.size;
 
     let targetIndex;
     if (typeof index === "bigint") {
@@ -291,7 +299,7 @@ export function MoveGroup(name, index) { // BigInt - absolute | Number - relativ
     targetIndex = cMath.clamp(targetIndex, 0, len - 1);
 
     if (targetIndex === currentIndex) {
-        return;
+        return targetIndex;
     }
 
     const $content = document.qs("#groups > .content"),
@@ -308,4 +316,6 @@ export function MoveGroup(name, index) { // BigInt - absolute | Number - relativ
 
     global.groups.moveBefore(name, ref);
     $content.insertBefore(group.element, $ref);
+
+    return targetIndex;
 }

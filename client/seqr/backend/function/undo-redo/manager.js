@@ -2,34 +2,67 @@ import { global } from "../../global.js";
 import { CreateNotification } from "../../../../module/notification.js";
 
 const $groups = document.querySelector("#groups");
-export class UndoRedoManager {
+export class UndoRedo {
+    static #size = 100n;
+    static get size() {
+        return UndoRedo.#size;
+    }
+    static set size(n) {
+        if (typeof n !== "bigint" || n <= 0n) {
+            throw new TypeError("client/SeqR/backend/function/undo-redo/manager.js:UndoRedo.size<set>(): <arguments[0]> must be <typeof \"bigint\"> and must be positive");
+        }
+
+        UndoRedo.#size = n;
+    }
+
+    static #default;
+    static #active;
+    static get active() {
+        return UndoRedo.#active ?? UndoRedo.#default;
+    }
+
     #undo = [];
     #redo = [];
-    #size = 100;
 
-    constructor(size = this.#size) {
-        this.#size = size;
+    constructor(isDefault) {
+        if (isDefault) {
+            UndoRedo.#default = this;
+        }
+    }
+
+    focus() {
+        UndoRedo.#active = this;
+    }
+    unfocus() {
+        if (Object.is(UndoRedo.#active, this)) {
+            UndoRedo.#active = undefined;
+        }
     }
 
     execute(action) {
         if (!action || typeof action.execute !== "function" || typeof action.undo !== "function") {
-            console.error("UndoRedoManager:execute(): Invalid action, must have execute and undo functions");
+            console.error("UndoRedo:execute(): Invalid action, must have execute and undo functions");
             return false;
         }
 
         try {
-            action.execute();
+            const opts = action.execute();
+            if (opts?.cancel) {
+                return true;
+            }
 
             this.#undo.push(action);
             this.#redo = [];
 
-            while (this.#undo.length > this.#size) {
+            let len = BigInt(this.#undo.length);
+            while (len > UndoRedo.#size) {
                 this.#undo.shift();
+                len--;
             }
 
             return true;
         } catch (error) {
-            console.error("UndoRedoManager:execute(): Failed to execute action:", error);
+            console.error("UndoRedo:execute(): Failed to execute action:", error);
             return false;
         }
     }
@@ -61,7 +94,7 @@ export class UndoRedoManager {
         } catch (error) {
             this.#undo.push(action);
 
-            console.error("UndoRedoManager:undo(): Failed to undo action:", error);
+            console.error("UndoRedo:undo(): Failed to undo action:", error);
             return false;
         }
     }
@@ -93,7 +126,7 @@ export class UndoRedoManager {
         } catch (error) {
             this.#redo.push(action);
 
-            console.error("UndoRedoManager:redo(): Failed to undo action:", error);
+            console.error("UndoRedo:redo(): Failed to undo action:", error);
             return false;
         }
     }
@@ -114,7 +147,9 @@ export class UndoRedoManager {
                         $target = $groups.querySelector(":scope > .content > .group");
                     } break;
                     default: {
-                        $target = global.groups[data.name]?.element;
+                        if (global.groups.has(data.name)) {
+                            $target = global.groups.get(data.name).element;
+                        }
                     } break;
                 }
 
@@ -125,22 +160,5 @@ export class UndoRedoManager {
                 }
             } break;
         }
-    }
-}
-
-export class FloatUndoRedoManager extends UndoRedoManager {
-    #active = false;
-
-    activate() {
-        this.#active = true;
-        this.clear();
-    }
-    deactivate() {
-        this.#active = false;
-        this.clear();
-    }
-
-    get active() {
-        return this.#active;
     }
 }
