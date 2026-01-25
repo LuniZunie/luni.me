@@ -1,0 +1,354 @@
+body > #color-selector {
+    --red: 0; --green: 0; --blue: 0;
+    --alpha: 1;
+
+    height: 75vmin;
+    width: 95vmin;
+
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+
+    & > .content {
+        & > .colors {
+            display: flex;
+            justify-content: space-evenly;
+
+            position: absolute;
+            top: .4vmin; left: 2vmin;
+            width: calc(75vmin - 6vmin);
+
+            & > .color {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+
+                font-size: 1.5em;
+
+                & > .input {
+                    width: 3em;
+                    text-align: center;
+                    outline: none;
+                }
+            }
+        }
+
+        & > .easel {
+            aspect-ratio: 1/1;
+
+            position: absolute;
+            left: 2vmin; top: calc(3vmin + 3em);
+            height: calc(100% - 5vmin - 3em);
+
+            outline: .2vmin solid var(--shade-f-0);
+
+            & > .paper {
+                position: absolute;
+                left: 0; top: 0;
+                width: 100%; height: 100%;
+
+                opacity: var(--alpha);
+            }
+        }
+
+        & > .easy-select {
+            position: absolute;
+            left: calc(75vmin - 6vmin + 2vmin);
+            bottom: calc(2vmin + calc(90vmin - 6vmin - 75vmin) + .3vmin);
+            height: fit-content;
+            width: calc(95vmin - 4vmin - 75vmin);
+
+            outline: .2vmin solid var(--shade-f-0);
+            border-top-right-radius: 2vmin;
+            border-bottom-right-radius: 2vmin;
+
+            background: linear-gradient(160deg, var(--shade-3-0), var(--shade-0-0));
+
+            & > div {
+                display: grid;
+                grid-template-columns: repeat(4, 1fr);
+                grid-auto-rows: 1fr;
+                gap: 1vmin;
+
+                margin: 0 1vmin;
+                padding: 1vmin 0;
+
+                &:not(:last-child) { border-bottom: .2vmin solid var(--shade-f-0); }
+
+                & > .color {
+                    aspect-ratio: 1/1;
+                    cursor: pointer;
+
+                    position: relative;
+                    width: 100%;
+
+                    outline: .3vmin solid var(--outline);
+                    border-radius: 50%;
+
+                    /* Remove background here so alpha background shows through */
+                    background: transparent;
+
+                    /* Create a pseudo-element for the color overlay */
+                    &::before {
+                        content: '';
+                        position: absolute;
+                        left: 0; top: 0;
+                        width: 100%; height: 100%;
+                        border-radius: inherit;
+                        background: var(--color);
+                        z-index: 1;
+                    }
+
+                    &.empty {
+                        pointer-events: none;
+                        opacity: 0;
+                    }
+
+                    & > .alpha-background {
+                        position: absolute;
+                        left: 0; top: 0;
+                        width: 100%; height: 100%;
+                        border-radius: inherit;
+                        background: url("../asset/svg/checkerboard.svg") repeat;
+                        filter: brightness(.5);
+                        z-index: 0;
+                    }
+                }
+            }
+        }
+
+        & > .color-preview {
+            aspect-ratio: 1/1;
+
+            position: absolute;
+            left: calc(75vmin - 6vmin + 2vmin);
+            bottom: 2vmin;
+            width: calc(90vmin - 6vmin - 75vmin + .2vmin);
+
+            outline: .2vmin solid var(--shade-f-0);
+            border-bottom-right-radius: 2vmin;
+
+            background: rgba(var(--red), var(--green), var(--blue), var(--alpha));
+        }
+
+        & > .slider-container {
+            position: absolute;
+            top: 2vmin;
+            height: calc(100% - 4vmin);
+            width: calc(90vmin - 6vmin - 75vmin);
+
+            &.alpha {
+                right: 2vmin;
+
+                & > .slider {
+                    background: linear-gradient(to bottom,
+                        rgba(var(--red), var(--green), var(--blue), 1),
+                        rgba(var(--red), var(--green), var(--blue), 0)
+                    );
+                }
+            }
+
+            & > .value {
+                text-align: center;
+                font-size: 1.5em;
+                color: var(--text-1);
+
+                & > .input {
+                    width: 4em;
+                    text-align: center;
+                    outline: none;
+                }
+            }
+
+            & > .slider {
+                cursor: pointer;
+
+                position: absolute;
+                left: 1vmin; top: calc(1vmin + 3em - .2vmin);
+                width: calc(100% - 2vmin);
+                height: calc(100% - 1vmin - 3em + .4vmin);
+
+                padding: 0; margin: 0;
+                border-radius: 1vmin;
+
+                outline: .2vmin solid var(--shade-f-0);
+
+                & > .handle {
+                    cursor: pointer;
+
+                    position: absolute;
+                    left: calc(50%); bottom: var(--value, 100%);
+                    width: calc(100% + 2vmin); height: 1.5vmin;
+                    transform: translate(-50%, 50%);
+
+                    border-radius: .5vmin;
+                    outline: .2vmin solid var(--shade-f-0);
+
+                    background: rgba(var(--red), var(--green), var(--blue), var(--alpha));
+
+                    &:hover {
+                        filter: brightness(.8);
+                        &:active { filter: brightness(.6); }
+                    }
+                }
+            }
+        }
+
+        .alpha-background {
+            z-index: -1;
+
+            position: absolute;
+            left: .1vmin; top: .1vmin;
+            width: calc(100% - .2vmin); height: calc(100% - .2vmin);
+
+            border-radius: inherit;
+
+            background: url("../asset/svg/checkerboard.svg") repeat;
+            filter: brightness(.5);
+        }
+    }
+
+    & > .file-defined-section {
+        position: absolute;
+        bottom: calc(-3em - .2vmin);
+        left: 50%;
+        transform: translateX(-50%);
+        height: 3em;
+        width: 65%;
+
+        padding: 0;
+        margin: 0;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        background: var(--shade-0-2);
+        border: .1vmin solid var(--shade-3-0);
+        border-top: none;
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+        border-bottom-left-radius: 1vmin;
+        border-bottom-right-radius: 1vmin;
+
+        & > .container {
+            display: flex;
+            align-items: center;
+            gap: 1vmin;
+            padding: 0 1.5vmin;
+            height: 100%;
+            width: 100%;
+
+            & > .label {
+                width: 100%;
+                font-size: .8em;
+                line-height: 1.6em;
+                color: var(--text-1);
+                white-space: nowrap;
+
+                /* Constrain any SVG content */
+                & > svg {
+                    aspect-ratio: 1 / 1;
+                    width: 3em;
+                    display: inline-block;
+                    vertical-align: middle;
+
+                    scale: .8;
+                }
+
+                & > .label-text {
+                    vertical-align: middle;
+
+                    font-size: 1.5em;
+                }
+
+                & > .description {
+                    float: right;
+                    width: 50%;
+
+                    font-size: 1em;
+                    text-align: right;
+                }
+            }
+
+            & > .switch {
+                cursor: pointer;
+
+                & > input[type="checkbox"] {
+                    position: absolute;
+                    opacity: 0;
+                    cursor: pointer;
+                    height: 0;
+                    width: 0;
+                }
+
+                & > .checkmark {
+                    display: block;
+                    height: 1.5em;
+                    width: 1.5em;
+                    background: var(--shade-3-0);
+                    border: .15vmin solid var(--shade-1-0);
+                    border-radius: .2em;
+                    transition: all .2s ease;
+                    flex-shrink: 0;
+
+                    &::after {
+                        content: "";
+                        position: relative;
+                        display: none;
+                        left: 50%;
+                        top: 50%;
+                        width: .3em;
+                        height: .75em;
+                        border: solid var(--text-1);
+                        border-width: 0 .12em .12em 0;
+                        transform: translate(-50%, -60%) rotate(45deg);
+                    }
+                }
+
+                &:hover > .checkmark {
+                    background: var(--shade-1-3);
+                }
+
+                & > input:checked ~ .checkmark {
+                    &::after {
+                        display: block;
+                    }
+                }
+            }
+        }
+    }
+
+    & > .button-plus {
+        position: absolute;
+        bottom: -3em;
+        height: 3em;
+
+        padding: 0; margin: 0;
+
+        &.save {
+            right: -.1vmin;
+            & > .icon {
+                --hover-color: var(--green-hover);
+                --active-color: var(--green-active);
+            }
+        }
+        &.discard {
+            left: -.1vmin;
+            & > .icon {
+                --hover-color: var(--red-hover);
+                --active-color: var(--red-active);
+            }
+        }
+
+        & > .icon {
+            --background: var(--shade-0-2);
+            --hover-color: var(--red-hover);
+            --active-color: var(--red-active);
+
+            border: .1vmin solid var(--shade-3-0);
+            border-top: none;
+            border-top-left-radius: 0;
+            border-top-right-radius: 0;
+        }
+    }
+}

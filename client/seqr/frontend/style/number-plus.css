@@ -1,0 +1,19 @@
+.number-plus {
+    text-align: center;
+
+    & > .input {
+        display: block;
+
+        width: 3em;
+
+        outline: none;
+
+        background: var(--shade-e0);
+
+        overflow: auto hidden;
+
+        &::-webkit-scrollbar {
+            display: none;
+        }
+    }
+}

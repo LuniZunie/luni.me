@@ -1,0 +1,253 @@
+body > #groups > .bottom {
+    --button-plus-radius: 20%;
+    --button-plus-offset: calc(var(--bottom-height) * .1);
+    --button-plus-width: calc(var(--bottom-height) - var(--button-plus-offset) * 2);
+    --button-plus-gap: .2vmin;
+
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+
+    height: calc(var(--bottom-height) - .2vmin - 1vmin);
+
+    padding: .5vmin;
+    border-top: .2vmin solid var(--shade-e4);
+    border-left: .2vmin solid var(--shade-e4);
+
+    overflow-x: hidden; overflow-y: visible;
+
+    background: var(--shade-ff);
+
+    &:has(.button-plus.new.disabled) {
+        & > .button-plus.auto {
+            border-top-left-radius: var(--button-plus-radius);
+            border-bottom-left-radius: var(--button-plus-radius);
+        }
+    }
+    &:has(.button-plus.auto.disabled) {
+        & > .button-plus.new {
+            border-top-right-radius: var(--button-plus-radius);
+            border-bottom-right-radius: var(--button-plus-radius);
+        }
+    }
+
+    &:has(.button-plus.clean.disabled) {
+        & > .button-plus.delete {
+            border-top-left-radius: var(--button-plus-radius);
+            border-bottom-left-radius: var(--button-plus-radius);
+        }
+    }
+    &:has(.button-plus.delete.disabled) {
+        & > .button-plus.clean {
+            border-top-right-radius: var(--button-plus-radius);
+            border-bottom-right-radius: var(--button-plus-radius);
+        }
+    }
+
+    & > .button-plus {
+        aspect-ratio: 1/1;
+        position: absolute;
+        top: var(--button-plus-offset);
+
+        width: var(--button-plus-width);
+
+        background: var(--shade-f4);
+        border-radius: 0;
+
+        transition: all .25s;
+
+        &.disabled {
+            pointer-events: none;
+
+            opacity: 0;
+        }
+
+        &.new {
+            left: var(--button-plus-offset);
+
+            border-top-left-radius: var(--button-plus-radius);
+            border-bottom-left-radius: var(--button-plus-radius);
+
+            & > .icon:hover {
+                background: var(--green-hover);
+                box-shadow: 0 0 1vmin .1vmin var(--green-hover);
+
+                &:active {
+                    background: var(--green-active);
+                    box-shadow: 0 0 1vmin .2vmin var(--green-active);
+                }
+            }
+        }
+        &.auto {
+            left: calc(var(--button-plus-offset) + calc(var(--button-plus-width) + var(--button-plus-gap)));
+
+            border-top-right-radius: var(--button-plus-radius);
+            border-bottom-right-radius: var(--button-plus-radius);
+
+            & > .icon:hover {
+                background: var(--blue-hover);
+                box-shadow: 0 0 1vmin .1vmin var(--blue-hover);
+
+                &:active {
+                    background: var(--blue-active);
+                    box-shadow: 0 0 1vmin .2vmin var(--blue-active);
+                }
+            }
+
+            & > .cycles > .cycle {
+                z-index: 4;
+
+                gap: 1vmin;
+
+                padding: 1vmin;
+
+                & > .button {
+                    cursor: pointer;
+
+                    aspect-ratio: 1/1;
+                    height: 3vmin;
+
+                    outline: .2vmin solid transparent;
+                    border-radius: .5vmin;
+                    padding: .3vmin 1vmin;
+
+                    line-height: 3vmin;
+
+                    background: var(--shade-e0);
+
+                    transition: all .25s;
+
+                    &.selected {
+                        outline: .2vmin solid var(--blue-border);
+
+                        background: var(--blue-background);
+                    }
+                    &:hover {
+                        background: var(--blue-hover);
+                        box-shadow: 0 0 1vmin .1vmin var(--blue-hover);
+
+                        &:active {
+                            background: var(--blue-active);
+                            box-shadow: 0 0 1vmin .2vmin var(--blue-active);
+                        }
+                    }
+
+                    &.auto-group {
+                        background: var(--green-background);
+
+                        &:hover {
+                            background: var(--green-hover);
+                            box-shadow: 0 0 1vmin .1vmin var(--green-hover);
+
+                            &:active {
+                                background: var(--green-active);
+                                box-shadow: 0 0 1vmin .2vmin var(--green-active);
+                            }
+                        }
+                    }
+                }
+
+                & > .divider {
+                    top: 0;
+
+                    width: .2vmin; height: 3vmin;
+
+                    padding: 0;
+
+                    background: var(--shade-b8);
+                }
+            }
+        }
+
+        &.clean {
+            right: calc(var(--button-plus-offset) + calc(var(--button-plus-width) + var(--button-plus-gap)));
+
+            border-top-left-radius: var(--button-plus-radius);
+            border-bottom-left-radius: var(--button-plus-radius);
+
+            & > .icon:hover {
+                background: var(--yellow-hover);
+                box-shadow: 0 0 1vmin .1vmin var(--yellow-hover);
+
+                &:active {
+                    background: var(--yellow-active);
+                    box-shadow: 0 0 1vmin .2vmin var(--yellow-active);
+                }
+            }
+        }
+        &.delete {
+            right: var(--button-plus-offset);
+
+            border-top-right-radius: var(--button-plus-radius);
+            border-bottom-right-radius: var(--button-plus-radius);
+
+            & > .icon:hover {
+                background: var(--red-hover);
+                box-shadow: 0 0 1vmin .1vmin var(--red-hover);
+
+                &:active {
+                    background: var(--red-active);
+                    box-shadow: 0 0 1vmin .2vmin var(--red-active);
+                }
+            }
+        }
+
+        & > .icon {
+            cursor: pointer;
+
+            aspect-ratio: 1/1;
+            height: 100%;
+
+            border-radius: inherit;
+
+            transition: all .25s;
+
+            & > svg {
+                height: 75%;
+            }
+        }
+
+        &:not(.auto) > .cycles > .cycle {
+            border-bottom: none;
+            border-bottom-left-radius: 0px;
+            border-bottom-right-radius: 0px;
+        }
+        & > .cycles {
+            position: absolute;
+
+            & > .cycle {
+                gap: 0vmin;
+
+                background: var(--shade-e8);
+
+                transform-origin: bottom center;
+                transform: scale(1, 1);
+
+                will-change: transform;
+                transition: transform .25s;
+
+                &.hidden {
+                    display: flex;
+
+                    transform: scale(1, 0);
+                }
+
+                & > div {
+                    cursor: pointer;
+
+                    position: relative;
+
+                    aspect-ratio: 1/1;
+                    height: 4vmin;
+
+                    padding: 1vmin;
+
+                    line-height: 4vmin;
+
+                    & > svg {
+                        height: 4vmin;
+                    }
+                }
+            }
+        }
+    }
+}

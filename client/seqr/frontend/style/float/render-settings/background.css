@@ -1,0 +1,37 @@
+#render-settings > .content > .section.background {
+    position: relative;
+
+    & > .content {
+        padding: 1vmin;
+
+        line-height: 2.5em;
+
+        & > input {
+            width: calc(100% - 2vmin - 2.5em - 1vmin);
+            height: 2.5em;
+
+            outline: none;
+            border: none;
+            border-radius: 1vmin;
+            padding: 0 1vmin;
+
+            font-size: 1.2em;
+            text-align: left;
+            color: var(--shade-20);
+
+            background: var(--shade-fd);
+        }
+
+        & > .preview {
+            float: right;
+
+            aspect-ratio: 1 / 1;
+            height: calc(2.5em - .6vmin);
+
+            border: .3vmin solid var(--shade-10);
+            border-radius: 1vmin;
+
+            font-size: 1.2em;
+        }
+    }
+}

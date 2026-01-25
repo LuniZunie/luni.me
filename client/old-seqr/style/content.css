@@ -1,0 +1,20 @@
+body > #content {
+    position: fixed;
+    left: 0; bottom: 0;
+    width: calc(100vw - var(--side-bar-size));
+    height: calc(100vh - var(--top-bar-size) - 1vmin);
+
+    padding: 0; margin: 0;
+
+    background: var(--logo-background);
+
+    transition: all .25s;
+
+    & > svg {
+        position: absolute;
+        left: 50%; top: 50%;
+        max-width: 100%; max-height: 100%;
+
+        transform: translate(-50%, -50%);
+    }
+}

@@ -1,0 +1,185 @@
+.theme_dark-mode:root {
+    --logo: url("../../asset/logo/dark-mode.png") no-repeat center center / contain;
+    --background: linear-gradient(#00000080, #00000080),
+                  linear-gradient(60deg, #0a0a0a 5%, #050505 50%) fixed 0 0 / cover;
+
+    --highlighted: #ffff00;
+
+    /* White */
+    --white-border: #e0e0e0;
+    --white-background: #f8f8f8;
+    --white-hover: #eeeeee;
+    --white-active: #e5e5e5;
+
+    /* Red */
+    --red-border: #ff6b6b;
+    --red-background: #4a1c1c;
+    --red-hover: #5c2626;
+    --red-active: #6e3030;
+
+    /* Orange */
+    --orange-border: #ff9f43;
+    --orange-background: #4a2c1a;
+    --orange-hover: #5c3424;
+    --orange-active: #6e3d2e;
+
+    /* Yellow */
+    --yellow-border: #feca57;
+    --yellow-background: #4a3f1a;
+    --yellow-hover: #5c4924;
+    --yellow-active: #6e532e;
+
+    /* Light Green */
+    --light-green-border: #7bed9f;
+    --light-green-background: #1e4a2e;
+    --light-green-hover: #285c38;
+    --light-green-active: #326e42;
+
+    /* Green */
+    --green-border: #2ed573;
+    --green-background: #1a4a2a;
+    --green-hover: #245c34;
+    --green-active: #2e6e3e;
+
+    /* Light Blue */
+    --light-blue-border: #70a1ff;
+    --light-blue-background: #1a2f4a;
+    --light-blue-hover: #24395c;
+    --light-blue-active: #2e436e;
+
+    /* Blue */
+    --blue-border: #5352ed;
+    --blue-background: #1a1a4a;
+    --blue-hover: #24245c;
+    --blue-active: #2e2e6e;
+
+    /* Purple */
+    --purple-border: #a55eea;
+    --purple-background: #3a1e4a;
+    --purple-hover: #44285c;
+    --purple-active: #4e326e;
+
+    /* Semantic */
+    --info-1: #0000cc; --info-2: #0000dd; --info-3: #0000ee; --info-4: #0000ff;
+    --warning-1: #cc8800; --warning-2: #dd9900; --warning-3: #eeaa00; --warning-4: #ffbb00;
+    --error-1: #cc0000; --error-2: #dd0000; --error-3: #ee0000; --error-4: #ff0000;
+
+    /* Links */ /* TODO add link colors */
+
+    /* Notification */
+    --notification-text: #ffffff;
+    --notification-gray: #888888;
+    --notification-red: #aa4444; --notification-green: #44aa44; --notification-blue: #4488ff;
+
+    /* Shade 0 */
+    --shade-00: #ffffff; --shade-01: #fefefe; --shade-02: #fdfdfd; --shade-03: #fcfcfc;
+    --shade-04: #fbfbfb; --shade-05: #fafafa; --shade-06: #f9f9f9; --shade-07: #f8f8f8;
+    --shade-08: #f7f7f7; --shade-09: #f6f6f6; --shade-0a: #f5f5f5; --shade-0b: #f4f4f4;
+    --shade-0c: #f3f3f3; --shade-0d: #f2f2f2; --shade-0e: #f1f1f1; --shade-0f: #f0f0f0;
+
+    /* Shade 1 */
+    --shade-10: #efefef; --shade-11: #eeeeee; --shade-12: #ededed; --shade-13: #ececec;
+    --shade-14: #ebebeb; --shade-15: #eaeaea; --shade-16: #e9e9e9; --shade-17: #e8e8e8;
+    --shade-18: #e7e7e7; --shade-19: #e6e6e6; --shade-1a: #e5e5e5; --shade-1b: #e4e4e4;
+    --shade-1c: #e3e3e3; --shade-1d: #e2e2e2; --shade-1e: #e1e1e1; --shade-1f: #e0e0e0;
+
+    /* Shade 2 */
+    --shade-20: #dfdfdf; --shade-21: #dedede; --shade-22: #dddddd; --shade-23: #dcdcdc;
+    --shade-24: #dbdbdb; --shade-25: #dadada; --shade-26: #d9d9d9; --shade-27: #d8d8d8;
+    --shade-28: #d7d7d7; --shade-29: #d6d6d6; --shade-2a: #d5d5d5; --shade-2b: #d4d4d4;
+    --shade-2c: #d3d3d3; --shade-2d: #d2d2d2; --shade-2e: #d1d1d1; --shade-2f: #d0d0d0;
+
+    /* Shade 3 */
+    --shade-30: #cfcfcf; --shade-31: #cecece; --shade-32: #cdcdcd; --shade-33: #cccccc;
+    --shade-34: #cbcbcb; --shade-35: #cacaca; --shade-36: #c9c9c9; --shade-37: #c8c8c8;
+    --shade-38: #c7c7c7; --shade-39: #c6c6c6; --shade-3a: #c5c5c5; --shade-3b: #c4c4c4;
+    --shade-3c: #c3c3c3; --shade-3d: #c2c2c2; --shade-3e: #c1c1c1; --shade-3f: #c0c0c0;
+
+    /* Shade 4 */
+    --shade-40: #bfbfbf; --shade-41: #bebebe; --shade-42: #bdbdbd; --shade-43: #bcbcbc;
+    --shade-44: #bbbbbb; --shade-45: #bababa; --shade-46: #b9b9b9; --shade-47: #b8b8b8;
+    --shade-48: #b7b7b7; --shade-49: #b6b6b6; --shade-4a: #b5b5b5; --shade-4b: #b4b4b4;
+    --shade-4c: #b3b3b3; --shade-4d: #b2b2b2; --shade-4e: #b1b1b1; --shade-4f: #b0b0b0;
+
+    /* Shade 5 */
+    --shade-50: #afafaf; --shade-51: #aeaeae; --shade-52: #adadad; --shade-53: #acacac;
+    --shade-54: #ababab; --shade-55: #aaaaaa; --shade-56: #a9a9a9; --shade-57: #a8a8a8;
+    --shade-58: #a7a7a7; --shade-59: #a6a6a6; --shade-5a: #a5a5a5; --shade-5b: #a4a4a4;
+    --shade-5c: #a3a3a3; --shade-5d: #a2a2a2; --shade-5e: #a1a1a1; --shade-5f: #a0a0a0;
+
+    /* Shade 6 */
+    --shade-60: #9f9f9f; --shade-61: #9e9e9e; --shade-62: #9d9d9d; --shade-63: #9c9c9c;
+    --shade-64: #9b9b9b; --shade-65: #9a9a9a; --shade-66: #999999; --shade-67: #989898;
+    --shade-68: #979797; --shade-69: #969696; --shade-6a: #959595; --shade-6b: #949494;
+    --shade-6c: #939393; --shade-6d: #929292; --shade-6e: #919191; --shade-6f: #909090;
+
+    /* Shade 7 */
+    --shade-70: #8f8f8f; --shade-71: #8e8e8e; --shade-72: #8d8d8d; --shade-73: #8c8c8c;
+    --shade-74: #8b8b8b; --shade-75: #8a8a8a; --shade-76: #898989; --shade-77: #888888;
+    --shade-78: #878787; --shade-79: #868686; --shade-7a: #858585; --shade-7b: #848484;
+    --shade-7c: #838383; --shade-7d: #828282; --shade-7e: #818181; --shade-7f: #808080;
+
+    /* Shade 8 */
+    --shade-80: #7f7f7f; --shade-81: #7e7e7e; --shade-82: #7d7d7d; --shade-83: #7c7c7c;
+    --shade-84: #7b7b7b; --shade-85: #7a7a7a; --shade-86: #797979; --shade-87: #787878;
+    --shade-88: #777777; --shade-89: #767676; --shade-8a: #757575; --shade-8b: #747474;
+    --shade-8c: #737373; --shade-8d: #727272; --shade-8e: #717171; --shade-8f: #707070;
+
+    /* Shade 9 */
+    --shade-90: #6f6f6f; --shade-91: #6e6e6e; --shade-92: #6d6d6d; --shade-93: #6c6c6c;
+    --shade-94: #6b6b6b; --shade-95: #6a6a6a; --shade-96: #696969; --shade-97: #686868;
+    --shade-98: #676767; --shade-99: #666666; --shade-9a: #656565; --shade-9b: #646464;
+    --shade-9c: #636363; --shade-9d: #626262; --shade-9e: #616161; --shade-9f: #606060;
+
+    /* Shade 10 */
+    --shade-a0: #5f5f5f; --shade-a1: #5e5e5e; --shade-a2: #5d5d5d; --shade-a3: #5c5c5c;
+    --shade-a4: #5b5b5b; --shade-a5: #5a5a5a; --shade-a6: #595959; --shade-a7: #585858;
+    --shade-a8: #575757; --shade-a9: #565656; --shade-aa: #555555; --shade-ab: #545454;
+    --shade-ac: #535353; --shade-ad: #525252; --shade-ae: #515151; --shade-af: #505050;
+
+    /* Shade 11 */
+    --shade-b0: #4f4f4f; --shade-b1: #4e4e4e; --shade-b2: #4d4d4d; --shade-b3: #4c4c4c;
+    --shade-b4: #4b4b4b; --shade-b5: #4a4a4a; --shade-b6: #494949; --shade-b7: #484848;
+    --shade-b8: #474747; --shade-b9: #464646; --shade-ba: #454545; --shade-bb: #444444;
+    --shade-bc: #434343; --shade-bd: #424242; --shade-be: #414141; --shade-bf: #404040;
+
+    /* Shade 12 */
+    --shade-c0: #3f3f3f; --shade-c1: #3e3e3e; --shade-c2: #3d3d3d; --shade-c3: #3c3c3c;
+    --shade-c4: #3b3b3b; --shade-c5: #3a3a3a; --shade-c6: #393939; --shade-c7: #383838;
+    --shade-c8: #373737; --shade-c9: #363636; --shade-ca: #353535; --shade-cb: #343434;
+    --shade-cc: #333333; --shade-cd: #323232; --shade-ce: #313131; --shade-cf: #303030;
+
+    /* Shade 13 */
+    --shade-d0: #2f2f2f; --shade-d1: #2e2e2e; --shade-d2: #2d2d2d; --shade-d3: #2c2c2c;
+    --shade-d4: #2b2b2b; --shade-d5: #2a2a2a; --shade-d6: #292929; --shade-d7: #282828;
+    --shade-d8: #272727; --shade-d9: #262626; --shade-da: #252525; --shade-db: #242424;
+    --shade-dc: #232323; --shade-dd: #222222; --shade-de: #212121; --shade-df: #202020;
+
+    /* Shade 14 */
+    --shade-e0: #1f1f1f; --shade-e1: #1e1e1e; --shade-e2: #1d1d1d; --shade-e3: #1c1c1c;
+    --shade-e4: #1b1b1b; --shade-e5: #1a1a1a; --shade-e6: #191919; --shade-e7: #181818;
+    --shade-e8: #171717; --shade-e9: #161616; --shade-ea: #151515; --shade-eb: #141414;
+    --shade-ec: #131313; --shade-ed: #121212; --shade-ee: #111111; --shade-ef: #101010;
+
+    /* Shade 15 */
+    --shade-f0: #0f0f0f; --shade-f1: #0e0e0e; --shade-f2: #0d0d0d; --shade-f3: #0c0c0c;
+    --shade-f4: #0b0b0b; --shade-f5: #0a0a0a; --shade-f6: #090909; --shade-f7: #080808;
+    --shade-f8: #070707; --shade-f9: #060606; --shade-fa: #050505; --shade-fb: #040404;
+    --shade-fc: #030303; --shade-fd: #020202; --shade-fe: #010101; --shade-ff: #000000;
+}
+
+.theme_dark-mode > body > .switch-theme {
+    &:hover {
+        background: var(--white-hover);
+        box-shadow: 0 0 1vmin .1vmin var(--white-hover);
+
+        &:active {
+            background: var(--white-active);
+            box-shadow: 0 0 1vmin .1vmin var(--white-active);
+        }
+    }
+
+    & > .dark-mode {
+        display: block;
+    }
+}

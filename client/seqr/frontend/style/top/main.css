@@ -1,0 +1,21 @@
+body > #top {
+    --button-plus-width: 8vmin;
+    --button-plus-gap: .2vmin;
+    --button-plus-radius: 1vmin;
+    --button-plus-offset: 1.5vmin;
+
+    z-index: 2;
+
+    position: fixed;
+    left: 0; top: 0;
+
+    width: calc(100vw - var(--groups-width) - 1vmin);
+    height: calc(var(--top-height) - .2vmin - 1vmin);
+
+    padding: .5vmin;
+    border-bottom: .2vmin solid var(--shade-e4);
+
+    background: var(--shade-ff);
+
+    transition: all .25s;
+}

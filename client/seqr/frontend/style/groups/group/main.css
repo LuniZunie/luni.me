@@ -1,0 +1,160 @@
+#groups > .content > .group {
+    padding: 2vmin;
+
+    outline: .3vmin solid transparent;
+    border-radius: .25vmin;
+
+    background: var(--shade-f8);
+
+    transition: all .25s;
+
+    &:first-child {
+        border-top-left-radius: 2vmin;
+        border-top-right-radius: 2vmin;
+    }
+    &:last-child {
+        border-bottom-left-radius: 2vmin;
+        border-bottom-right-radius: 2vmin;
+    }
+
+    &.selected {
+        outline-color: var(--blue-border);
+    }
+
+    & > .name {
+        outline: none;
+        padding: .5vmin 0vmin;
+
+        text-align: center;
+        font-size: 2em;
+        font-weight: bold;
+
+        white-space: nowrap;
+        overflow: auto;
+
+        background: var(--shade-ff);
+    }
+
+    & > .members {
+        display: flex;
+        flex-direction: column;
+        flex-wrap: nowrap;
+        justify-content: flex-start;
+        align-items: stretch;
+        gap: .5vmin;
+
+        position: relative;
+
+        width: 100%;
+        height: fit-content;
+
+        margin: 2vmin 0;
+
+        background: transparent;
+    }
+
+    & > .buttons {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+
+        width: 100%;
+
+        & > .button {
+            cursor: pointer;
+
+            display: inline-block;
+
+            position: relative;
+
+            aspect-ratio: 1/1;
+            height: 5vmin;
+
+            border-radius: 1vmin;
+
+            opacity: 1;
+            background: var(--shade-f0);
+
+            transition: all .25s;
+
+            &.edit:hover {
+                background: var(--blue-hover);
+                box-shadow: 0 0 1vmin .1vmin var(--blue-hover);
+
+                &:active {
+                    background: var(--blue-active);
+                    box-shadow: 0 0 1vmin .2vmin var(--blue-active);
+                }
+            }
+            &.delete:hover {
+                background: var(--red-hover);
+                box-shadow: 0 0 1vmin .1vmin var(--red-hover);
+
+                &:active {
+                    background: var(--red-active);
+                    box-shadow: 0 0 1vmin .2vmin var(--red-active);
+                }
+            }
+
+            &.disabled {
+                pointer-events: none;
+
+                opacity: 0;
+            }
+
+            &:hover {
+                filter: brightness(1.1);
+            }
+
+            & > svg {
+                height: 75%;
+            }
+        }
+
+        & > .movement-buttons {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 0.25vmin;
+
+            & > .button {
+                cursor: pointer;
+
+                display: inline-block;
+
+                position: relative;
+
+                aspect-ratio: 1/1;
+                height: 3.5vmin;
+
+                border-radius: 1vmin;
+
+                opacity: 0.7;
+                background: var(--shade-f0);
+
+                transition: all .25s;
+
+                &.disabled {
+                    pointer-events: none;
+
+                    opacity: 0;
+                }
+
+                &:hover {
+                    opacity: 1;
+
+                    filter: brightness(1.1);
+                }
+
+                &.top > svg, &.bottom > svg {
+                    height: 65%;
+                }
+
+                &.up > svg, &.down > svg {
+                    height: 50%;
+                }
+            }
+        }
+    }
+}

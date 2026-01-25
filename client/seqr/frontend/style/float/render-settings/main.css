@@ -1,0 +1,115 @@
+#render-settings {
+    top: 50%; bottom: auto;
+
+    max-height: 80vmin;
+    height: fit-content;
+
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+
+    transform: translateY(-50%);
+
+    & > .content {
+        max-height: 76vmin;
+        overflow: hidden auto;
+
+        &::-webkit-scrollbar {
+            width: .5vmin; height: .5vmin;
+            background: transparent;
+        }
+        &::-webkit-scrollbar-thumb {
+            background: var(--shade-eb);
+            border-radius: 1vmin;
+        }
+
+        & > .section {
+            margin-bottom: 1vmin;
+            border-radius: 1vmin;
+            padding: 2vmin;
+
+            background: var(--shade-f4);
+
+            & > .subtitle {
+                margin: 1vmin 0 2vmin;
+
+                font-size: 2em;
+                text-align: center;
+            }
+        }
+    }
+
+    & > .button-plus {
+        cursor: pointer;
+
+        position: absolute;
+        bottom: .1vmin;
+
+        width: 4em; height: 4em;
+
+        margin: 0;
+        border: .1vmin solid var(--shade-d0);
+        border-top: none;
+        border-radius: 0 0 1vmin 1vmin;
+        padding: 0;
+
+        background: var(--shade-f8);
+
+        transform: translateY(100%);
+
+        transition: all .25s;
+
+        &.restore {
+            left: -.1vmin;
+
+            height: calc(4em / 1.5);
+            width: 12em;
+
+            font-size: 1.5em;
+            font-weight: bold;
+            line-height: calc(4em / 1.5);
+            text-align: center;
+
+            &:hover {
+                border-color: var(--red-hover);
+
+                background: var(--red-hover);
+                box-shadow: 0 0 1vmin .1vmin var(--red-hover);
+
+                &:active {
+                    border-color: var(--red-active);
+
+                    background: var(--red-active);
+                    box-shadow: 0 0 1vmin .2vmin var(--red-active);
+                }
+            }
+        }
+        &.save {
+            right: -.1vmin;
+
+            &:hover {
+                border-color: var(--green-hover);
+
+                background: var(--green-hover);
+                box-shadow: 0 0 1vmin .1vmin var(--green-hover);
+
+                &:active {
+                    border-color: var(--green-active);
+
+                    background: var(--green-active);
+                    box-shadow: 0 0 1vmin .2vmin var(--green-active);
+                }
+            }
+        }
+
+        & > .icon {
+            cursor: pointer;
+
+            aspect-ratio: 1 / 1;
+            height: 100%;
+
+            border-radius: inherit;
+
+            transition: all .25s;
+        }
+    }
+}

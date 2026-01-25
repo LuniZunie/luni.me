@@ -1,0 +1,346 @@
+#color-selector {
+    --red: 0;
+    --green: 0;
+    --blue: 0;
+    --alpha: 1;
+
+    top: 50%; left: 50%;
+
+    height: 75vmin; width: 95vmin;
+
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+
+    transform: translate(-50%, -50%);
+
+    & > .content {
+        & > .colors {
+            display: flex;
+            justify-content: space-evenly;
+
+            position: absolute;
+            top: .4vmin; left: 2vmin; right: 28vmin;
+
+            & > .color {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+
+                font-size: 1.5em;
+            }
+        }
+
+        & > .palette {
+            position: absolute;
+            top: calc(3vmin + 3em); bottom: 2vmin; left: 2vmin;
+
+            aspect-ratio: 1/1;
+
+            outline: .2vmin solid var(--shade-10);
+
+            & > .paper {
+                position: absolute;
+                top: 0; left: 0;
+
+                width: 100%; height: 100%;
+
+                opacity: var(--alpha);
+            }
+        }
+
+        & > .easy-select {
+            position: absolute;
+            top: calc(3vmin + 3em);
+            bottom: 11vmin;
+            left: calc(75vmin - 6vmin + 2vmin);
+            right: 12vmin;
+
+            outline: .2vmin solid var(--shade-10);
+            border-radius: 0 2vmin 2vmin 0;
+
+            background: linear-gradient(160deg, var(--shade-c8), var(--shade-ff));
+
+            & > div {
+                display: grid;
+                grid-template-columns: repeat(4, 1fr);
+                grid-auto-rows: 1fr;
+                gap: 1vmin;
+
+                margin: 0 1vmin;
+                padding: 1vmin 0;
+
+                &:not(:last-child) {
+                    border-bottom: .2vmin solid var(--shade-10);
+                }
+
+                & > .color {
+                    cursor: pointer;
+
+                    position: relative;
+
+                    aspect-ratio: 1/1;
+                    width: 100%;
+
+                    outline: .3vmin solid var(--outline);
+                    border-radius: 50%;
+
+                    background: transparent;
+
+                    &::before {
+                        z-index: 1;
+                        content: '';
+
+                        position: absolute;
+                        left: 0; top: 0;
+
+                        width: 100%; height: 100%;
+
+                        border-radius: inherit;
+
+                        background: var(--color);
+                    }
+
+                    &.empty {
+                        pointer-events: none;
+
+                        opacity: 0;
+                    }
+                }
+            }
+        }
+
+        & > .preview {
+            position: absolute;
+            top: calc(100% - 11vmin + .1vmin); bottom: 2vmin;
+            left: calc(75vmin - 6vmin + 2vmin);
+
+            aspect-ratio: 1/1;
+
+            outline: .2vmin solid var(--shade-10);
+            border-bottom-right-radius: 2vmin;
+
+            background: rgba(var(--red), var(--green), var(--blue), var(--alpha));
+        }
+
+        & > .slider {
+            position: absolute;
+            top: 1.5em; bottom: 2vmin; left: 89vmin; right: 2vmin;
+
+            & > .track {
+                cursor: pointer;
+
+                position: absolute;
+                top: calc(1.5em + 3vmin); bottom: 0; left: 1vmin; right: 1vmin;
+
+                outline: .2vmin solid var(--shade-10);
+                border-radius: 1vmin;
+
+                background: linear-gradient(to bottom,
+                    rgba(var(--red), var(--green), var(--blue), 1),
+                    rgba(var(--red), var(--green), var(--blue), 0)
+                );
+
+                & > .handle {
+                    cursor: pointer;
+
+                    position: absolute;
+                    bottom: var(--value, 100%);
+                    left: 50%;
+
+                    width: calc(100% + 2vmin);
+                    height: 1.5vmin;
+
+                    border-radius: .5vmin;
+                    outline: .2vmin solid var(--shade-10);
+
+                    background: #fff2;
+                    -webkit-backdrop-filter: blur(.2vmin);
+                    backdrop-filter: blur(.2vmin);
+
+                    transform: translate(-50%, 50%);
+
+                    &:hover {
+                        filter: brightness(.8);
+                        &:active {
+                            filter: brightness(.6);
+                        }
+                    }
+                }
+            }
+
+            & > .value {
+                position: relative;
+                left: -.5vmin;
+
+                width: calc(4em / 1.5 + 1vmin);
+
+                padding: .5vmin;
+
+                background: var(--shade-e0);
+
+                font-size: 1.5em;
+                text-align: center;
+                white-space: nowrap;
+                overflow: hidden;
+
+                & > .input {
+                    width: 4em;
+
+                    outline: none;
+
+                    text-align: center;
+                }
+            }
+        }
+
+        .alpha {
+            z-index: -1;
+
+            position: absolute;
+            left: 0; top: 0;
+
+            width: 100%; height: 100%;
+
+            border-radius: inherit;
+
+            background: url("../../../asset/svg/checkerboard.svg") repeat;
+
+            filter: brightness(.5);
+        }
+    }
+
+    & > .file-defined {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        position: absolute;
+        bottom: 0; left: 50%;
+
+        height: 3em; width: 65%;
+
+        margin: 0;
+        border: .1vmin solid var(--shade-d0);
+        border-top: none;
+        border-radius: 0 0 1vmin 1vmin;
+        padding: 0;
+
+        background: var(--shade-f8);
+
+        transform: translate(-50%, 100%);
+
+        & > .container {
+            display: flex;
+            align-items: center;
+            gap: 1vmin;
+
+            height: 100%; width: 100%;
+
+            padding: 0 1.5vmin;
+
+            & > .label {
+                width: 100%;
+
+                white-space: nowrap;
+
+                & > svg {
+                    display: inline-block;
+                    vertical-align: middle;
+
+                    left: 1vmin;
+
+                    aspect-ratio: 1/1;
+                    height: 60%;
+
+                    transform: translate(0%, -50%);
+                }
+
+                & > span {
+                    vertical-align: middle;
+
+                    position: relative;
+                    left: 3vmin;
+
+                    font-size: 1.2em;
+                }
+            }
+
+            & > .description {
+                float: right;
+
+                width: 100%;
+
+                font-size: .8em;
+                line-height: 1.6em;
+                text-align: right;
+            }
+        }
+    }
+
+    & > .button-plus {
+        cursor: pointer;
+
+        position: absolute;
+        bottom: .1vmin;
+
+        width: 4em; height: 4em;
+
+        margin: 0;
+        border: .1vmin solid var(--shade-d0);
+        border-top: none;
+        border-radius: 0 0 1vmin 1vmin;
+        padding: 0;
+
+        background: var(--shade-f8);
+
+        transform: translateY(100%);
+
+        transition: all .25s;
+
+        &.discard {
+            left: -.1vmin;
+
+            &:hover {
+                border-color: var(--red-hover);
+
+                background: var(--red-hover);
+                box-shadow: 0 0 1vmin .1vmin var(--red-hover);
+
+                &:active {
+                    border-color: var(--red-hover);
+
+                    background: var(--red-active);
+                    box-shadow: 0 0 1vmin .2vmin var(--red-active);
+                }
+            }
+        }
+        &.save {
+            right: -.1vmin;
+
+            &:hover {
+                border-color: var(--green-hover);
+
+                background: var(--green-hover);
+                box-shadow: 0 0 1vmin .1vmin var(--green-hover);
+
+                &:active {
+                    border-color: var(--green-active);
+
+                    background: var(--green-active);
+                    box-shadow: 0 0 1vmin .2vmin var(--green-active);
+                }
+            }
+        }
+
+        & > .icon {
+            cursor: pointer;
+
+            aspect-ratio: 1 / 1;
+            height: 100%;
+
+            border-radius: inherit;
+
+            transition: all .25s;
+        }
+    }
+}

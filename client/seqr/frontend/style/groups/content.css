@@ -1,0 +1,18 @@
+#groups > .content {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    align-items: stretch;
+    gap: .5vmin;
+
+    position: absolute;
+    top: calc(var(--top-height) - .2vmin);
+    bottom: calc(var(--bottom-height) - .2vmin);
+    left: 0; right: 0;
+
+    padding: .5vmin;
+    border-left: .2vmin solid var(--shade-e4);
+
+    overflow: hidden auto;
+}

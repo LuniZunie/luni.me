@@ -1,0 +1,5 @@
+@media (max-width: 768px), (max-aspect-ratio: 1/1) {
+    body {
+        --groups-width: 0vw !important;
+    }
+}

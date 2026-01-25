@@ -1,0 +1,218 @@
+body > #top {
+    &:has(.button-plus.import.disabled) {
+        & > .button-plus.delete {
+            border-top-left-radius: var(--button-plus-radius);
+            border-bottom-left-radius: var(--button-plus-radius);
+        }
+    }
+    &:has(.button-plus.delete.disabled) {
+        & > .button-plus.import {
+            border-top-right-radius: var(--button-plus-radius);
+            border-bottom-right-radius: var(--button-plus-radius);
+        }
+        & > .button-plus.view {
+            border-top-left-radius: var(--button-plus-radius);
+            border-bottom-left-radius: var(--button-plus-radius);
+        }
+    }
+    &:has(.button-plus.view.disabled) {
+        & > .button-plus.delete {
+            border-top-right-radius: var(--button-plus-radius);
+            border-bottom-right-radius: var(--button-plus-radius);
+        }
+    }
+
+    &:has(.button-plus.render.disabled) {
+        & > .button-plus.export {
+            border-top-left-radius: var(--button-plus-radius);
+            border-bottom-left-radius: var(--button-plus-radius);
+        }
+    }
+    &:has(.button-plus.export.disabled) {
+        & > .button-plus.render {
+            border-top-right-radius: var(--button-plus-radius);
+            border-bottom-right-radius: var(--button-plus-radius);
+        }
+    }
+
+    & > .button-plus {
+        position: absolute;
+        top: var(--button-plus-offset); bottom: var(--button-plus-offset);
+
+        width: var(--button-plus-width);
+
+        border-radius: 0;
+
+        color: var(--shade-00);
+
+        transition: all .25s;
+
+        &.disabled {
+            pointer-events: none;
+
+            background: transparent;
+            filter: opacity(.1);
+        }
+
+        &.import {
+            left: var(--button-plus-offset);
+
+            border-top-left-radius: var(--button-plus-radius);
+            border-bottom-left-radius: var(--button-plus-radius);
+
+            & > .icon:hover {
+                background: var(--blue-hover);
+                box-shadow: 0 0 1vmin .1vmin var(--blue-hover);
+
+                &:active {
+                    background: var(--blue-active);
+                    box-shadow: 0 0 1vmin .2vmin var(--blue-active);
+                }
+            }
+        }
+        &.delete {
+            left: calc(var(--button-plus-offset) + calc(var(--button-plus-width) + var(--button-plus-gap)));
+
+            & > .icon:hover {
+                background: var(--red-hover);
+                box-shadow: 0 0 1vmin .1vmin var(--red-hover);
+
+                &:active {
+                    background: var(--red-active);
+                    box-shadow: 0 0 1vmin .2vmin var(--red-active);
+                }
+            }
+
+            & > .cycles > .cycle {
+                transition: all .25s;
+
+                &:hover {
+                    background: var(--red-hover);
+                    box-shadow: 0 0 1vmin .1vmin var(--red-hover);
+
+                    &:active {
+                        background: var(--red-active);
+                        box-shadow: 0 0 1vmin .2vmin var(--red-active);
+                    }
+                }
+            }
+        }
+        &.view {
+            left: calc(var(--button-plus-offset) + calc(var(--button-plus-width) + var(--button-plus-gap)) * 2);
+
+            border-top-right-radius: var(--button-plus-radius);
+            border-bottom-right-radius: var(--button-plus-radius);
+
+            & > .icon:hover {
+                background: var(--purple-hover);
+                box-shadow: 0 0 1vmin .1vmin var(--purple-hover);
+
+                &:active {
+                    background: var(--purple-active);
+                    box-shadow: 0 0 1vmin .2vmin var(--purple-active);
+                }
+            }
+        }
+
+        &.render {
+            right: calc(var(--button-plus-offset) + calc(var(--button-plus-width) + var(--button-plus-gap)));
+
+            border-top-left-radius: var(--button-plus-radius);
+            border-bottom-left-radius: var(--button-plus-radius);
+
+            & > .icon:hover {
+                background: var(--orange-hover);
+                box-shadow: 0 0 1vmin .1vmin var(--orange-hover);
+
+                &:active {
+                    background: var(--orange-active);
+                    box-shadow: 0 0 1vmin .2vmin var(--orange-active);
+                }
+            }
+        }
+        &.export {
+            right: var(--button-plus-offset);
+
+            border-top-right-radius: var(--button-plus-radius);
+            border-bottom-right-radius: var(--button-plus-radius);
+
+            & > .icon:hover {
+                background: var(--green-hover);
+                box-shadow: 0 0 1vmin .1vmin var(--green-hover);
+
+                &:active {
+                    background: var(--green-active);
+                    box-shadow: 0 0 1vmin .2vmin var(--green-active);
+                }
+            }
+        }
+
+
+
+        & > .icon {
+            cursor: pointer;
+
+            height: 100%; width: 100%;
+
+            border-radius: inherit;
+            background: var(--shade-f4);
+
+            transition: all .25s;
+
+            & > svg {
+                height: 75%;
+            }
+
+            &:has(.cancel:not(.hidden)):hover {
+                background: var(--red-hover);
+                box-shadow: 0 0 1vmin .1vmin var(--red-hover);
+
+                &:active {
+                    background: var(--red-active);
+                    box-shadow: 0 0 1vmin .2vmin var(--red-active);
+                }
+            }
+        }
+
+        & > .cycles {
+            position: absolute;
+
+            & > .cycle {
+                gap: 0vmin;
+
+                border-top: none;
+                border-top-left-radius: 0px;
+                border-top-right-radius: 0px;
+
+                transform-origin: top center;
+                transform: scale(1, 1);
+
+                will-change: transform;
+                transition: transform .25s;
+
+                &.hidden {
+                    display: flex;
+
+                    transform: scale(1, 0);
+                }
+
+                & > div {
+                    cursor: pointer;
+
+                    position: relative;
+
+                    aspect-ratio: 1/1;
+                    height: 4vmin;
+
+                    padding: 1vmin;
+
+                    line-height: 4vmin;
+
+                    & > svg {
+                        height: 4vmin;
+                    }
+                }
+            }
+        }
+    }
+}

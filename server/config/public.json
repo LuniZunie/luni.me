@@ -1,0 +1,271 @@
+{
+    "server": {
+        "domain": "luni.me",
+        "host": "0.0.0.0",
+        "port": 3000,
+
+        "rel": {
+            "secure": true
+        },
+        "dev": {
+            "secure": false
+        }
+    },
+    "express": {
+        "data_limit": "10mb"
+    },
+    "auth": {
+        "expires_in": "24h",
+        "in": {
+            "success": "/",
+            "failure": "/login",
+            "google": {
+                "route": "/auth/google",
+                "callback": "/auth/google/callback",
+                "scope": [ "profile", "email" ]
+            },
+            "github": {
+                "route": "/auth/github",
+                "callback": "/auth/github/callback",
+                "scope": [ "user:email" ]
+            }
+        },
+        "out": {
+            "route": "/logout",
+            "success": "/",
+            "failure": "/login"
+        },
+        "delete": {
+            "route": "/delete",
+            "success": "/",
+            "failure": "/login"
+        }
+    },
+
+    "router": {
+        "dev": false,
+
+        "domains": [
+            {
+                "name": "ws",
+                "dev": false,
+
+                "routes": [
+                    {
+                        "route": "/ping",
+                        "type": "custom:ping"
+                    },
+                    {
+                        "route": "/changelog",
+                        "type": "file",
+                        "data": {
+                            "path": "../client/wikishield/changelog/index.ejs"
+                        }
+                    },
+                    {
+                        "route": "/callback",
+                        "type": "custom:wikishield-callback"
+                    },
+                    {
+                        "route": "/health",
+                        "type": "custom:wikishield-health"
+                    }
+                ]
+            },
+            {
+                "name": "seqr",
+                "dev": false,
+
+                "routes": [
+                    {
+                        "route": "/",
+                        "type": "file",
+                        "data": {
+                            "path": "../client/view/seqr/index.ejs"
+                        }
+                    }
+                ]
+            },
+            {
+                "name": "dev",
+                "dev": true,
+
+                "domains": [
+                    {
+                        "name": "seqr",
+
+                        "routes": [
+                            {
+                                "route": "/",
+                                "type": "file",
+                                "data": {
+                                    "path": "../client/seqr/frontend/view/index.ejs"
+                                }
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "name": "media",
+                "dev": false,
+
+                "routes": [
+                    {
+                        "route": "/data/bbc-sounds",
+                        "type": "static",
+                        "data": {
+                            "path": "./server/media/data/bbc-sounds.json"
+                        }
+                    },
+
+                    {
+                        "route": "/audio/music/morning-in-the-forest",
+                        "type": "static",
+                        "data": {
+                            "path": "./server/media/audio/music/morning-in-the-forest.mp3"
+                        }
+                    },
+                    {
+                        "route": "/audio/music/perfect-beauty",
+                        "type": "static",
+                        "data": {
+                            "path": "./server/media/audio/music/perfect-beauty.mp3"
+                        }
+                    },
+                    {
+                        "route": "/audio/music/whispers-of-memories",
+                        "type": "static",
+                        "data": {
+                            "path": "./server/media/audio/music/whispers-of-memories.mp3"
+                        }
+                    },
+
+                    {
+                        "route": "/audio/sound/action",
+                        "type": "static",
+                        "data": {
+                            "path": "./server/media/audio/sound/action.wav"
+                        }
+                    },
+                    {
+                        "route": "/audio/sound/alert",
+                        "type": "static",
+                        "data": {
+                            "path": "./server/media/audio/sound/alert.wav"
+                        }
+                    },
+                    {
+                        "route": "/audio/sound/click",
+                        "type": "static",
+                        "data": {
+                            "path": "./server/media/audio/sound/click.wav"
+                        }
+                    },
+                    {
+                        "route": "/audio/sound/failed",
+                        "type": "static",
+                        "data": {
+                            "path": "./server/media/audio/sound/failed.wav"
+                        }
+                    },
+                    {
+                        "route": "/audio/sound/mention",
+                        "type": "static",
+                        "data": {
+                            "path": "./server/media/audio/sound/mention.wav"
+                        }
+                    },
+                    {
+                        "route": "/audio/sound/notice",
+                        "type": "static",
+                        "data": {
+                            "path": "./server/media/audio/sound/message.wav"
+                        }
+                    },
+                    {
+                        "route": "/audio/sound/message",
+                        "type": "static",
+                        "data": {
+                            "path": "./server/media/audio/sound/message.wav"
+                        }
+                    },
+                    {
+                        "route": "/audio/sound/ores",
+                        "type": "static",
+                        "data": {
+                            "path": "./server/media/audio/sound/ores.wav"
+                        }
+                    },
+                    {
+                        "route": "/audio/sound/report",
+                        "type": "static",
+                        "data": {
+                            "path": "./server/media/audio/sound/report.wav"
+                        }
+                    },
+                    {
+                        "route": "/audio/sound/select",
+                        "type": "static",
+                        "data": {
+                            "path": "./server/media/audio/sound/select.wav"
+                        }
+                    },
+                    {
+                        "route": "/audio/sound/startup",
+                        "type": "static",
+                        "data": {
+                            "path": "./server/media/audio/sound/startup.wav"
+                        }
+                    },
+                    {
+                        "route": "/audio/sound/toast",
+                        "type": "static",
+                        "data": {
+                            "path": "./server/media/audio/sound/toast.wav"
+                        }
+                    },
+
+                    {
+                        "route": "/image/cover/morning-in-the-forest",
+                        "type": "static",
+                        "data": {
+                            "path": "./server/media/image/cover/morning-in-the-forest.jpg"
+                        }
+                    },
+                    {
+                        "route": "/image/cover/perfect-beauty",
+                        "type": "static",
+                        "data": {
+                            "path": "./server/media/image/cover/perfect-beauty.jpg"
+                        }
+                    },
+
+                    {
+                        "route": "/image/icon/WikiShield",
+                        "type": "static",
+                        "data": {
+                            "path": "./server/media/image/icon/WikiShield.png"
+                        }
+                    }
+                ]
+            }
+        ],
+        "routes": [
+            {
+                "route": "/",
+                "type": "file",
+                "data": {
+                    "path": "../client/view/home.ejs"
+                }
+            },
+            {
+                "route": "/profile",
+                "type": "file",
+                "data": {
+                    "path": "../client/view/profile.ejs"
+                }
+            }
+        ]
+    }
+}

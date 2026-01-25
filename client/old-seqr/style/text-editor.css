@@ -1,0 +1,120 @@
+body > #text-editor {
+    & > .textarea {
+        position: absolute;
+        left: 2vmin; top: 2vmin;
+        width: calc(100% - 6vmin);
+        height: calc(100% - 13vmin);
+
+        padding: 1vmin;
+        border-radius: 1vmin;
+        outline: 0;
+
+        color: var(--text-1);
+
+        white-space: nowrap;
+        overflow: auto;
+
+        background: var(--shade-1-0);
+
+        &::-webkit-scrollbar {
+            width: 1vmin; height: 1vmin;
+            background: transparent;
+        }
+        &::-webkit-scrollbar-thumb {
+            background: var(--shade-2-1);
+            border-radius: 1vmin;
+        }
+        &::-webkit-scrollbar-corner { display: none; }
+    }
+
+    & > .file-name {
+        position: absolute;
+        right: 12vmin; bottom: 2vmin;
+        width: calc(100% - 16vmin);
+        height: 4vmin;
+
+        padding: 1vmin;
+        outline: 0; border: 0;
+        border-radius: 1vmin;
+
+        font-size: 1.5em;
+        color: var(--text-1);
+
+        background: var(--shade-1-0);
+
+        &.invalid ~ .button {
+            pointer-events: none;
+
+            background: transparent;
+            filter: opacity(.2);
+        }
+    }
+
+    & > .button {
+        aspect-ratio: 3/2;
+
+        position: absolute;
+        right: 2vmin; bottom: 2vmin;
+        height: 6vmin;
+
+        border-radius: 1vmin;
+
+        text-align: center;
+        line-height: 6vmin;
+
+        background: var(--shade-1-0);
+
+        transition: all .25s;
+
+        &:hover {
+            background: var(--blue-hover);
+            filter: opacity(1.2);
+
+            &:active {
+                background: var(--blue-active);
+                filter: opacity(.8);
+            }
+        }
+
+        & > svg {
+            aspect-ratio: 1/1;
+
+            position: relative;
+            top: 12.5%;
+            height: 75%;
+        }
+    }
+
+    & > .caption {
+        pointer-events: none;
+
+        position: absolute;
+        left: 50%; bottom: calc(-2em + .1vmin);
+        transform: translateX(-50%);
+        width: 75%;
+        height: 2em;
+
+        padding: 0; margin: 0;
+
+        font-size: 2vmin;
+        color: var(--subtitle-3);
+        line-height: 2em;
+        text-align: center;
+
+        & > .text {
+            pointer-events: auto;
+
+            display: inline-block;
+            width: 100%;
+
+            border: .1vmin solid var(--shade-3-0);
+            border-top: none;
+            border-bottom-left-radius: 1vmin;
+            border-bottom-right-radius: 1vmin;
+
+            background: var(--shade-0-2);
+
+            & > code { font-family: monospace; }
+        }
+    }
+}

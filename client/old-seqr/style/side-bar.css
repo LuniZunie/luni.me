@@ -1,0 +1,718 @@
+body > #side-bar {
+    --bottom-bar-size: 8vmin;
+
+    z-index: 2;
+
+    position: fixed;
+    right: 0; top: 0;
+    width: calc(var(--side-bar-size) - 1vmin);
+    height: 100vh;
+
+    padding: .5vmin;
+
+    background: var(--shade-0-0);
+
+    transition: all .25s;
+
+    &.collapsed {
+        padding: 0;
+        right: -.2vmin;
+
+        & > .top > .button.toggle-side-bar {
+            left: calc(.2vmin - var(--top-bar-size) + .2vmin + 2vmin);
+            top: 50vmin;
+            transform: translateY(-50%) rotateZ(180deg);
+
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+
+            background: var(--shade-1-0);
+        }
+
+        & > .bottom { overflow-x: hidden; }
+    }
+
+    & > .top {
+        position: absolute;
+        left: 0; top: 0;
+        width: 100%;
+        height: calc(var(--top-bar-size) - .2vmin);
+
+        padding: .5vmin;
+        border-bottom: .2vmin solid var(--shade-1-2);
+
+        text-align: center;
+        line-height: calc(var(--top-bar-size) - .2vmin);
+
+        background: var(--shade-0-0);
+
+        & > .button.toggle-side-bar {
+            aspect-ratio: 1/1;
+
+            position: absolute;
+            left: 1vmin; top: 1.5vmin;
+            height: calc(var(--top-bar-size) - .2vmin - 2vmin);
+
+            border-radius: 50%;
+
+            color: var(--shade-8-2);
+
+            background: transparent;
+
+            transition: all .25s;
+        }
+        & > h1 { margin: 0; }
+    }
+
+    & > .content {
+        display: flex;
+        flex-direction: column;
+        flex-wrap: nowrap;
+        justify-content: flex-start;
+        align-items: stretch;
+        gap: .5vmin;
+
+        position: absolute;
+        left: 0; top: calc(var(--top-bar-size) - .1vmin + 1vmin);
+        width: calc(100% - .2vmin - 4vmin);
+        height: calc(100vh - var(--top-bar-size) - var(--bottom-bar-size) - 4vmin - .4vmin);
+
+        padding: 2vmin;
+        border-left: .2vmin solid var(--shade-1-2);
+
+        overflow-x: hidden;
+        overflow-y: auto;
+
+        &::-webkit-scrollbar {
+            width: 1vmin; height: 1vmin;
+            background: transparent;
+        }
+        &::-webkit-scrollbar-thumb {
+            background: var(--shade-2-1);
+            border-radius: 1vmin;
+        }
+
+        &.no-files > .group > .buttons > .button.edit { opacity: .1; }
+
+        & > .group {
+            padding: 2vmin;
+
+            background: var(--shade-0-2);
+
+            outline: .3vmin solid transparent;
+
+            transition: all .25s;
+
+            &:first-child {
+                border-top-left-radius: 2vmin;
+                border-top-right-radius: 2vmin;
+            }
+            &:last-child {
+                border-bottom-left-radius: 2vmin;
+                border-bottom-right-radius: 2vmin;
+            }
+
+            &.selected { outline: .3vmin solid var(--light-blue-border); }
+
+            & > .name {
+                outline: none;
+
+                padding: .5vmin 0vmin;
+
+                text-align: center;
+                font-size: 2em;
+                font-weight: bold;
+
+                white-space: nowrap;
+                overflow: auto;
+
+                background: var(--shade-0-0);
+
+                &::-webkit-scrollbar {
+                    width: 1vmin; height: 1vmin;
+                    background: transparent;
+                }
+                &::-webkit-scrollbar-thumb {
+                    background: var(--shade-2-1);
+                    border-radius: 1vmin;
+                }
+            }
+
+            & > .members {
+                display: flex;
+                flex-direction: column;
+                flex-wrap: nowrap;
+                justify-content: flex-start;
+                align-items: stretch;
+                gap: .5vmin;
+
+                position: relative;
+                width: 100%;
+                height: fit-content;
+
+                margin: 2vmin 0;
+
+                background: transparent;
+
+                &:not(:has(.member)) { background: transparent; }
+
+                & > .member {
+                    height: 3em;
+
+                    padding: .5vmin 1vmin;
+                    border-radius: 1vmin;
+
+                    color: var(--text-1);
+                    white-space: nowrap;
+                    overflow: hidden;
+
+                    background: var(--shade-1-0);
+
+                    & > .selectors {
+                        height: 3em;
+                        width: calc(100% - 8em - 1vmin - 2vmin);
+
+                        display: inline-flex;
+                        flex-direction: row;
+                        flex-wrap: nowrap;
+                        align-items: center;
+                        gap: 1vmin;
+
+                        border-radius: 1vmin;
+                        padding: 0 1vmin;
+
+                        background: var(--shade-0-3);
+
+                        overflow-x: auto; overflow-y: hidden;
+                        &::-webkit-scrollbar {
+                            width: .5vmin; height: .5vmin;
+                            background: transparent;
+                        }
+                        &::-webkit-scrollbar-thumb {
+                            background: var(--shade-2-1);
+                            border-radius: 1vmin;
+                        }
+
+                        & > .selector {
+                            padding: .5vmin;
+                            border-radius: .5vmin;
+
+                            white-space: nowrap;
+
+                            background: var(--shade-2-0);
+
+                            transition: all .25s;
+                        }
+                    }
+
+                    & > .button-container {
+                        float: right;
+                        display: flex;
+                        flex-direction: row;
+                        align-items: center;
+                        gap: .5vmin;
+                        height: 3em;
+
+                        & > .button.color {
+                            aspect-ratio: 1/1;
+                            height: 3em;
+                            border-radius: 1vmin;
+                            position: relative;
+
+                            outline: .4vmin solid var(--outline);
+                            scale: .8;
+
+                            /* Remove background here so alpha background shows through */
+                            background: transparent;
+
+
+                            &:hover {
+                                filter: none;
+                                &:active { filter: opacity(.6); }
+                            }
+
+                            /* File-defined color styling */
+                            & > .file-defined-icon {
+                                display: none;
+
+                                color: var(--outline);
+
+                                & > svg { scale: .75; }
+                            }
+                            &.file-defined > .file-defined-icon { display: block; }
+
+                            & > .alpha-background {
+                                position: absolute;
+                                left: 0; top: 0;
+                                width: 100%; height: 100%;
+                                border-radius: inherit;
+                                background: url("../asset/svg/checkerboard.svg") repeat;
+                                z-index: -1;
+
+                                &::before {
+                                    content: '';
+                                    position: absolute;
+                                    left: 0; top: 0;
+                                    width: 100%; height: 100%;
+                                    border-radius: inherit;
+                                    background: var(--color);
+                                    z-index: 1;
+                                }
+                            }
+                        }
+
+                        & > .copy-paste-stack {
+                            display: flex;
+                            flex-direction: column;
+                            height: 3em;
+                            width: 1.5em;
+                            gap: .2vmin;
+
+                            & > .button {
+                                height: calc((3em - .2vmin) / 2);
+                                width: 100%;
+                                border-radius: .5vmin;
+
+                                background: var(--shade-1-0);
+                                opacity: 1;
+
+                                transition: all .25s;
+
+                                &.disabled {
+                                    pointer-events: none;
+                                    opacity: .1;
+                                }
+
+                                & > svg {
+                                    height: 100%;
+                                    float: right;
+                                }
+                            }
+                        }
+
+                        & > .button.remove {
+                            aspect-ratio: 1/1;
+                            height: 3em;
+                            border-radius: 1vmin;
+
+                            background: var(--shade-1-0);
+                            opacity: 1;
+
+                            transition: all .25s;
+
+                            &:hover {
+                                background: var(--red-hover);
+                            }
+
+                            &:active {
+                                background: var(--red-active);
+                            }
+
+                            & > svg {
+                                scale: .75;
+                            }
+                        }
+                    }
+
+                    & > .button {
+                        aspect-ratio: 1/1;
+                        float: right;
+
+                        height: 3em;
+
+                        border-radius: 1vmin;
+
+                        background: var(--shade-1-0);
+                        opacity: 1;
+
+                        transition: all .25s;
+
+                        &.disabled {
+                            pointer-events: none;
+                            opacity: .1;
+                        }
+
+                        & > svg { scale: .75; }
+                    }
+                }
+            }
+
+            & > .buttons {
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+                width: 100%;
+
+                overflow: hidden;
+
+                /* Direct action buttons */
+                & > .button.edit,
+                & > .button.delete {
+                    display: inline-block;
+                    aspect-ratio: 1/1;
+                    position: relative;
+                    border-radius: 1vmin;
+                    background: var(--shade-1-0);
+                    opacity: 1;
+                    height: 5vmin;
+
+                    transition: all .25s;
+
+                    &.disabled { opacity: 0; }
+
+                    & > svg { scale: 0.75; }
+                }
+
+                /* Movement buttons container */
+                & > .movement-buttons {
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
+                    gap: 0.25vmin;
+
+                    & > .button {
+                        display: inline-block;
+                        aspect-ratio: 1/1;
+                        position: relative;
+                        border-radius: 1vmin;
+                        background: var(--shade-1-0);
+                        opacity: 0.7;
+                        height: 3.5vmin;
+
+                        transition: all .25s;
+
+                        &.disabled { opacity: 0; }
+
+                        & > svg { scale: 0.75; }
+
+                        &:hover {
+                            opacity: 1;
+                            filter: brightness(1.1);
+                        }
+
+                        &.move-top > svg,
+                        &.move-bottom > svg {
+                            scale: 0.6;
+                        }
+
+                        &.move-up > svg,
+                        &.move-down > svg {
+                            scale: 0.65;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    & > .bottom {
+        position: absolute;
+        left: 0; bottom: 1vmin;
+        width: calc(100% - .2vmin - 1vmin);
+        height: calc(var(--bottom-bar-size) - .2vmin - 1vmin);
+
+        padding: .5vmin;
+        border-top: .2vmin solid var(--shade-1-2);
+        border-left: .2vmin solid var(--shade-1-2);
+
+        line-height: calc(var(--bottom-bar-size) - .2vmin - 1vmin);
+
+        background: var(--shade-0-0);
+
+        & > .button-plus {
+            aspect-ratio: 1/1;
+
+            position: absolute;
+            top: 50%;
+            height: calc(var(--bottom-bar-size) / 1.5);
+            transform: translateY(-50%);
+
+            border-radius: calc(var(--bottom-bar-size) / 5);
+            opacity: 1;
+
+            transition: all .25s;
+
+            &.disabled {
+                pointer-events: none;
+                opacity: 0;
+            }
+
+            &.new-group { left: 1.5vmin; }
+            &.auto-group {
+                left: calc(calc(var(--bottom-bar-size) / 1.5) + 1.5vmin + .5vmin);
+
+                & > .cycles > .options {
+                    gap: 1vmin;
+
+                    padding: .5vmin 1vmin;
+
+                    & > .simple-button {
+                        cursor: pointer;
+
+                        aspect-ratio: 1/1;
+                        height: 1em;
+
+                        padding: 1vmin;
+                        border-radius: .5vmin;
+
+                        line-height: 1em;
+
+                        background: var(--shade-2-0);
+
+                        transition: all .25s;
+
+                        &:hover {
+                            background: var(--light-blue-hover);
+                            &:active { background: var(--light-blue-active); }
+                        }
+                        &.selected { background: var(--light-blue-active); }
+
+                        &:last-child {
+                            background: var(--green-hover);
+                            &:hover {
+                                background: var(--light-green-hover);
+                                &:active { background: var(--light-green-active); }
+                            }
+                        }
+                    }
+                }
+            }
+            &.clean-groups { right: calc(calc(var(--bottom-bar-size) / 1.5) + 1.5vmin + .5vmin); }
+            &.delete-groups {
+                right: 1.5vmin;
+
+                & > .cycles > .confirm {
+                    width: 3em;  height: 3em;
+
+                    padding: .5vmin;
+
+                    & > .button {
+                        cursor: pointer;
+
+                        aspect-ratio: 1/1;
+                        height: 75%;
+                        line-height: 100%
+                    }
+                }
+            }
+
+            & > .icon {
+                aspect-ratio: 1/1;
+
+                &:has(.normal:not(.hidden)) {
+                    --hover-color: var(--shade-1-0);
+                    --active-color: var(--shade-0-2);
+                }
+            }
+
+            & > .cycles > div {
+                height: calc(var(--top-bar-size) - .2vmin - 2vmin);
+
+                padding: .5vmin calc(calc(var(--top-bar-size) - .2vmin - 2vmin) * 3/8);
+
+                border-radius: 1vmin;
+            }
+        }
+
+        &:has(.button-plus.new-group:not(.disabled)) > .button-plus.auto-group > .icon {
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+        }
+        &:has(.button-plus.auto-group:not(.disabled)) > .button-plus.new-group > .icon {
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+        }
+        &:has(.button-plus.clean-groups:not(.disabled)) > .button-plus.delete-groups > .icon {
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+        }
+        &:has(.button-plus.delete-groups:not(.disabled)) > .button-plus.clean-groups > .icon {
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+        }
+
+        &::-webkit-scrollbar {
+            width: .5vmin; height: .5vmin;
+            background: transparent;
+        }
+        &::-webkit-scrollbar-thumb {
+            background: var(--shade-2-1);
+            border-radius: 1vmin;
+        }
+    }
+}
+
+/* Responsive design for narrow displays */
+@media (max-width: 768px), (max-aspect-ratio: 1/1) {
+    BODY > .toggle-ui-mode {
+        transition: all .3s ease-out;
+    }
+
+    body:has(#side-bar:not(.collapsed)) > .toggle-ui-mode {
+        bottom: calc(var(--side-bar-height, 55vh) - 1.5vmin);
+        transform: translateY(100%);
+    }
+
+    /* Add backdrop overlay for mobile */
+    body:has(#side-bar:not(.collapsed))::before {
+        content: "";
+        position: fixed;
+        left: 0; top: 0;
+        width: 100vw; height: 100vh;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 1;
+        pointer-events: auto;
+        opacity: 1;
+        transition: opacity .3s ease-out;
+    }
+
+    body > #side-bar {
+        /* Position at bottom and full width when narrow */
+        position: fixed;
+        left: 0; right: auto; top: auto; bottom: 0;
+        width: 100vw;
+        height: var(--side-bar-height, 55vh);
+        max-height: 75vh;
+        min-height: calc(var(--top-bar-size) + var(--bottom-bar-size) + 10vmin); /* Ensure minimum height */
+        z-index: 3;
+
+        /* Override the normal width calculation */
+        padding: 0;
+
+        /* Add bottom overlay styling */
+        background: var(--shade-0-0);
+        border-top: .2vmin solid var(--shade-0-3);
+        border-radius: 2vmin 2vmin 0 0;
+        box-shadow: 0 -1vmin 3vmin rgba(0, 0, 0, 0.3);
+
+        /* Slide up animation */
+        transform: translateY(100%);
+        transition: transform .3s ease-out;
+
+        overflow: hidden;
+
+        /* Show when not collapsed */
+        &:not(.collapsed) {
+            transform: translateY(0);
+        }
+
+        /* Update collapsed state for mobile */
+        &.collapsed {
+            transform: translateY(calc(100% - var(--top-bar-size) - 2vmin));
+
+            & > .top > .button.toggle-side-bar {
+                /* Reset desktop positioning */
+                position: absolute;
+                left: auto; top: 50%;
+                right: calc(var(--top-bar-size) * 0.5 + 3vmin); /* Position to left of light/dark toggle */
+                transform: translateY(-50%) rotateZ(180deg);
+
+                border-radius: 50%;
+                background: none;
+            }
+        }
+
+        /* Adjust top section for mobile */
+        & > .top {
+            position: relative;
+            left: auto; top: auto;
+            width: 100%;
+            height: var(--top-bar-size);
+
+            padding: 1vmin 2vmin;
+            border-bottom: .2vmin solid var(--shade-0-3);
+            border-radius: 2vmin 2vmin 0 0;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            & > .button.toggle-side-bar {
+                position: absolute;
+                left: auto; top: 50%;
+                right: calc(var(--top-bar-size) * 0.5 + 3vmin); /* Position to left of light/dark toggle */
+                transform: translateY(-50%) rotateZ(0deg);
+
+                aspect-ratio: 1/1;
+                height: calc(var(--top-bar-size) - 2vmin);
+
+                border-radius: 50%;
+                background: none;
+
+                transition: transform .25s, background .25s;
+
+                & > svg {
+                    transform: rotateZ(90deg); /* Rotate icon for bottom layout */
+                }
+            }
+
+            & > h1 {
+                margin: 0;
+                flex-grow: 1;
+                text-align: center;
+            }
+        }
+
+        /* Adjust content area for mobile */
+        & > .content {
+            position: relative;
+            left: auto; top: auto;
+            width: calc(100% - 4vmin);
+            height: calc(100% - var(--top-bar-size) - var(--bottom-bar-size) - 6vmin - .4vmin);
+
+            padding: 2vmin;
+            border-left: none;
+
+            /* Better scrolling on mobile */
+            overflow-x: hidden;
+            overflow-y: auto;
+
+            &::-webkit-scrollbar {
+                width: 2vmin;
+            }
+            &::-webkit-scrollbar-thumb {
+                background: var(--shade-2-1);
+                border-radius: 2vmin;
+            }
+
+            /* Fix member selectors width and layout */
+            & > .group > .members > .member {
+                /* Adjust for mobile */
+                height: 4em;
+                padding: .5vmin;
+
+                & > .selectors {
+                    width: calc(100% - 8em - 4vmin); /* Leave space for color button */
+                    height: 3em;
+
+                    /* Make selectors scroll horizontally on mobile */
+                    overflow-x: auto;
+                    overflow-y: hidden;
+
+                    &::-webkit-scrollbar {
+                        height: .5vmin;
+                    }
+                    &::-webkit-scrollbar-thumb {
+                        background: var(--shade-2-1);
+                        border-radius: .5vmin;
+                    }
+                }
+
+                & > .button {
+                    height: 3em;
+                    margin-left: .5vmin;
+                }
+
+                & > .button-container > .button.color {
+                    /* Ensure color button is visible */
+                    flex-shrink: 0;
+                }
+            }
+        }
+
+        & > .bottom > .button-plus.auto-group > .cycles {
+            --x-translate: -25%;
+        }
+    }
+}

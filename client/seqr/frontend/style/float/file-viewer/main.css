@@ -1,0 +1,127 @@
+#file-viewer {
+    top: 50%; bottom: auto;
+
+    height: fit-content;
+
+    border-bottom-right-radius: 0;
+
+    transform: translateY(-50%);
+
+    & > .data {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: flex-start;
+        gap: 1vmin;
+
+        font-size: 1.2em;
+        font-weight: bold;
+
+        & > span {
+            border-radius: .75vmin;
+            padding: .5vmin 1vmin;
+
+            background: var(--shade-f0);
+        }
+    }
+
+    & > .content {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        gap: 1vmin;
+
+        position: relative;
+        top: 1vmin; left: 0; right: 0;
+
+        max-height: calc(80vmin - 8vmin);
+        height: fit-content;
+
+        margin-bottom: 1vmin;
+        border-radius: 1vmin;
+        padding: 1vmin;
+
+        overflow: auto;
+
+        & > .item {
+            max-width: calc(100% - 4vmin);
+
+            border-radius: 1vmin;
+            padding: 1vmin;
+
+            white-space: nowrap;
+            overflow: auto;
+
+            background: var(--shade-e8);
+
+            &::-webkit-scrollbar {
+                width: .5vmin; height: .5vmin;
+                background: transparent;
+            }
+            &::-webkit-scrollbar-thumb {
+                background: var(--shade-eb);
+                border-radius: 1vmin;
+            }
+        }
+
+        &::-webkit-scrollbar {
+            width: .5vmin; height: .5vmin;
+            background: transparent;
+        }
+        &::-webkit-scrollbar-thumb {
+            background: var(--shade-eb);
+            border-radius: 1vmin;
+        }
+    }
+
+    & > .button-plus.delete {
+        cursor: pointer;
+
+        position: absolute;
+        bottom: .1vmin;
+        right: -.1vmin;
+
+        width: 4em;
+        height: 4em;
+
+        margin: 0;
+        border: .1vmin solid var(--shade-d0);
+        border-top: none;
+        border-radius: 0 0 1vmin 1vmin;
+        padding: 0;
+
+        background: var(--shade-f8);
+
+        transform: translateY(100%);
+
+        transition: all .25s;
+
+        &:hover {
+            border-color: var(--red-hover);
+
+            background: var(--red-hover);
+            box-shadow: 0 0 1vmin .1vmin var(--red-hover);
+
+            &:active {
+                border-color: var(--red-active);
+
+                background: var(--red-active);
+                box-shadow: 0 0 1vmin .2vmin var(--red-active);
+            }
+        }
+
+        & > .icon {
+            cursor: pointer;
+
+            aspect-ratio: 1 / 1;
+            height: 100%;
+
+            border-radius: inherit;
+
+            transition: all .25s;
+        }
+    }
+}

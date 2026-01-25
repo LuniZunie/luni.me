@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="description" content="SeqR" />
+        <meta name="keywords" content="SeqR, RNA, DNA, Sequencer, Sequence, RNA Sequencer, DNA Sequencer, Biology, GFT, GFF, GFF2, GFF3, GTF, BED, BEDGRAPH, WIG, SAM, VCF, FASTA, FASTQ" />
+        <meta name="author" content="LuniZunie" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <title>SeqR</title>
+        <link rel="icon" href="../../old-seqr/asset/favicon.ico" />
+
+        <link rel="stylesheet" href="../../old-seqr/style/root.css" />
+        <link rel="stylesheet" href="../../old-seqr/style/main.css" />
+        <link rel="stylesheet" href="../../old-seqr/style/content.css" />
+        <link rel="stylesheet" href="../../old-seqr/style/top-bar.css" />
+        <link rel="stylesheet" href="../../old-seqr/style/side-bar.css" />
+        <link rel="stylesheet" href="../../old-seqr/style/text-editor.css" />
+        <link rel="stylesheet" href="../../old-seqr/style/file-viewer.css" />
+        <link rel="stylesheet" href="../../old-seqr/style/data-selector.css" />
+        <link rel="stylesheet" href="../../old-seqr/style/color-selector.css" />
+        <link rel="stylesheet" href="../../old-seqr/style/draw-settings.css" />
+
+        <script type="module" src="../../old-seqr/script/button-plus.js"></script>
+        <script type="module" src="../../old-seqr/script/event.js"></script>
+        <script type="module" src="../../old-seqr/script/iconify.js"></script>
+        <script type="module" src="../../old-seqr/script/parser.js"></script>
+
+        <noscript>Your browser does not support JavaScript!</noscript>
+        <script>
+            const lightMode = localStorage.getItem("light-mode") === "true";
+            document.documentElement.classList.toggle("light", lightMode);
+
+            window.onerror = function (message, source, lineno, colno, error) {
+                const err = `Error: ${message} at ${source}:${lineno}:${colno}`;
+
+                const socket = new WebSocket(`${window.location.protocol.replace("http", "ws")}//${window.location.host}`);
+                socket.onopen = function() {
+                    socket.send(JSON.stringify({
+                        for: "server-logger",
+                        type: "SeqR:error",
+                        message: err,
+                        stack: (error?.stack || "No stack trace available").split("\n").map(line => line.trim())
+                    }));
+                    socket.close();
+                };
+
+                return false; // Prevent default error handling
+            };
+        </script>
+    </head>
+    <body>
+        <input type="file" id="file-input" placeholder="Choose files" multiple accept=".gft,.gff,.gff2,.gff3,.gtf,.bed,.bedgraph,.bdg,.wig,.wiggle,.sam,.vcf,.fa,.fasta,.fas,.fq,.fastq" name="file-input" data-events="file-input" />
+        <div id="loading"><svg viewBox="0 0 100 100" fill="currentColor" stroke="none"><path d="M10 50A40 40 0 0 0 90 50A40 42 0 0 1 10 50"></path></svg></div>
+        <div id="cover" data-events="cover" data-pseudo-multiselect="*"></div>
+
+        <div class="button toggle-ui-mode" data-events="toggle-ui-mode" title="Toggle light/dark mode">
+            <svg class="iconify light"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.41 1.41M18.36 18.36l1.41 1.41M1 12h2M21 12h2M4.22 19.78l1.41-1.41M18.36 5.64l1.41-1.41M12 4"/></svg>
+            <svg class="iconify dark"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </div>
+
+        <div id="top-bar">
+            <div class="button-plus import" title="Import files">
+                <div class="trigger"></div>
+                <div class="terminus" data-events="import"></div>
+
+                <div class="icon">
+                    <svg class="normal iconify"><path d="M12 15v-12M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10 12 15 17 10"/></svg>
+                    <svg class="cancel iconify hidden"><path d="M18 6 6 18M6 6 18 18"/></svg>
+                </div>
+                <div class="cycles" data-float="bottom">
+                    <div class="type hidden" data-float="left">
+                        <div class="button selected" data-events="radio,cycle-click" data-group="import-type" data-value="file" title="Import from file">
+                            <svg class="iconify"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9zM13 2 13 9 20 9"/></svg>
+                        </div>
+                        <div class="button" data-events="radio,cycle-click" data-group="import-type" data-value="code" title="Import from code">
+                            <svg class="iconify"><path d="M16 18 22 12 16 6M8 6 2 12 8 18"/></svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="button-plus remove-files disabled" data-pseudo-multiselect="file" title="Remove selected files">
+                <div class="trigger"></div>
+                <div class="terminus" data-events="remove-files"></div>
+
+                <div class="icon">
+                    <svg class="normal iconify"><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M3 6 5 6 21 6"/></svg>
+                    <svg class="cancel iconify hidden"><path d="M18 6 6 18M6 6 18 18"/></svg>
+                </div>
+                <div class="cycles" data-float="bottom">
+                    <div class="confirm hidden" data-float="left">
+                        <div class="button" data-events="cycle-click" title="Confirm deletion">
+                            <svg class="iconify"><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M3 6 5 6 21 6M16 10 8 18M8 10 16 18"/></svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="file-list inset" data-events="force-horizontal-scroll"></div>
+
+            <div class="button-plus view-files disabled" data-pseudo-multiselect="file" title="View selected files">
+                <div class="trigger"></div>
+                <div class="terminus" data-events="view-files"></div>
+
+                <div class="icon">
+                    <svg class="normal iconify">
+                        <circle cx="11" cy="11" r="8"/>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                    </svg>
+                    <svg class="cancel iconify hidden"><path d="M18 6 6 18M6 6 18 18"/></svg>
+                </div>
+            </div>
+
+            <div class="button-plus draw disabled" title="Draw visualization">
+                <div class="trigger"></div>
+                <div class="terminus" data-events="draw"></div>
+
+                <div class="icon">
+                    <svg class="normal iconify"><path d="M21 15 16 10 5 21"/><rect x="3"y="3"width="18"height="18"rx="2"ry="2"/><circle cx="8.5"cy="8.5"r="1.5"/></svg>
+                    <svg class="cancel iconify hidden"><path d="M18 6 6 18M6 6 18 18"/></svg>
+                </div>
+            </div>
+
+            <div class="button-plus export disabled" title="Export visualization">
+                <div class="trigger"></div>
+                <div class="terminus" data-events="export"></div>
+
+                <div class="icon">
+                    <svg class="normal iconify"><path d="M12 15v-12M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8 12 3 7 8"/></svg>
+                    <svg class="cancel iconify hidden"><path d="M18 6 6 18M6 6 18 18"/></svg>
+                </div>
+                <div class="cycles" data-float="bottom">
+                    <div class="types hidden" data-float="right">
+                        <div class="button selected" data-events="radio,cycle-click" data-group="export-type" data-value="image/png" title="Export as PNG">PNG</div>
+                        <div class="button" data-events="radio,cycle-click" data-group="export-type" data-value="image/jpeg" title="Export as JPEG">JPG</div>
+                        <div class="button" data-events="radio,cycle-click" data-group="export-type" data-value="image/webp" title="Export as WebP">WEBP</div>
+                        <div class="button" data-events="radio,cycle-click" data-group="export-type" data-value="image/svg+xml" title="Export as SVG">SVG</div>
+                    </div>
+                    <div class="name hidden" data-float="right">
+                        <input type="text" placeholder="File name: <time>" name="export-file-name" data-events="cycle-enter" title="Enter export file name"/>
+                        <span class="caption"><small>Press <kbd>Enter</kbd> to export</small></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="side-bar">
+            <div class="top">
+                <div class="button toggle-side-bar" data-events="side-bar>toggle" title="Toggle side bar">
+                    <svg class="iconify"><path d="M8 18 14 12 8 6"/></svg>
+                </div>
+                <h1>Groups</h1>
+            </div>
+            <div class="content"></div>
+            <div class="bottom">
+                <div class="button-plus new-group" title="Create new group">
+                    <div class="trigger"></div>
+                    <div class="terminus" data-events="side-bar>new-group"></div>
+
+                    <div class="icon">
+                        <svg class="normal iconify"><path d="M3 12 21 12M12 3 12 21"/></svg>
+                        <svg class="cancel iconify hidden"><path d="M18 6 6 18M6 6 18 18"/></svg>
+                    </div>
+                </div>
+                <div class="button-plus auto-group" data-pseudo-multiselect="file" title="Auto-group files">
+                    <div class="trigger"></div>
+                    <div class="terminus" data-events="side-bar>auto-group"></div>
+
+                    <div class="icon">
+                        <svg class="normal iconify">
+                            <rect x="4" y="4" width="16" height="16" rx="2" ry="2"/>
+                            <rect x="9" y="9" width="6" height="6"/>
+                            <path d="M9 1 9 4M15 1 15 4M9 20 9 23M15 20 15 23M20 9 23 9M20 14 23 14M1 9 4 9M1 14 4 14"/>
+                        </svg>
+                        <svg class="cancel iconify hidden"><path d="M18 6 6 18M6 6 18 18"/></svg>
+                    </div>
+                    <div class="cycles" data-float="top">
+                        <div class="options hidden" data-float="center">
+                            <div class="simple-button" data-events="toggle" data-value="file" title="Group by file">File</div>
+                            <div class="simple-button" data-events="toggle" data-value="type" title="Group by type">Type</div>
+                            <div class="simple-button" data-events="toggle" data-value="strand" title="Group by strand">Strand</div>
+                            <div class="divider"></div>
+                            <div class="simple-button" data-events="cycle-click" title="Execute auto-grouping">AutoGroup</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="button-plus clean-groups disabled" data-pseudo-multiselect="group" title="Clean empty groups">
+                    <div class="trigger"></div>
+                    <div class="terminus" data-events="side-bar>clean-groups"></div>
+
+                    <div class="icon" viewBox="0 0 32 32" fill="currentColor" stroke="none">
+                        <svg class="normal iconify" viewBox="0 0 32 32" fill="currentColor" stroke="none"><path d="M26.281,30l-2-8H25v-5h-8V2h-2v15H7v5h0.719l-2,8H26.281z M23.719,28H21v-4h-2v4h-2v-4h-2v4h-2 v-4h-2v4H8.281l1.5-6h12.438L23.719,28z M9,19h14v1H9V19z"/></svg>
+                        <svg class="cancel iconify hidden"><path d="M18 6 6 18M6 6 18 18"/></svg>
+                    </div>
+                </div>
+                <div class="button-plus delete-groups disabled" data-pseudo-multiselect="group" title="Delete selected groups">
+                    <div class="trigger"></div>
+                    <div class="terminus" data-events="side-bar>delete-groups"></div>
+
+                    <div class="icon">
+                        <svg class="normal iconify"><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M3 6L5 6L21 6"/></svg>
+                        <svg class="cancel iconify hidden"><path d="M18 6 6 18M6 6 18 18"/></svg>
+                    </div>
+                    <div class="cycles" data-float="top">
+                        <div class="confirm hidden" data-float="center">
+                            <div class="button" data-events="cycle-click" title="Confirm deletion">
+                                <svg class="iconify"><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M3 6 5 6 21 6M16 10 8 18M8 10 16 18"/></svg>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="sidebar-resize-handle" data-events="sidebar-resize" title="Drag to resize sidebar"></div>
+
+        <div id="content">
+            <svg></svg>
+        </div>
+
+        <div id="text-editor" class="hidden float">
+            <h3 class="title"><span class="text">Text Editor</span></h3>
+            <div class="textarea selectable" contenteditable="plaintext-only" spellcheck="false" title="Enter your code here"></div>
+            <input type="text" class="file-name invalid selectable" placeholder="File name" name="text-editor-file-name" data-events="text-editor>file-name,force-horizontal-scroll" title="Enter a valid file name with proper extension"/>
+            <div class="button" data-events="text-editor>save" title="Save file">
+                <svg class="iconify"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9zM13 2L13 9L20 9"/></svg>
+            </div>
+            <p class="caption">
+                <span class="text auto-scroll">
+                    File names can only contain letters, numbers, periods, underscores, and dashes; they must end with one of the following extensions:
+                    <code>.gft</code> <code>.gff</code> <code>.gff2</code> <code>.gff3</code> <code>.gtf</code> <code>.bed</code> <code>.bedgraph</code> <code>.bdg</code> <code>.wig</code> <code>.wiggle</code> <code>.sam</code> <code>.vcf</code> <code>.fa</code> <code>.fasta</code> <code>.fas</code> <code>.fq</code> <code>.fastq</code>
+                </span>
+            </p>
+        </div>
+
+        <div id="file-viewer" class="hidden float" data-pseudo-multiselect="file">
+            <div class="files" data-events="force-horizontal-scroll"></div>
+            <div class="data"></div>
+            <div class="content"></div>
+            <div class="button-plus delete" title="Delete selected files">
+                <div class="trigger"></div>
+                <div class="terminus" data-events="file>delete"></div>
+
+                <div class="icon">
+                    <svg class="normal iconify"><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M3 6 5 6 21 6"/></svg>
+                    <svg class="cancel iconify hidden"><path d="M18 6 6 18M6 6 18 18"/></svg>
+                </div>
+            </div>
+        </div>
+
+        <div id="data-selector" class="hidden float" data-pseudo-multiselect="group">
+            <div class="files"data-events="force-horizontal-scroll"></div>
+            <div class="content"></div>
+            <div class="button-plus discard" title="Discard changes">
+                <div class="trigger"></div>
+                <div class="terminus" data-events="data-selector>discard"></div>
+
+                <div class="icon">
+                    <svg class="normal iconify"><path d="M18 6 6 18M6 6 18 18"/></svg>
+                    <svg class="cancel iconify hidden"><path d="M18 6 6 18M6 6 18 18"/></svg>
+                </div>
+            </div>
+            <div class="button-plus save" title="Save selection">
+                <div class="trigger"></div>
+                <div class="terminus" data-events="data-selector>save"></div>
+
+                <div class="icon">
+                    <svg class="normal iconify"><path d="M18 6 10 18 6 12"/></svg>
+                    <svg class="cancel iconify hidden"><path d="M18 6 6 18M6 6 18 18"/></svg>
+                </div>
+            </div>
+        </div>
+
+        <div id="color-selector" class="hidden float">
+            <h3 class="title"><span class="text">Color Selector</span></h3>
+            <div class="content">
+                <div class="colors">
+                    <div class="color red">
+                        <span>Red</span>
+                        <span class="trigger" data-label="Red" data-events="color-selector>red"></span>
+                        <span class="input" data-label="Red" data-events="number-input" data-min="0" data-max="255" data-step="1" data-value="255" contenteditable="true" spellcheck="false" title="Red color value (0-255)">0</span>
+                    </div>
+                    <div class="color green">
+                        <span>Green</span>
+                        <span class="trigger" data-label="Green" data-events="color-selector>green"></span>
+                        <span class="input" data-label="Green" data-events="number-input" data-min="0" data-max="255" data-step="1" data-value="255" contenteditable="true" spellcheck="false" title="Green color value (0-255)">0</span>
+                    </div>
+                    <div class="color blue">
+                        <span>Blue</span>
+                        <span class="trigger" data-label="Blue" data-events="color-selector>blue"></span>
+                        <span class="input" data-label="Blue" data-events="number-input" data-min="0" data-max="255" data-step="1" data-value="255" contenteditable="true" spellcheck="false" title="Blue color value (0-255)">0</span>
+                    </div>
+                </div>
+                <div class="easel">
+                    <canvas class="paper" data-events="color-selector>select" title="Click to select a color from the palette"></canvas>
+                    <div class="alpha-background"></div>
+                </div>
+                <div class="easy-select">
+                    <div class="recent"></div>
+                    <div class="colors">
+                        #FFB3B3,#FFF5B3,#B3FFCC,#D1B3FF, <!-- Pastel Colors -->
+
+                        #8B0000,#FF0000,#FF8C00,#FFFF00, <!-- Vivid Colors -->
+                        #008000,#00FF00,#00FFFF,#00BFFF,
+                        #0000FF,#000080,#9400D3,#FF00FF
+                    </div>
+                    <div class="shades">
+                        #FFFFFF,#DADADA,#B5B5B5,#909090, <!-- Light Shades -->
+                        #6B6B6B,#464646,#212121,#000000
+                    </div>
+                </div>
+                <div class="color-preview">
+                    <div class="alpha-background"></div>
+                </div>
+                <div class="alpha slider-container" data-min="0" data-max="100" data-step="1" data-value="100">
+                    <div class="trigger" data-events="color-selector>alpha"></div>
+                    <div class="value inset">
+                        <span class="input no-inset" data-events="slider-value" contenteditable="true" spellcheck="false" title="Alpha transparency value (0-100%)">100</span>
+                        <span>%</span>
+                    </div>
+                    <div class="slider" data-events="slider" title="Drag to adjust transparency">
+                        <div class="alpha-background"></div>
+                        <div class="handle"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="file-defined-section">
+                <div class="container">
+                    <div class="label">
+                        <svg class="iconify file-icon">
+                            <defs>
+                                <linearGradient id="gradientStroke" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="24" y2="24">
+                                  <stop offset="0%" stop-color="#ff0000" />
+                                  <stop offset="35%" stop-color="#ffcc00" />
+                                  <stop offset="50%" stop-color="#00ff00" />
+                                  <stop offset="65%" stop-color="#0066ff" />
+                                  <stop offset="100%" stop-color="#ff00ff" />
+                                </linearGradient>
+                            </defs>
+                            <path stroke="url(#gradientStroke)" d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8zM14 2v6h6zM8 13h8zM8 17h8zM8 9h2z"/>
+                        </svg>
+                        <span class="label-text">Use file-defined colors</span>
+                        <span class="description">When enabled, uses color values from file<br>Falls back to selected color if not defined</span>
+                    </div>
+                    <div class="switch" data-events="color-selector>file-toggle">
+                        <input type="checkbox" name="file-toggle" />
+                        <span class="checkmark inset"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="button-plus discard" title="Discard color changes">
+                <div class="trigger"></div>
+                <div class="terminus" data-events="color-selector>discard"></div>
+
+                <div class="icon">
+                    <svg class="normal iconify"><path d="M18 6 6 18M6 6 18 18"/></svg>
+                    <svg class="cancel iconify hidden"><path d="M18 6 6 18M6 6 18 18"/></svg>
+                </div>
+            </div>
+            <div class="button-plus save" title="Save color">
+                <div class="trigger"></div>
+                <div class="terminus" data-events="color-selector>save"></div>
+
+                <div class="icon">
+                    <svg class="normal iconify"><path d="M18 6 10 18 6 12"/></svg>
+                    <svg class="cancel iconify hidden"><path d="M18 6 6 18M6 6 18 18"/></svg>
+                </div>
+            </div>
+        </div>
+
+        <div id="draw-settings" class="hidden float">
+            <h3 class="title"><span class="text">Draw Settings</span></h3>
+            <div class="content">
+                <div class="section view-range" data-min="0" data-max="100">
+                    <h3 class="subtitle">View Range</h3>
+                    <div class="range" data-events="draw-settings>view-range" style="--min: 0; --max: 1;" title="Drag to adjust the view range">
+                        <div class="shading"></div>
+                        <span class="min">&lt;min&gt;</span>
+                        <span class="max">&lt;max&gt;</span>
+                    </div>
+                    <div class="inputs">
+                        <input type="number" class="min selectable" data-events="draw-settings>view-range>min,number-input-scroll" name="min" min="0" max="100" title="Set minimum view range value"/>
+                        <input type="number" class="max selectable" data-events="draw-settings>view-range>max,number-input-scroll" name="max" min="0" max="100" title="Set maximum view range value"/>
+                    </div>
+                </div>
+
+                <div class="section text-style">
+                    <h3 class="subtitle">Text Style</h3>
+                    <div class="content">
+                        <div class="align">
+                            <h4 class="subtitle">Align</h4>
+                            <div class="content">
+                                <div class="button" data-events="radio,draw-settings>update-text-preview(click)" data-group="draw-settings>text-align" data-value="left" title="Align text to the left">Left</div>
+                                <div class="button selected" data-events="radio,draw-settings>update-text-preview(click)" data-group="draw-settings>text-align" data-value="center" title="Center align text">Center</div>
+                                <div class="button" data-events="radio,draw-settings>update-text-preview(click)" data-group="draw-settings>text-align" data-value="right" title="Align text to the right">Right</div>
+                            </div>
+                        </div>
+                        <div class="style">
+                            <h4 class="subtitle">Style</h4>
+                            <div class="content">
+                                <div class="button" data-events="toggle,draw-settings>update-text-preview(click)" data-value="bold" title="Make text bold">
+                                    <span style="font-weight: bold;">Bold</span>
+                                </div>
+                                <div class="button" data-events="toggle,draw-settings>update-text-preview(click)" data-value="italic" title="Make text italic">
+                                    <span style="font-style: italic;">Italic</span>
+                                </div>
+                                <div class="button" data-events="toggle,draw-settings>update-text-preview(click)" data-value="outline" title="Add outline to text">
+                                    <span style="outline: .1vmin solid currentColor;">Outline</span>
+                                </div>
+                                <div class="button" data-events="toggle,draw-settings>update-text-preview(click)" data-value="underline" title="Underline text">
+                                    <span style="text-decoration: underline;">Underline</span>
+                                </div>
+                                <div class="button" data-events="toggle,draw-settings>update-text-preview(click)" data-value="strikethrough" title="Add strikethrough to text">
+                                    <span style="text-decoration: line-through;">Strikethrough</span>
+                                </div>
+                                <div class="button" data-events="toggle,draw-settings>update-text-preview(click)" data-value="overline" title="Add overline to text">
+                                    <span style="text-decoration: overline;">Overline</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="font">
+                            <h4 class="subtitle">Font</h4>
+                            <div class="content">
+                                <div class="size">
+                                    <label for="draw-settings>text-size">Size</label>
+                                    <input type="number" id="draw-settings>text-size" class="selectable" min="1" max="100" step="1" value="50" data-events="number-input-scroll" title="Set font size"/>
+                                </div>
+                                <div class="color">
+                                    <label for="draw-settings>text-color">Color</label>
+                                    <input type="color" id="draw-settings>text-color" class="selectable" value="#FFFFFF" data-events="draw-settings>update-text-preview(change)" title="Choose text color"/>
+                                </div>
+                                <div class="family">
+                                    <label for="draw-settings>text-family">Family</label>
+                                    <select id="draw-settings>text-family" class="selectable" data-events="draw-settings>update-text-preview(change)" title="Select font family">
+                                        <option value="Arial" selected style="font-family: 'Arial';">Arial</option>
+                                        <option value="Arial Black" style="font-family: 'Arial Black';">Arial Black</option>
+                                        <option value="Comic Sans MS" style="font-family: 'Comic Sans MS';">Comic Sans MS</option>
+                                        <option value="Courier New" style="font-family: 'Courier New';">Courier New</option>
+                                        <option value="Georgia" style="font-family: Georgia;">Georgia</option>
+                                        <option value="Impact" style="font-family: Impact;">Impact</option>
+                                        <option value="Lucida Console" style="font-family: 'Lucida Console';">Lucida Console</option>
+                                        <option value="Lucida Sans Unicode" style="font-family: 'Lucida Sans Unicode';">Lucida Sans Unicode</option>
+                                        <option value="Palatino Linotype" style="font-family: 'Palatino Linotype';">Palatino Linotype</option>
+                                        <option value="Tahoma" style="font-family: Tahoma;">Tahoma</option>
+                                        <option value="Times New Roman" style="font-family: 'Times New Roman';">Times New Roman</option>
+                                        <option value="Trebuchet MS" style="font-family: 'Trebuchet MS';">Trebuchet MS</option>
+                                        <option value="Verdana" style="font-family: Verdana;">Verdana</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="preview auto-scroll"><span class="text">New Job? Please fix Dr. Mag's hazy TV, quick!</span></div>
+                    </div>
+                </div>
+
+                <div class="section scale">
+                    <h3 class="subtitle">
+                        <label for="draw-settings>scale-enabled" class="custom-checkbox">
+                            <input type="checkbox" id="draw-settings>scale-enabled" data-events="draw-settings>scale-toggle" title="Show/hide scale on drawing" checked/>
+                            <span class="checkmark"></span>
+                            Scale
+                        </label>
+                    </h3>
+                    <div class="content">
+                        <div class="position">
+                            <h4 class="subtitle">Position</h4>
+                            <div class="content">
+                                <div class="button selected" data-events="radio,draw-settings>scale-position" data-group="draw-settings>scale-position" data-value="top" title="Position scale at the top">Top</div>
+                                <div class="button" data-events="radio,draw-settings>scale-position" data-group="draw-settings>scale-position" data-value="both" title="Show scale at both top and bottom">Both</div>
+                                <div class="button" data-events="radio,draw-settings>scale-position" data-group="draw-settings>scale-position" data-value="bottom" title="Position scale at the bottom">Bottom</div>
+                            </div>
+                        </div>
+                        <div class="ticks">
+                            <h4 class="subtitle">Tick Settings</h4>
+                            <div class="content">
+                                <div class="major-ticks">
+                                    <label for="draw-settings>scale-major-ticks">Major Ticks</label>
+                                    <input type="number" id="draw-settings>scale-major-ticks" class="selectable" min="2" max="20" step="1" value="10" data-events="number-input-scroll" title="Number of major tick marks"/>
+                                </div>
+                                <div class="minor-ticks">
+                                    <label for="draw-settings>scale-minor-ticks">Minor Ticks</label>
+                                    <input type="number" id="draw-settings>scale-minor-ticks" class="selectable" min="0" max="10" step="1" value="5" data-events="number-input-scroll" title="Number of minor ticks between major ticks"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section aspect-ratio">
+                    <h3 class="subtitle">Aspect Ratio</h3>
+                    <div class="content">
+                        <div class="aspect-input">
+                            <input type="number" class="width selectable" data-events="draw-settings>aspect-ratio,number-input-scroll" name="width" min="1" max="9999" step="1" value="1" title="Set aspect ratio width"/>
+                            <span class="separator">:</span>
+                            <input type="number" class="height selectable" data-events="draw-settings>aspect-ratio,number-input-scroll" name="height" min="1" max="9999" step="1" value="1" title="Set aspect ratio height"/>
+                        </div>
+                        <div class="presets">
+                            <div class="button selected" data-events="draw-settings>aspect-ratio-preset" data-width="1" data-height="1" title="Set to 1:1 aspect ratio (square)">1:1</div>
+                            <div class="button" data-events="draw-settings>aspect-ratio-preset" data-width="3" data-height="2" title="Set to 3:2 aspect ratio">3:2</div>
+                            <div class="button" data-events="draw-settings>aspect-ratio-preset" data-width="4" data-height="3" title="Set to 4:3 aspect ratio">4:3</div>
+                            <div class="button" data-events="draw-settings>aspect-ratio-preset" data-width="16" data-height="9" title="Set to 16:9 aspect ratio (widescreen)">16:9</div>
+                            <div class="button" data-events="draw-settings>aspect-ratio-preset" data-width="21" data-height="9" title="Set to 21:9 aspect ratio (ultrawide)">21:9</div>
+                            <div class="button" data-events="draw-settings>aspect-ratio-preset" data-width="2" data-height="1" title="Set to 2:1 aspect ratio">2:1</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section background">
+                    <h3 class="subtitle">
+                        Background
+                        <small style="font-size: 0.75em">
+                            <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/background" target="_blank">MDN</a>
+                            <a href="https://css-tricks.com/almanac/properties/b/background/" target="_blank">CSS-Tricks</a>
+                            <a href="https://www.w3schools.com/cssref/css3_pr_background.php" target="_blank">W3S</a>
+                        </small>
+                    </h3>
+                    <div class="content">
+                        <input type="text" class="selectable" placeholder="none" name="background" list="draw-settings>background" data-events="draw-settings>background" title="Enter background style (CSS background property)"/>
+                        <div class="preview"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="button-plus draw" title="Apply draw settings">
+                <div class="trigger"></div>
+                <div class="terminus" data-events="draw-settings>draw"></div>
+
+                <div class="icon">
+                    <svg class="normal iconify"><path d="M18 6 10 18 6 12"/></svg>
+                    <svg class="cancel iconify hidden"><path d="M18 6 6 18M6 6 18 18"/></svg>
+                </div>
+            </div>
+            <div class="button restore-defaults" data-events="draw-settings>restore-defaults" title="Restore all settings to default values">
+                Restore Defaults
+            </div>
+        </div>
+
+        <datalist id="draw-settings>background">
+            <option value="None"/>
+            <option value="Transparent"/>
+            <option value="CurrentColor"/>
+            <option value="AliceBlue"/>
+            <option value="AntiqueWhite"/>
+            <option value="Aqua"/>
+            <option value="Aquamarine"/>
+            <option value="Azure"/>
+            <option value="Beige"/>
+            <option value="Bisque"/>
+            <option value="Black"/>
+            <option value="BlanchedAlmond"/>
+            <option value="BlueViolet"/>
+            <option value="Blue"/>
+            <option value="Brown"/>
+            <option value="Burlywood"/>
+            <option value="CadetBlue"/>
+            <option value="Chartreuse"/>
+            <option value="Chocolate"/>
+            <option value="Coral"/>
+            <option value="CornflowerBlue"/>
+            <option value="Cornsilk"/>
+            <option value="Crimson"/>
+            <option value="Cyan"/>
+            <option value="DarkBlue"/>
+            <option value="DarkCyan"/>
+            <option value="DarkGoldenRod"/>
+            <option value="DarkGray"/>
+            <option value="DarkGreen"/>
+            <option value="DarkGrey"/>
+            <option value="DarkKhaki"/>
+            <option value="DarkMagenta"/>
+            <option value="DarkOliveGreen"/>
+            <option value="DarkOrange"/>
+            <option value="DarkOrchid"/>
+            <option value="DarkRed"/>
+            <option value="DarkSalmon"/>
+            <option value="DarkSeaGreen"/>
+            <option value="DarkSlateBlue"/>
+            <option value="DarkSlateGray"/>
+            <option value="DarkSlateGrey"/>
+            <option value="DarkTurquoise"/>
+            <option value="DarkViolet"/>
+            <option value="DeepPink"/>
+            <option value="DeepSkyBlue"/>
+            <option value="DimGray"/>
+            <option value="DimGrey"/>
+            <option value="DodgerBlue"/>
+            <option value="FireBrick"/>
+            <option value="FloralWhite"/>
+            <option value="ForestGreen"/>
+            <option value="Fuchsia"/>
+            <option value="Gainsboro"/>
+            <option value="GhostWhite"/>
+            <option value="Gold"/>
+            <option value="GoldenRod"/>
+            <option value="Gray"/>
+            <option value="GreenYellow"/>
+            <option value="Green"/>
+            <option value="Grey"/>
+            <option value="HoneyDew"/>
+            <option value="HotPink"/>
+            <option value="IndianRed"/>
+            <option value="Indigo"/>
+            <option value="Ivory"/>
+            <option value="Khaki"/>
+            <option value="LavenderBlush"/>
+            <option value="Lavender"/>
+            <option value="LawnGreen"/>
+            <option value="LemonChiffon"/>
+            <option value="LightBlue"/>
+            <option value="LightCoral"/>
+            <option value="LightCyan"/>
+            <option value="LightGoldenRodYellow"/>
+            <option value="LightGray"/>
+            <option value="LightGreen"/>
+            <option value="LightGrey"/>
+            <option value="LightPink"/>
+            <option value="LightSalmon"/>
+            <option value="LightSeaGreen"/>
+            <option value="LightSkyBlue"/>
+            <option value="LightSlateGray"/>
+            <option value="LightSlateGrey"/>
+            <option value="LightSteelBlue"/>
+            <option value="LightYellow"/>
+            <option value="LimeGreen"/>
+            <option value="Lime"/>
+            <option value="Linen"/>
+            <option value="Magenta"/>
+            <option value="Maroon"/>
+            <option value="MediumAquamarine"/>
+            <option value="MediumBlue"/>
+            <option value="MediumOrchid"/>
+            <option value="MediumPurple"/>
+            <option value="MediumSeaGreen"/>
+            <option value="MediumSlateBlue"/>
+            <option value="MediumSpringGreen"/>
+            <option value="MediumTurquoise"/>
+            <option value="MediumVioletRed"/>
+            <option value="MidnightBlue"/>
+            <option value="MintCream"/>
+            <option value="MistyRose"/>
+            <option value="Moccasin"/>
+            <option value="NavajoWhite"/>
+            <option value="Navy"/>
+            <option value="OldLace"/>
+            <option value="OliveDrab"/>
+            <option value="Olive"/>
+            <option value="OrangeRed"/>
+            <option value="Orange"/>
+            <option value="Orchid"/>
+            <option value="PaleGoldenRod"/>
+            <option value="PaleGreen"/>
+            <option value="PaleTurquoise"/>
+            <option value="PaleVioletRed"/>
+            <option value="PapayaWhip"/>
+            <option value="PeachPuff"/>
+            <option value="Peru"/>
+            <option value="Pink"/>
+            <option value="Plum"/>
+            <option value="PowderBlue"/>
+            <option value="Purple"/>
+            <option value="RebeccaPurple"/>
+            <option value="Red"/>
+            <option value="RosyBrown"/>
+            <option value="RoyalBlue"/>
+            <option value="SaddleBrown"/>
+            <option value="Salmon"/>
+            <option value="SandyBrown"/>
+            <option value="SeaGreen"/>
+            <option value="SeaShell"/>
+            <option value="Sienna"/>
+            <option value="Silver"/>
+            <option value="SkyBlue"/>
+            <option value="SlateBlue"/>
+            <option value="SlateGray"/>
+            <option value="SlateGrey"/>
+            <option value="Snow"/>
+            <option value="SpringGreen"/>
+            <option value="SteelBlue"/>
+            <option value="Tan"/>
+            <option value="Teal"/>
+            <option value="Thistle"/>
+            <option value="Tomato"/>
+            <option value="Turquoise"/>
+            <option value="Violet"/>
+            <option value="Wheat"/>
+            <option value="Whitesmoke"/>
+            <option value="White"/>
+            <option value="Yellowgreen"/>
+            <option value="Yellow"/>
+        </datalist>
+
+        <img id="buymeacoffee" src="https://cdn.buymeacoffee.com/buttons/v2/default-blue.png" alt="Buy Me A Coffee" data-events="link" data-href="https://www.buymeacoffee.com/lunizunie" class="buy-me-a-coffee-button"/>
+    </body>
+</html>

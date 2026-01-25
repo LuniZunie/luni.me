@@ -1,0 +1,178 @@
+#groups > .content > .group > .members > .member {
+    height: 3em;
+
+    border-radius: 1vmin;
+    padding: .5vmin 1vmin;
+
+    white-space: nowrap;
+    overflow: hidden;
+
+    background: var(--shade-f0);
+
+    & > .selectors {
+        display: inline-flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        align-items: center;
+        gap: 1vmin;
+
+        position: relative;
+        left: 0;
+
+        width: calc(100% - 8em - 3vmin);
+        height: 100%;
+
+        border-radius: 1vmin;
+        padding: 0 1vmin;
+
+        overflow: auto hidden;
+
+        background: var(--shade-f4);
+
+        & > .selector {
+            border-radius: .5vmin;
+            padding: .5vmin;
+
+            white-space: nowrap;
+
+            background: var(--shade-e0);
+
+            transition: all .25s;
+        }
+    }
+
+    & > .buttons {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: .5vmin;
+
+        float: right;
+
+        width: 8em;
+        height: 3em;
+
+        & > .button {
+            cursor: pointer;
+
+            aspect-ratio: 1 / 1;
+            height: 100%;
+
+            border-radius: 1vmin;
+
+            background: var(--shade-ef);
+            opacity: 1;
+
+            transition: all .25s;
+
+            &.color {
+                outline: .4vmin solid var(--outline);
+
+                background: transparent;
+
+                scale: .8;
+
+                &:hover {
+                    &:active {
+                        filter: opacity(.6);
+                    }
+                }
+
+                & > .file-defined {
+                    display: none;
+
+                    color: var(--outline);
+
+                    & > svg {
+                        height: 85%;
+                    }
+                }
+                &.file-defined > .file-defined {
+                    display: block;
+                }
+
+                & > .alpha {
+                    z-index: -1;
+
+                    position: absolute;
+                    left: 0; right: 0;
+                    top: 0; bottom: 0;
+
+                    border-radius: inherit;
+
+                    background: url("../../../asset/svg/checkerboard.svg") repeat;
+
+                    &::before {
+                        content: "";
+
+                        position: absolute;
+                        left: 0; right: 0;
+                        top: 0; bottom: 0;
+
+                        border-radius: inherit;
+
+                        background: var(--color);
+                    }
+                }
+            }
+
+            &.delete {
+                &:hover {
+                    background: var(--red-hover);
+                    box-shadow: 0 0 1vmin .1vmin var(--red-hover);
+
+                    &:active {
+                        background: var(--red-active);
+                        box-shadow: 0 0 1vmin .2vmin var(--red-active);
+                    }
+                }
+
+                & > svg {
+                    position: relative;
+
+                    height: 65%;
+                }
+            }
+        }
+
+        & > .copy-paste-stack {
+            display: flex;
+            flex-direction: column;
+            gap: .5vmin;
+
+            width: 1.5em;
+            height: 3em;
+
+            & > .button {
+                cursor: pointer;
+
+                width: 100%;
+                height: calc((3em - .5vmin) / 2);
+
+                border-radius: .5vmin;
+
+                background: var(--shade-ef);
+                opacity: 1;
+
+                transition: all .25s;
+
+                &:hover {
+                    opacity: .6;
+                    &:active {
+                        opacity: .4;
+                    }
+                }
+
+                &.disabled {
+                    pointer-events: none;
+
+                    opacity: .1;
+                }
+
+                & > svg {
+                    position: relative;
+                }
+            }
+        }
+    }
+}
