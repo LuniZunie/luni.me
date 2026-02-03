@@ -400,7 +400,7 @@ Server Control:
 Profile Management:
   switch <profile>      - Switch to a different server profile
                          Profiles: hideseek, twilight
-  list-profiles         - List all available profiles
+  profiles              - List all available profiles
 
 Whitelist Management:
   whitelist add <name>  - Add a player to the whitelist
@@ -437,7 +437,7 @@ Other:
             case 'switch':
                 this.switchProfile(args[0]);
                 break;
-            case 'list-profiles':
+            case 'profiles':
                 console.log('Available profiles:');
                 Object.entries(this.config.profiles).forEach(([key, profile]) => {
                     const current = key === this.config.currentProfile ? ' (current)' : '';
