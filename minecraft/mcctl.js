@@ -349,7 +349,8 @@ class MinecraftServerController {
         const rl = readline.createInterface({
             input: process.stdin,
             output: process.stdout,
-            prompt: 'MC> '
+            prompt: 'MC> ',
+            terminal: false
         });
 
         rl.prompt();
