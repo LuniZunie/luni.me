@@ -1,6 +1,7 @@
 # Minecraft Server Files
 servers/*/world/
 servers/*/world_*/
+servers/*/*.jar
 servers/*/logs/
 servers/*/crash-reports/
 servers/*/libraries/
@@ -16,6 +17,7 @@ servers/*/eula.txt
 servers/*/world_backup_*/
 
 # Keep mods folder structure but ignore the actual mod files
+servers/*/mods/*.jar
 !servers/*/mods/.gitkeep
 
 # Version downloads
