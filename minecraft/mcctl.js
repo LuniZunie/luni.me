@@ -344,30 +344,42 @@ class MinecraftServerController {
         console.log('\n=== Server Console (showing last 20 lines) ===');
         const recentLogs = this.logBuffer.slice(-20);
         recentLogs.forEach(log => console.log(log));
-        console.log('=== Live Output (type commands or "detach" to exit) ===\n');
+        console.log('=== Live Output (press ESC to exit) ===\n');
 
         const rl = readline.createInterface({
             input: process.stdin,
             output: process.stdout,
             prompt: 'MC> ',
-            terminal: false
+            terminal: true
+        });
+
+        // Enable raw mode to capture ESC key
+        process.stdin.setRawMode(true);
+        process.stdin.resume();
+
+        // Handle ESC key (ASCII 27)
+        process.stdin.on('data', (key) => {
+            if (key[0] === 27) { // ESC key
+                this.isAttached = false;
+                process.stdin.setRawMode(false);
+                process.stdin.removeAllListeners('data');
+                rl.close();
+                return;
+            }
         });
 
         rl.prompt();
 
         rl.on('line', (line) => {
-            if (line.trim() === 'detach') {
-                this.isAttached = false;
-                rl.close();
-                return;
-            }
-
+            // Send all commands directly to server
             this.sendCommand(line);
             rl.prompt();
         });
 
         rl.on('close', () => {
             this.isAttached = false;
+            process.stdin.setRawMode(false);
+            process.stdin.removeAllListeners('data');
             console.log('Detached from console.');
         });
     }

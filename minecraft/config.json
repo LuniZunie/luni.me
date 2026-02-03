@@ -8,7 +8,7 @@
       "worldDir": "servers/hideseek/world",
       "javaPath": "java",
       "minMemory": "2G",
-      "maxMemory": "6G",
+      "maxMemory": "8G",
       "port": 25565
     },
     "twilight": {
@@ -19,7 +19,7 @@
       "worldDir": "servers/twilight/world",
       "javaPath": "java",
       "minMemory": "2G",
-      "maxMemory": "6G",
+      "maxMemory": "8G",
       "port": 25565
     }
   },
