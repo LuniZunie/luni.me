@@ -1,0 +1,32 @@
+# Minecraft Server Files
+servers/*/world/
+servers/*/world_*/
+servers/*/*.jar
+servers/*/logs/
+servers/*/crash-reports/
+servers/*/libraries/
+servers/*/versions/
+servers/*/.fabric/
+servers/*/banned-*.json
+servers/*/ops.json
+servers/*/usercache.json
+servers/*/server.properties
+servers/*/eula.txt
+
+# World Backups
+servers/*/world_backup_*/
+
+# Keep mods folder structure but ignore the actual mod files
+servers/*/mods/*.jar
+!servers/*/mods/.gitkeep
+
+# Version downloads
+versions/*.jar
+
+# Logs
+*.log
+*.log.*
+
+# OS Files
+.DS_Store
+Thumbs.db

@@ -1,0 +1,27 @@
+{
+  "profiles": {
+    "hideseek": {
+      "name": "Hide & Seek",
+      "version": "1.21.8",
+      "fabricVersion": "0.17.2",
+      "serverDir": "servers/hideseek",
+      "worldDir": "servers/hideseek/world",
+      "javaPath": "C:\\Program Files\\Eclipse Adoptium\\jdk-21.0.8.9-hotspot\\bin\\java.exe",
+      "minMemory": "2G",
+      "maxMemory": "4G",
+      "port": 25565
+    },
+    "twilight": {
+      "name": "Twilight Forest",
+      "version": "1.20.1",
+      "fabricVersion": "0.15.11",
+      "serverDir": "servers/twilight",
+      "worldDir": "servers/twilight/world",
+      "javaPath": "C:\\Program Files\\Eclipse Adoptium\\jdk-21.0.8.9-hotspot\\bin\\java.exe",
+      "minMemory": "2G",
+      "maxMemory": "4G",
+      "port": 25565
+    }
+  },
+  "currentProfile": "hideseek"
+}
