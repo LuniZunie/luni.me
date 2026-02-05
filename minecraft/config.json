@@ -14,7 +14,7 @@
     "twilight": {
       "name": "Twilight Forest",
       "version": "1.20.1",
-      "fabricVersion": "0.16.10",
+      "fabricVersion": "0.16.14",
       "serverDir": "servers/twilight",
       "worldDir": "servers/twilight/world",
       "javaPath": "java",
