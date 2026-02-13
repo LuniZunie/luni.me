@@ -310,61 +310,166 @@ app.get($(PUBLIC.auth.delete, "route"), (req, res) => {
                                         <title>WikiShield - Opening App</title>
                                         <meta http-equiv="refresh" content="0; url=${deepLink}">
                                         <style>
-                                            body {
-                                                font-family: system-ui;
-                                                display: flex;
-                                                justify-content: center;
-                                                align-items: center;
-                                                height: 100vh;
-                                                margin: 0;
-                                                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-                                                color: white;
+                                            @keyframes fade-in {
+                                                from { opacity: 0; }
+                                                to { opacity: 1; }
                                             }
-                                            .container {
-                                                text-align: center;
-                                                padding: 2rem;
-                                                background: rgba(255,255,255,0.1);
-                                                backdrop-filter: blur(10px);
-                                                border-radius: 20px;
-                                                box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+
+                                            @keyframes slide-up {
+                                                from { opacity: 0; transform: translateY(20px); }
+                                                to { opacity: 1; transform: translateY(0); }
                                             }
-                                            h1 { margin: 0 0 1rem 0; font-size: 2rem; }
-                                            p { margin: 0; font-size: 1.1rem; opacity: 0.9; }
-                                            .spinner {
-                                                border: 3px solid rgba(255,255,255,0.3);
-                                                border-top: 3px solid white;
-                                                border-radius: 50%;
-                                                width: 40px;
-                                                height: 40px;
-                                                animation: spin 1s linear infinite;
-                                                margin: 1.5rem auto 0;
-                                            }
+
                                             @keyframes spin {
                                                 0% { transform: rotate(0deg); }
                                                 100% { transform: rotate(360deg); }
                                             }
-                                            .manual-link {
-                                                display: inline-block;
-                                                margin-top: 1.5rem;
-                                                padding: 0.5rem 1rem;
-                                                background: rgba(255,255,255,0.2);
-                                                border-radius: 8px;
-                                                text-decoration: none;
-                                                color: white;
-                                                transition: background 0.2s;
+
+                                            @keyframes glow-pulse {
+                                                0%, 100% { box-shadow: 0 0 20px rgba(102, 126, 234, .15); }
+                                                50% { box-shadow: 0 0 30px rgba(102, 126, 234, .25); }
                                             }
+
+                                            * {
+                                                box-sizing: border-box;
+                                            }
+
+                                            body {
+                                                margin: 0;
+                                                padding: 0;
+
+                                                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+
+                                                display: flex;
+                                                align-items: center;
+                                                justify-content: center;
+
+                                                width: 100vw;
+                                                min-height: 100vh;
+
+                                                overflow: hidden;
+
+                                                background: linear-gradient(135deg,
+                                                    rgba(15, 12, 41, 1),
+                                                    rgba(25, 22, 50, 1)
+                                                );
+
+                                                color: rgba(245, 247, 255, 1);
+
+                                                animation: fade-in .4s ease-out;
+                                            }
+
+                                            .container {
+                                                display: flex;
+                                                flex-direction: column;
+                                                align-items: center;
+                                                gap: 16px;
+
+                                                max-width: 400px;
+                                                width: 100%;
+
+                                                border-radius: 10px;
+                                                border: 1px solid rgba(255, 255, 255, .05);
+
+                                                padding: 32px 24px;
+
+                                                text-align: center;
+
+                                                background: rgba(255, 255, 255, .02);
+                                                -webkit-backdrop-filter: blur(10px);
+                                                        backdrop-filter: blur(10px);
+
+                                                animation: slide-up .5s ease-out .1s both;
+                                            }
+
+                                            .header-icon {
+                                                display: block;
+
+                                                margin-bottom: 4px;
+
+                                                font-size: 36px;
+
+                                                background: linear-gradient(135deg,
+                                                    rgba(102, 126, 234, 1),
+                                                    rgba(118, 75, 162, 1)
+                                                );
+                                                -webkit-background-clip: text;
+                                                        background-clip: text;
+                                                -webkit-text-fill-color: transparent;
+                                            }
+
+                                            .title {
+                                                margin: 0;
+
+                                                font-size: 16px;
+                                                font-weight: 600;
+
+                                                color: rgba(245, 247, 255, 1);
+                                            }
+
+                                            .spinner {
+                                                width: 32px;
+                                                height: 32px;
+
+                                                border: 3px solid rgba(255, 255, 255, .08);
+                                                border-top: 3px solid rgba(102, 126, 234, 1);
+                                                border-radius: 50%;
+
+                                                animation: spin 1s linear infinite;
+                                            }
+
+                                            .hint {
+                                                margin: 0;
+
+                                                font-size: 12px;
+                                                font-weight: 400;
+
+                                                color: rgba(200, 205, 220, .6);
+                                            }
+
+                                            .manual-link {
+                                                display: inline-flex;
+                                                align-items: center;
+                                                justify-content: center;
+                                                gap: 8px;
+
+                                                padding: 9px 20px;
+
+                                                border-radius: 8px;
+                                                border: 1px solid rgba(102, 126, 234, .4);
+
+                                                font-size: 13px;
+                                                font-weight: 600;
+                                                text-decoration: none;
+
+                                                background: rgba(102, 126, 234, .1);
+                                                color: rgba(102, 126, 234, 1);
+
+                                                transition: background .2s ease,
+                                                            border-color .2s ease;
+                                            }
+
                                             .manual-link:hover {
-                                                background: rgba(255,255,255,0.3);
+                                                background: rgba(102, 126, 234, .2);
+                                                border-color: rgba(102, 126, 234, .6);
+
+                                                animation: glow-pulse 2s ease-in-out infinite;
+                                            }
+
+                                            .manual-link:active {
+                                                transform: scale(.97);
                                             }
                                         </style>
+                                        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
                                     </head>
                                     <body>
                                         <div class="container">
-                                            <p>Opening WikiShield...</p>
+                                            <span class="header-icon">
+                                                <i class="fas fa-user-circle"></i>
+                                            </span>
+                                            <p class="title">Opening WikiShield...</p>
                                             <div class="spinner"></div>
-                                            <p style="margin-top: 1.5rem; font-size: 0.9rem; opacity: 0.7;">
-                                                If the app doesn't open automatically:
-                                            </p>
+                                            <p class="hint">If the app doesn't open automatically:</p>
                                             <a href="${deepLink}" class="manual-link">Click here to open WikiShield</a>
                                         </div>
                                     </body>
