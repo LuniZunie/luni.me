@@ -500,7 +500,12 @@ app.get($(PUBLIC.auth.delete, "route"), (req, res) => {
                         case "redirect": {
                             handler = (req, res) => {
                                 res.status(route.status ?? 301);
-                                res.render(route.data.path);
+                                if ("url" in route.data)
+                                    res.redirect(route.data.url);
+                                else if ("path" in route.data)
+                                    res.render(route.data.path);
+                                else
+                                    res.status(400).json({ error: "Invalid redirect data" });
                             };
                         } break;
                         case "json": {
