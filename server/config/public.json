@@ -69,6 +69,13 @@
                     {
                         "route": "/health",
                         "type": "custom:wikishield-health"
+                    },
+                    {
+                        "route": "/konami-easter-egg",
+                        "type": "redirect",
+                        "data": {
+                            "url": "https://www.youtube.com/watch?v=QDia3e12czc"
+                        }
                     }
                 ]
             },
